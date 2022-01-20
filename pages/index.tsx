@@ -938,19 +938,19 @@ export const Graph = function (props: GraphProps) {
       ) {
         return false
       }
+      const linkRoam = link as OrgRoamLink
       if (
-        filter.linktagsBlacklist.length > 0 && link?.tag &&
-        filter.linktagsBlacklist.indexOf(link.tag) > -1
+        filter.linktagsBlacklist.length > 0 &&
+        linkRoam?.tag && filter.linktagsBlacklist.indexOf(linkRoam.tag as never) > -1
       ) {
         return false
       }
       if (
         filter.linktagsWhitelist.length > 0 &&
-        !(link?.tag && filter.linktagsWhitelist.indexOf(link.tag) > -1)
+        !(linkRoam?.tag && filter.linktagsWhitelist.indexOf(linkRoam.tag as never) > -1)
       ) {
         return false
       }
-      const linkRoam = link as OrgRoamLink
       if (!filter.parent) {
         return !['parent', 'heading'].includes(linkRoam.type)
       }
