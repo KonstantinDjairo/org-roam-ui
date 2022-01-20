@@ -448,10 +448,17 @@ unchanged."
                                  (append nodes-names nil))
                                 complete-nodes-db-rows))
                      (links . ,(mapcar
-                                (apply-partially
-                                 #'org-roam-ui-sql-to-alist
-                                 '(source target type tag))
-                                (org-roam-ui--get-link-tag links-db-rows)))
+                                (lambda (db-row)
+                                  (let ((alist (assq-delete-all
+                                                'props
+                                                (org-roam-ui-sql-to-alist
+                                                 '(source target type props)
+                                                 db-row)))
+                                        (tag (plist-get (nth 3 db-row) :tag)))
+                                    (if tag
+                                        (push `(tag . ,tag) alist)
+                                      alist)))
+                                links-db-rows))
                      (tags . ,(seq-mapcat
                                #'seq-reverse
                                (org-roam-db-query

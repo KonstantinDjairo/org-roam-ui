@@ -202,7 +202,6 @@ export function GraphPage() {
           source: headingNode.id,
           target: target?.id || fileNode.id,
           type: 'heading',
-          tag: null,
         }
       })
     })
@@ -224,7 +223,6 @@ export function GraphPage() {
           source: headingNode.id,
           target: fileNode.id,
           type: 'parent',
-          tag: null,
         }
       })
     })
@@ -941,7 +939,7 @@ export const Graph = function (props: GraphProps) {
         return false
       }
       if (
-        filter.linktagsBlacklist.length &&
+        filter.linktagsBlacklist.length > 0 && link?.tag &&
         filter.linktagsBlacklist.indexOf(link.tag) > -1
       ) {
         /* hiddenLinkIdsRef.current = { ...hiddenLinkIdsRef.current, [node.id]: node } */

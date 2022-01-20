@@ -21,5 +21,5 @@ export type OrgRoamLink = {
   source: string
   target: string
   type: string
-  tag: string
+  tag?: string
 }
