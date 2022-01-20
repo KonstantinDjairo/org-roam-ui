@@ -145,7 +145,7 @@ export function GraphPage() {
   const linksByNodeIdRef = useRef<LinksByNodeId>({})
   const nodeByCiteRef = useRef<NodeByCite>({})
   const tagsRef = useRef<Tags>([])
-  const linktagsRef = useRef<LinkTags>([])
+  const linktagsRef = useRef<Tags>([])
   const graphRef = useRef<any>(null)
   const [emacsVariables, setEmacsVariables] = useState<EmacsVariables>({} as EmacsVariables)
   const clusterRef = useRef<{ [id: string]: number }>({})
