@@ -400,13 +400,6 @@ unchanged."
      ("FILELESS" . t))
    'nil))
 
-(defun org-roam-ui--get-link-tag (link-db-rows)
-  "Extract the tag from LINK-DB-ROWS."
-  (mapcar (lambda (link)
-            (let* ((props (nth 3 link)))
-              (-replace-at 3 (plist-get props :tag) link)))
-          link-db-rows))
-
 (defun org-roam-ui--send-graphdata ()
   "Get roam data, make JSON, send through websocket to org-roam-ui."
   (let* ((nodes-names
