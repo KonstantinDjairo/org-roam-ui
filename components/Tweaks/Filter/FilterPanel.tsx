@@ -252,6 +252,13 @@ const FilterPanel = (props: FilterPanelProps) => {
               displayName="linktag blocklist"
               listName="linktagsBlacklist"
             />
+            <OptionPanel
+              filter={filter}
+              setFilter={setFilter}
+              options={linktags}
+              displayName="linktag allowlist"
+              listName="linktagsWhitelist"
+            />
           </AccordionPanel>
         </AccordionItem>
       </Accordion>

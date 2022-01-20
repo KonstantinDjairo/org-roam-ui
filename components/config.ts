@@ -40,6 +40,7 @@ export const initialFilter = {
   tagsBlacklist: [],
   tagsWhitelist: [],
   linktagsBlacklist: [],
+  linktagsWhitelist: [],
   dirsBlocklist: [],
   dirsAllowlist: [],
   bad: true,
