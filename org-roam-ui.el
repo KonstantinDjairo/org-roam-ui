@@ -33,6 +33,7 @@
 ;;; Code:
 ;;;; Dependencies
 (require 'json)
+(require 'dash)
 (require 'simple-httpd)
 (require 'org-roam)
 (require 'websocket)
@@ -399,6 +400,13 @@ unchanged."
      ("FILELESS" . t))
    'nil))
 
+(defun org-roam-ui--get-link-tag (link-db-rows)
+  "Extract the tag from LINK-DB-ROWS."
+  (mapcar (lambda (link)
+            (let* ((props (nth 3 link)))
+              (-replace-at 3 (plist-get props :tag) link)))
+          link-db-rows))
+
 (defun org-roam-ui--send-graphdata ()
   "Get roam data, make JSON, send through websocket to org-roam-ui."
   (let* ((nodes-names
@@ -442,8 +450,8 @@ unchanged."
                      (links . ,(mapcar
                                 (apply-partially
                                  #'org-roam-ui-sql-to-alist
-                                 '(source target type))
-                                links-db-rows))
+                                 '(source target type tag))
+                                (org-roam-ui--get-link-tag links-db-rows)))
                      (tags . ,(seq-mapcat
                                #'seq-reverse
                                (org-roam-db-query
@@ -488,7 +496,8 @@ were in the same table as the links)."
     (org-roam-db-query
      `[:select  [links:source
                  links:dest
-                 links:type]
+                 links:type
+                 links:properties]
        :from links
        :where (= links:type "id")])
   ;; Left outer join on refs means any id link (or cite link without a
@@ -498,6 +507,7 @@ were in the same table as the links)."
    `[:select [links:source
               links:dest
               links:type
+              links:properties
               refs:node-id]
      :from links
      :left :outer :join refs :on (= links:dest refs:ref)
