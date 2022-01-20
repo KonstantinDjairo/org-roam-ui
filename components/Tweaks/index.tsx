@@ -48,6 +48,7 @@ export interface TweakProps {
   behavior: typeof initialBehavior
   setBehavior: any
   tags: string[]
+  linktags: string[]
   tagColors: TagColors
   setTagColors: any
   coloring: typeof initialColoring
@@ -71,6 +72,7 @@ export const Tweaks = (props: TweakProps) => {
     behavior,
     setBehavior,
     tags,
+    linktags,
     tagColors,
     setTagColors,
     coloring,
@@ -181,6 +183,7 @@ export const Tweaks = (props: TweakProps) => {
                 highlightColor={highlightColor}
                 colorList={colorList}
                 tags={tags}
+                linktags={linktags}
                 {...{ local, setLocal }}
               />
             </AccordionPanel>

@@ -7,7 +7,7 @@ export interface OptionPanelProps {
   options: string[]
   filter: typeof initialFilter
   setFilter: any
-  listName: 'tagsBlacklist' | 'tagsWhitelist' | 'dirsAllowlist' | 'dirsBlocklist'
+  listName: 'tagsBlacklist' | 'tagsWhitelist' | 'linktagsBlacklist' | 'dirsAllowlist' | 'dirsBlocklist'
   displayName: string
   labelFilter?: string
 }

@@ -39,6 +39,7 @@ export const initialFilter = {
   filelessCites: false,
   tagsBlacklist: [],
   tagsWhitelist: [],
+  linktagsBlacklist: [],
   dirsBlocklist: [],
   dirsAllowlist: [],
   bad: true,

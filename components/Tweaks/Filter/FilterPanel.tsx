@@ -33,6 +33,7 @@ export interface FilterPanelProps {
   highlightColor: string
   colorList: string[]
   tags: string[]
+  linktags: string[]
   local: typeof initialLocal
   setLocal: any
 }
@@ -48,6 +49,7 @@ const FilterPanel = (props: FilterPanelProps) => {
     highlightColor,
     colorList,
     tags,
+    linktags,
   } = props
   const { roamDir, subDirs } = useContext(VariablesContext)
   return (
@@ -234,6 +236,21 @@ const FilterPanel = (props: FilterPanelProps) => {
               tagColors={tagColors}
               setTagColors={setTagColors}
               highlightColor={highlightColor}
+            />
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem>
+          <AccordionButton>
+            Link Tag filters
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pr={0} mr={0}>
+            <OptionPanel
+              filter={filter}
+              setFilter={setFilter}
+              options={linktags}
+              displayName="linktag blocklist"
+              listName="linktagsBlacklist"
             />
           </AccordionPanel>
         </AccordionItem>

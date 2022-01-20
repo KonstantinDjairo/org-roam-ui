@@ -145,6 +145,7 @@ export function GraphPage() {
   const linksByNodeIdRef = useRef<LinksByNodeId>({})
   const nodeByCiteRef = useRef<NodeByCite>({})
   const tagsRef = useRef<Tags>([])
+  const linktagsRef = useRef<LinkTags>([])
   const graphRef = useRef<any>(null)
   const [emacsVariables, setEmacsVariables] = useState<EmacsVariables>({} as EmacsVariables)
   const clusterRef = useRef<{ [id: string]: number }>({})
@@ -162,6 +163,9 @@ export function GraphPage() {
         [node.file]: [...(acc[node.file] ?? []), node],
       }
     }, {})
+    linktagsRef.current = importLinks.reduce<Array<string>>((acc, link) => {
+      return link.tag ? acc.concat(link.tag) : acc
+    }, [])
 
     // generate links between level 2 nodes and the level 1 node above it
     // org-roam does not generate such links, so we have to put them in ourselves
@@ -198,6 +202,7 @@ export function GraphPage() {
           source: headingNode.id,
           target: target?.id || fileNode.id,
           type: 'heading',
+          tag: null,
         }
       })
     })
@@ -219,6 +224,7 @@ export function GraphPage() {
           source: headingNode.id,
           target: fileNode.id,
           type: 'parent',
+          tag: null,
         }
       })
     })
@@ -579,6 +585,7 @@ export function GraphPage() {
             setLocal,
           }}
           tags={tagsRef.current}
+          linktags={linktagsRef.current}
         />
         <Box position="absolute">
           {graphData && (
@@ -931,6 +938,13 @@ export const Graph = function (props: GraphProps) {
         !filteredNodeIds.includes(sourceId as string) ||
         !filteredNodeIds.includes(targetId as string)
       ) {
+        return false
+      }
+      if (
+        filter.linktagsBlacklist.length &&
+        filter.linktagsBlacklist.indexOf(link.tag) > -1
+      ) {
+        /* hiddenLinkIdsRef.current = { ...hiddenLinkIdsRef.current, [node.id]: node } */
         return false
       }
       const linkRoam = link as OrgRoamLink
