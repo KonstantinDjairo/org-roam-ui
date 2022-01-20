@@ -942,14 +942,12 @@ export const Graph = function (props: GraphProps) {
         filter.linktagsBlacklist.length > 0 && link?.tag &&
         filter.linktagsBlacklist.indexOf(link.tag) > -1
       ) {
-        /* hiddenLinkIdsRef.current = { ...hiddenLinkIdsRef.current, [node.id]: node } */
         return false
       }
       if (
         filter.linktagsWhitelist.length > 0 &&
         !(link?.tag && filter.linktagsWhitelist.indexOf(link.tag) > -1)
       ) {
-        // hiddenLinkIdsRef.current = { ...hiddenLinkIdsRef.current, [node.id]: node } 
         return false
       }
       const linkRoam = link as OrgRoamLink
