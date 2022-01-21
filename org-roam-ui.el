@@ -286,6 +286,7 @@ TODO: Be able to delete individual nodes."
        (text))
     (org-roam-with-temp-buffer
         file
+      (replace-regexp "\\(\\[\\[id:.*\\)|[^]]*\\]\\[" "\\1][")
       (setq text
             (buffer-substring-no-properties (buffer-end -1) (buffer-end 1)))
       text)
@@ -299,7 +300,13 @@ TODO: Be able to delete individual nodes."
 
 Just sends the complete content of org-roam files rather than the specific
 node, as it's much faster to do that on the UI side."
-  (insert-file-contents-literally (org-link-decode file))
+  (org-roam-with-temp-buffer
+      file
+    (replace-regexp "\\(\\[\\[id:.*\\)|[^]]*\\]\\[" "\\1][")
+    (setq text
+          (buffer-substring-no-properties (buffer-end -1) (buffer-end 1)))
+    text)
+  (insert text)
   (httpd-send-header t "text/plain" 200 :Access-Control-Allow-Origin "*"))
 
 
