@@ -412,7 +412,7 @@ unchanged."
 Leading colon is removed from keys, values are converted to string."
   (unless (null props)
     (cons (cons (intern (seq-drop (symbol-name (car props)) 1)) (cadr props))
-          (ccc (cddr props)))))
+          (org-roam-ui--props-to-alist (cddr props)))))
 
 (defun org-roam-ui--send-graphdata ()
   "Get roam data, make JSON, send through websocket to org-roam-ui."
