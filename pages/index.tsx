@@ -164,7 +164,7 @@ export function GraphPage() {
       }
     }, {})
     linktagsRef.current = importLinks.reduce<Array<string>>((acc, link) => {
-      return link.tag ? acc.concat(link.tag) : acc
+      return link?.properties?.tag ? acc.concat(link.properties.tag) : acc
     }, [])
 
     // generate links between level 2 nodes and the level 1 node above it
@@ -941,13 +941,15 @@ export const Graph = function (props: GraphProps) {
       const linkRoam = link as OrgRoamLink
       if (
         filter.linktagsBlacklist.length > 0 &&
-        linkRoam?.tag && filter.linktagsBlacklist.indexOf(linkRoam.tag as never) > -1
+        linkRoam?.properties?.tag &&
+        filter.linktagsBlacklist.indexOf(linkRoam.properties.tag as never) > -1
       ) {
         return false
       }
       if (
         filter.linktagsWhitelist.length > 0 &&
-        !(linkRoam?.tag && filter.linktagsWhitelist.indexOf(linkRoam.tag as never) > -1)
+        !(linkRoam?.properties?.tag &&
+          filter.linktagsWhitelist.indexOf(linkRoam.properties.tag as never) > -1)
       ) {
         return false
       }

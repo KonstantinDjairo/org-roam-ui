@@ -400,6 +400,13 @@ unchanged."
      ("FILELESS" . t))
    'nil))
 
+(defun org-roam-ui--props-to-alist (props)
+  "Converts property list PROPS to ALIST.
+Leading colon is removed from keys, values are converted to string."
+  (unless (null props)
+    (cons (cons (intern (seq-drop (symbol-name (car props)) 1)) (cadr props))
+          (ccc (cddr props)))))
+
 (defun org-roam-ui--send-graphdata ()
   "Get roam data, make JSON, send through websocket to org-roam-ui."
   (let* ((nodes-names
@@ -442,15 +449,15 @@ unchanged."
                                 complete-nodes-db-rows))
                      (links . ,(mapcar
                                 (lambda (db-row)
-                                  (let ((alist (assq-delete-all
-                                                'props
-                                                (org-roam-ui-sql-to-alist
+                                  (let* ((alist (org-roam-ui-sql-to-alist
                                                  '(source target type props)
-                                                 db-row)))
-                                        (tag (plist-get (nth 3 db-row) :tag)))
-                                    (if tag
-                                        (push `(tag . ,tag) alist)
-                                      alist)))
+                                                 db-row))
+                                         (props (org-roam-ui--props-to-alist
+                                                 (cdr (assq 'props alist))))
+                                         (alist (assq-delete-all 'props alist)))
+                                    (if (null props)
+                                        alist
+                                      (push `(properties . ,props) alist))))
                                 links-db-rows))
                      (tags . ,(seq-mapcat
                                #'seq-reverse
