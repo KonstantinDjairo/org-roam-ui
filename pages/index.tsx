@@ -164,7 +164,8 @@ export function GraphPage() {
       }
     }, {})
     linktagsRef.current = importLinks.reduce<Array<string>>((acc, link) => {
-      return link?.properties?.tag ? acc.concat(link.properties.tag) : acc
+      return link?.properties?.tag && !acc.some((tag) => tag === link?.properties?.tag)
+           ? acc.concat(link.properties.tag) : acc
     }, [])
 
     // generate links between level 2 nodes and the level 1 node above it
