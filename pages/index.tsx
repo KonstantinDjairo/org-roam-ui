@@ -48,6 +48,7 @@ import {
   initialPhysics,
   initialVisuals,
   TagColors,
+  LinkTagColors,
 } from '../components/config'
 import { ContextMenu } from '../components/contextmenu'
 import Sidebar from '../components/Sidebar'
@@ -110,6 +111,7 @@ export default function Home() {
 export function GraphPage() {
   const [threeDim, setThreeDim] = usePersistantState('3d', false)
   const [tagColors, setTagColors] = usePersistantState<TagColors>('tagCols', {})
+  const [linktagColors, setLinkTagColors] = usePersistantState<LinkTagColors>('linktagCols', {})
   const [scope, setScope] = useState<Scope>({ nodeIds: [], excludedNodeIds: [] })
 
   const [physics, setPhysics] = usePersistantState('physics', initialPhysics)
@@ -578,6 +580,8 @@ export function GraphPage() {
             setBehavior,
             tagColors,
             setTagColors,
+            linktagColors,
+            setLinkTagColors,
             coloring,
             setColoring,
             local,
@@ -606,6 +610,7 @@ export function GraphPage() {
                 scope,
                 setScope,
                 tagColors,
+                linktagColors,
                 setPreviewNode,
                 sidebarHighlightedNode,
                 windowWidth,
@@ -735,6 +740,7 @@ export interface GraphProps {
   setScope: any
   webSocket: any
   tagColors: { [tag: string]: string }
+  linktagColors: { [linktag: string]: string }
   setPreviewNode: any
   sidebarHighlightedNode: OrgRoamNode | null
   windowWidth: number
@@ -769,6 +775,7 @@ export const Graph = function (props: GraphProps) {
     setScope,
     webSocket,
     tagColors,
+    linktagColors,
     setPreviewNode,
     sidebarHighlightedNode,
     windowWidth,
@@ -1371,6 +1378,14 @@ export const Graph = function (props: GraphProps) {
           : highlightColors[visuals.citeLinkColor][visuals.backgroundColor](
               visuals.highlightFade * opacity,
             )
+      }
+
+      if (linktagColors && roamLink?.properties?.tag &&
+          roamLink?.properties?.tag in linktagColors) {
+        const linktagColor = linktagColors[roamLink?.properties?.tag]
+        return needsHighlighting
+             ? highlightColors[linktagColor][linktagColor](visuals.highlightFade * opacity)
+             : highlightColors[linktagColor][visuals.backgroundColor](visuals.highlightFade * opacity)
       }
 
       return getLinkColor(sourceId as string, targetId as string, needsHighlighting, theme)

@@ -121,6 +121,10 @@ export interface TagColors {
   [tag: string]: string
 }
 
+export interface LinkTagColors {
+  [linktag: string]: string
+}
+
 export const initialBehavior = {
   follow: 'zoom',
   localSame: 'add',

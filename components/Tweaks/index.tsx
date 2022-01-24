@@ -22,6 +22,7 @@ import {
   initialBehavior,
   initialLocal,
   TagColors,
+  LinkTagColors,
   colorList,
   initialColoring,
 } from '../config'
@@ -51,6 +52,8 @@ export interface TweakProps {
   linktags: string[]
   tagColors: TagColors
   setTagColors: any
+  linktagColors: TagColors
+  setLinkTagColors: any
   coloring: typeof initialColoring
   setColoring: any
   local: typeof initialLocal
@@ -75,6 +78,8 @@ export const Tweaks = (props: TweakProps) => {
     linktags,
     tagColors,
     setTagColors,
+    linktagColors,
+    setLinkTagColors,
     coloring,
     setColoring,
     local,
@@ -180,6 +185,8 @@ export const Tweaks = (props: TweakProps) => {
                 setFilter={setFilter}
                 tagColors={tagColors}
                 setTagColors={setTagColors}
+                linktagColors={linktagColors}
+                setLinkTagColors={setLinkTagColors}
                 highlightColor={highlightColor}
                 colorList={colorList}
                 tags={tags}
