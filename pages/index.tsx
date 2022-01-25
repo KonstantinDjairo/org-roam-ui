@@ -1034,6 +1034,7 @@ export const Graph = function (props: GraphProps) {
     const oldScopedLinks = oldRawScopedLinks.filter((l) => {
       !scope.excludedNodeIds.some((e) => normalizeLinkEnds(l).includes(e))
     })
+    console.log(filteredGraphData.links)
     const newScopedLinks = filteredGraphData.links
       .filter((link) => {
         // we need to cover both because force-graph modifies the original data
@@ -1052,11 +1053,12 @@ export const Graph = function (props: GraphProps) {
       })
       .map((link) => {
         const [sourceId, targetId] = normalizeLinkEnds(link)
-        return { source: sourceId, target: targetId }
+        return { source: sourceId, target: targetId, properties: (link as OrgRoamLink)?.properties }
       })
 
     const scopedLinks = [...oldScopedLinks, ...newScopedLinks]
 
+    console.log(newScopedLinks)
     setScopedGraphData({ nodes: scopedNodes, links: scopedLinks })
   }, [
     local.neighbors,
