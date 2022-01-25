@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useContext } from 'react'
 import { OptionPanel } from '../OptionPanel'
-import { initialFilter, initialLocal, TagColors, LinkTagColors } from '../../config'
+import { initialFilter, initialLocal, TagColors } from '../../config'
 import { TagColorPanel } from './TagColorPanel'
 import { LinkTagColorPanel } from './LinkTagColorPanel'
 import { SliderWithInfo } from '../SliderWithInfo'
@@ -31,7 +31,7 @@ export interface FilterPanelProps {
   setFilter: any
   tagColors: TagColors
   setTagColors: any
-  linktagColors: LinkTagColors
+  linktagColors: TagColors
   setLinkTagColors: any
   highlightColor: string
   colorList: string[]

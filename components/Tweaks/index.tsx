@@ -22,7 +22,6 @@ import {
   initialBehavior,
   initialLocal,
   TagColors,
-  LinkTagColors,
   colorList,
   initialColoring,
 } from '../config'

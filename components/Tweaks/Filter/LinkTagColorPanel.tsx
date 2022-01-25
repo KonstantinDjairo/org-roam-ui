@@ -15,13 +15,13 @@ import {
 } from '@chakra-ui/react'
 import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import React, { useState } from 'react'
-import { LinkTagColors } from '../../config'
+import { TagColors } from '../../config'
 
 export interface LinkTagColorPanelProps {
   tags: string[]
   highlightColor: string
   colorList: string[]
-  linktagColors: LinkTagColors
+  linktagColors: TagColors
   setLinkTagColors: any
 }
 export const LinkTagColorPanel = (props: LinkTagColorPanelProps) => {

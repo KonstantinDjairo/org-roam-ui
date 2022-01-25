@@ -48,7 +48,6 @@ import {
   initialPhysics,
   initialVisuals,
   TagColors,
-  LinkTagColors,
 } from '../components/config'
 import { ContextMenu } from '../components/contextmenu'
 import Sidebar from '../components/Sidebar'
@@ -111,7 +110,7 @@ export default function Home() {
 export function GraphPage() {
   const [threeDim, setThreeDim] = usePersistantState('3d', false)
   const [tagColors, setTagColors] = usePersistantState<TagColors>('tagCols', {})
-  const [linktagColors, setLinkTagColors] = usePersistantState<LinkTagColors>('linktagCols', {})
+  const [linktagColors, setLinkTagColors] = usePersistantState<TagColors>('linktagCols', {})
   const [scope, setScope] = useState<Scope>({ nodeIds: [], excludedNodeIds: [] })
 
   const [physics, setPhysics] = usePersistantState('physics', initialPhysics)
@@ -740,7 +739,7 @@ export interface GraphProps {
   setScope: any
   webSocket: any
   tagColors: { [tag: string]: string }
-  linktagColors: { [linktag: string]: string }
+  linktagColors: { [tag: string]: string }
   setPreviewNode: any
   sidebarHighlightedNode: OrgRoamNode | null
   windowWidth: number
