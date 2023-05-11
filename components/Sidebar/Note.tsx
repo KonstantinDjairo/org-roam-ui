@@ -1,7 +1,7 @@
 import React from 'react'
 import { NodeObject } from 'force-graph'
 
-import { NodeById, NodeByCite, LinksByNodeId, normalizeLinkEnds } from '../../pages'
+import { NodeById, NodeByCite, LinksByNodeId } from '../../pages'
 import { Box, Flex } from '@chakra-ui/react'
 import { UniOrg } from '../../util/uniorg'
 import { Backlinks } from '../../components/Sidebar/Backlinks'
@@ -22,6 +22,7 @@ export interface NoteProps {
   collapse: boolean
   macros?: { [key: string]: string }
   attachDir: string
+  useInheritance: boolean
 }
 
 export const Note = (props: NoteProps) => {
@@ -39,6 +40,7 @@ export const Note = (props: NoteProps) => {
     collapse,
     macros,
     attachDir,
+    useInheritance,
   } = props
 
   const extraStyle = outline ? outlineNoteStyle : viewerNoteStyle
@@ -74,6 +76,7 @@ export const Note = (props: NoteProps) => {
               linksByNodeId,
               macros,
               attachDir,
+              useInheritance,
             }}
           />
           <Backlinks
@@ -87,6 +90,7 @@ export const Note = (props: NoteProps) => {
               openContextMenu,
               outline,
               attachDir,
+              useInheritance,
             }}
             macros={macros || {}}
           />

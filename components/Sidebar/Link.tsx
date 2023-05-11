@@ -14,17 +14,17 @@ import {
   Text,
   useTheme,
 } from '@chakra-ui/react'
-import React, { ReactElement, useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 
 import { ProcessedOrg } from '../../util/processOrg'
-import unified from 'unified'
+// import unified from 'unified'
 //import createStream from 'unified-stream'
-import uniorgParse from 'uniorg-parse'
-import uniorg2rehype from 'uniorg-rehype'
+// import uniorgParse from 'uniorg-parse'
+// import uniorg2rehype from 'uniorg-rehype'
 //import highlight from 'rehype-highlight'
-import katex from 'rehype-katex'
+// import katex from 'rehype-katex'
 import 'katex/dist/katex.css'
-import rehype2react from 'rehype-react'
+// import rehype2react from 'rehype-react'
 import { ThemeContext } from '../../util/themecontext'
 import { LinksByNodeId, NodeByCite, NodeById } from '../../pages'
 
@@ -42,6 +42,7 @@ export interface LinkProps {
   isWiki?: boolean
   noUnderline?: boolean
   attachDir: string
+  useInheritance: boolean
   macros: { [key: string]: string }
 }
 
@@ -62,13 +63,10 @@ export interface NormalLinkProps {
   children: string
 }
 
-import { hexToRGBA, getThemeColor } from '../../pages/index'
 import { defaultNoteStyle, viewerNoteStyle, outlineNoteStyle } from './noteStyle'
-import { OrgImage } from './OrgImage'
 import { Scrollbars } from 'react-custom-scrollbars-2'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { Section } from './Section'
-import { OrgRoamLink } from '../../api'
+import { getThemeColor } from '../../util/getThemeColor'
 
 export const NodeLink = (props: NodeLinkProps) => {
   const {
@@ -142,6 +140,7 @@ export const PreviewLink = (props: LinkProps) => {
     isWiki,
     macros,
     attachDir,
+    useInheritance,
   } = props
   // TODO figure out how to properly type this
   // see https://github.com/rehypejs/rehype-react/issues/25
@@ -296,6 +295,7 @@ export const PreviewLink = (props: LinkProps) => {
                         linksByNodeId,
                         macros,
                         attachDir,
+                        useInheritance,
                       }}
                       previewNode={nodeById[id]!}
                       collapse={false}

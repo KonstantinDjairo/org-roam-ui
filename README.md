@@ -18,7 +18,7 @@
 - [Supporting org-roam-ui](#supporting-org-roam-ui)
   - [Feedback](#feedback)
   - [Contribute 💪](#contribute-)
-     - [Hacktoberfest](#hacktoberfest)
+    - [Hacktoberfest](#hacktoberfest)
   - [Donate](#donate)
     - [Sponsors](#sponsors)
 
@@ -42,7 +42,7 @@ org-roam-ui requires `org-roam`, `websocket`, `simple-httpd`, `f` and Emacs >= 2
 M-x package-install org-roam-ui
 ```
 
-No configuration is necessary when you use `packge.el` to install ORUI.
+No configuration is necessary when you use `package.el` to install ORUI.
 
 ### Doom
 
@@ -110,13 +110,13 @@ NOTE: This is quite janky at the moment and will change in the future. Consider 
 #### Moving around
 
 ```emacs-lisp
-(orui-node-zoom)
+(org-roam-ui-node-zoom)
 ```
 
 Zooms to the current node in the global view _ignoring local mode_.
 
 ```emacs-lisp
-(orui-node-local)
+(org-roam-ui-node-local)
 ```
 
 Opens the current node in local view.
@@ -128,6 +128,21 @@ You can optionally give these command three parameters:
 3. The padding of the zoom in px.
 
 These options might not work at the moment, please configure them in the UI for the time being.
+
+#### Manipulating graph
+
+```emacs-lisp
+(org-roam-ui-add-to-local-graph &optional id)
+```
+
+Adds the node with the given id to the local graph. If no id is given, the current node is used.
+If the local graph is not open, it will be opened.
+
+```emacs-lisp
+(org-roam-ui-remove-from-local-graph &optional id)
+```
+
+Removes the node with the given id from the local graph. If no id is given, the current node is used.
 
 ### Configuration
 
@@ -227,7 +242,7 @@ At the time of writing (Aug 8) it is very much not optimized, and shifting betwe
 
 As much as it saddens us to say, Firefox's rendering engine is quite a bit slower than its Chromium cousins. Compare the performance of the two and see if that's the main issue first.
 
-#### Turn of the particles
+#### Turn off the particles
 
 I know, very cool to see those little guys travel up and down your notes, but very slow, especially in 3D mode.
 
@@ -339,6 +354,11 @@ tbd
 
 # Supporting org-roam-ui
 
+## Chat
+
+We have a small telegram group for discussing org-roam-ui, you can join if you're cool.
+https://t.me/+sEuL2qi37yw1NzQy
+
 ## Feedback
 
 For feature suggestions, please make an issue or check out the discussions for [major](https://github.com/org-roam/org-roam-ui/discussions/66) and [minor features](https://github.com/org-roam/org-roam-ui/discussions/6).
@@ -364,11 +384,10 @@ If you are interested in being more closely involved with the project, go [here]
 
 We would ❤️ to have you on board!
 
-
 ## Donate
 
 If you really really like org-roam-ui, you can make a [one-time donation or sponsor one of us monthly!](https://github.com/sponsors/ThomasFKJorna/)
 
 ### Sponsors
 
-<!-- sponsors --><a href="https://github.com/queitsch"><img src="https://github.com/queitsch.png" width="60px" alt="" /></a><a href="https://github.com/meedstrom"><img src="https://github.com/meedstrom.png" width="60px" alt="" /></a><!-- sponsors -->
+<!-- sponsors --><a href="https://github.com/queitsch"><img src="https://github.com/queitsch.png" width="60px" alt="" /></a><a href="https://github.com/HaydenLeBaron"><img src="https://github.com/HaydenLeBaron.png" width="60px" alt="" /></a><a href="https://github.com/kohlsudduth"><img src="https://github.com/kohlsudduth.png" width="60px" alt="" /></a><a href="https://github.com/vg-1414"><img src="https://github.com/vg-1414.png" width="60px" alt="" /></a><!-- sponsors -->

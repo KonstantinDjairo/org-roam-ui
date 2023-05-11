@@ -230,10 +230,10 @@ Takes _WS and FRAME as arguments."
 
 (defun org-roam-ui--on-msg-open-node (data)
   "Open a node when receiving DATA from the websocket."
-  (let* ((node (org-roam-node-from-id (alist-get'id data)))
-         (pos (org-roam-node-point node))
-         (buf (org-roam-node-find-noselect node))
-         (id (alist-get 'id data)))
+  (let* ((id (alist-get 'id data))
+          (node (org-roam-node-from-id id))
+          (pos (org-roam-node-point node))
+          (buf (find-file-noselect (org-roam-node-file node))))
     (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
     (unless (window-live-p org-roam-ui--window)
       (if-let ((windows (window-list))
@@ -587,7 +587,7 @@ from all other links."
               (setq ui-theme doom-theme))
           (setq ui-theme (org-roam-ui-get-theme)))
       (when org-roam-ui-custom-theme
-        org-roam-ui-custom-theme))
+		(setq ui-theme org-roam-ui-custom-theme)))
     ui-theme))
 
 
@@ -603,6 +603,9 @@ from all other links."
           (attach-dir (if (boundp 'org-attach-id-dir)
                           org-attach-id-dir
                         (expand-file-name ".attach/" org-directory)))
+          (use-inheritance (if (boundp 'org-attach-use-inheritance)
+                            org-attach-use-inheritance
+                            nil))
           (sub-dirs (org-roam-ui-find-subdirectories)))
       (websocket-send-text org-roam-ui-ws-socket
                            (json-encode
@@ -614,6 +617,8 @@ from all other links."
                                       ,daily-dir)
                                      ("attachDir" .
                                       ,attach-dir)
+                                     ("useInheritance" .
+                                      ,use-inheritance)
                                      ("roamDir" . ,org-roam-directory)
                                      ("katexMacros" . ,org-roam-ui-latex-macros))))))))
 
@@ -703,6 +708,30 @@ Optionally with ID (string), SPEED (number, ms) and PADDING (number, px)."
                                                    (speed . ,speed)
                                                    (padding . ,padding))))))
     (message "No node found.")))
+
+
+(defun org-roam-ui-change-local-graph (&optional id manipulation)
+  "Add or remove current node to the local graph. If not in local mode, open local-graph for this node."  
+  (interactive)
+  (if-let ((node (or id (org-roam-id-at-point))))
+      (websocket-send-text org-roam-ui-ws-socket
+                           (json-encode `((type . "command")
+                                          (data . ((commandName . "change-local-graph")
+                                                   (id . ,node)
+                                                   (manipulation . ,(or manipulation "add")))))))
+    (message "No node found.")))
+
+;;;###autoload
+(defun org-roam-ui-add-to-local-graph (&optional id)
+  "Add current node to the local graph. If not in local mode, open local-graph for this node."
+  (interactive)
+  (org-roam-ui-change-local-graph id "add"))
+
+;;;###autoload
+(defun org-roam-ui-remove-from-local-graph (&optional id)
+  "Remove current node from the local graph. If not in local mode, open local-graph for this node."
+  (interactive)
+  (org-roam-ui-change-local-graph id "remove"))
 
 ;;;###autoload
 (defun org-roam-ui-sync-theme ()

@@ -2,7 +2,6 @@ import { LinksByNodeId, NodeByCite, NodeById } from '../../pages/index'
 
 import { GraphData, NodeObject, LinkObject } from 'force-graph'
 
-import { normalizeLinkEnds } from '../../pages/index'
 import { VStack, Box, Button, Heading, StackDivider } from '@chakra-ui/react'
 import React from 'react'
 import { ProcessedOrg } from '../../util/processOrg'
@@ -17,12 +16,14 @@ export interface BacklinksProps {
   openContextMenu: any
   outline: boolean
   attachDir: string
+  useInheritance: boolean
   macros: { [key: string]: string }
 }
 
 import { PreviewLink } from './Link'
 import { OrgRoamNode } from '../../api'
 import { Section } from './Section'
+import { normalizeLinkEnds } from '../../util/normalizeLinkEnds'
 
 export const Backlinks = (props: BacklinksProps) => {
   const {
@@ -36,6 +37,7 @@ export const Backlinks = (props: BacklinksProps) => {
     outline,
     macros,
     attachDir,
+    useInheritance,
   } = props
   const links = linksByNodeId[(previewNode as OrgRoamNode)?.id] ?? []
 
@@ -73,7 +75,7 @@ export const Backlinks = (props: BacklinksProps) => {
                   openContextMenu={openContextMenu}
                   outline={outline}
                   noUnderline
-                  {...{ attachDir, macros }}
+                  {...{ attachDir, useInheritance, macros }}
                 >
                   {nodeById[link as string]?.title}
                 </PreviewLink>
