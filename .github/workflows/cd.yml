@@ -52,12 +52,6 @@ jobs:
           yarn install
           yarn run build
           yarn run export
-      - name: '[Add GitHub Sponsors to Readme]'
-        uses: JamesIves/github-sponsors-readme-action@1.0.5
-        with:
-          token: ${{secrets.PAT}}
-          file: 'README.md'
-          minimum: 500
           
       - name: '[commit changes]'
         run: |
