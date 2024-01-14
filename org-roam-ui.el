@@ -404,7 +404,7 @@ unchanged."
    'nil))
 
 (defun org-roam-ui--props-to-alist (props)
-  "Converts property list PROPS to ALIST.
+  "Convert property list PROPS to alist.
 Leading colon is removed from keys, values are converted to string."
   (unless (null props)
     (cons (cons (intern (seq-drop (symbol-name (car props)) 1)) (cadr props))
