@@ -207,8 +207,8 @@ export function GraphPage() {
         }, fileNode)
 
         return {
-          source: headingNode.id,
-          target: target?.id || fileNode.id,
+          source: target?.id || fileNode.id,
+          target: headingNode.id,
           type: 'heading',
         }
       })
