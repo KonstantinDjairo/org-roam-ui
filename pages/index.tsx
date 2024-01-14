@@ -170,10 +170,6 @@ export function GraphPage() {
         [node.file]: [...(acc[node.file] ?? []), node],
       }
     }, {})
-    linktagsRef.current = importLinks.reduce<Array<string>>((acc, link) => {
-      return link?.properties?.tag && !acc.some((tag) => tag === link?.properties?.tag)
-           ? acc.concat(link.properties.tag) : acc
-    }, [])
 
     // generate links between level 2 nodes and the level 1 node above it
     // org-roam does not generate such links, so we have to put them in ourselves
@@ -210,6 +206,7 @@ export function GraphPage() {
           source: target?.id || fileNode.id,
           target: headingNode.id,
           type: 'heading',
+          properties: { outline: null, tag: 'heading' }, 
         }
       })
     })
@@ -237,6 +234,10 @@ export function GraphPage() {
 
     nodeByIdRef.current = Object.fromEntries(importNodes.map((node) => [node.id, node]))
     const dirtyLinks = [...importLinks, ...headingLinks, ...fileLinks]
+    linktagsRef.current = dirtyLinks.reduce<Array<string>>((acc, link) => {
+      return link?.properties?.tag && !acc.some((tag) => tag === link?.properties?.tag)
+           ? acc.concat(link.properties.tag) : acc
+    }, [])
     const nonExistantNodes: OrgRoamNode[] = []
     const links = dirtyLinks.map((link) => {
       const sourceId = link.source as string
