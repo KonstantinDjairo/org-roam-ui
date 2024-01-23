@@ -1378,9 +1378,11 @@ export const Graph = function (props: GraphProps) {
       setHoverNode(node)
       setDragging(true)
     },
-    onNodeDragEnd: () => {
-      setHoverNode(null)
-      setDragging(false)
+    onNodeDragEnd: (node) => {
+      setHoverNode(null);
+      setDragging(false);
+      node.fx = node.x;
+      node.fy = node.y;
     },
   }
 
