@@ -30,7 +30,7 @@ import type {
   ForceGraph3D as TForceGraph3D,
 } from 'react-force-graph'
 import { BiNetworkChart } from 'react-icons/bi'
-import { BsReverseLayoutSidebarInsetReverse } from 'react-icons/bs'
+import { BsReverseLayoutSidebarInsetReverse, BsBack } from 'react-icons/bs'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import SpriteText from 'three-spritetext'
 import useUndo from 'use-undo'
@@ -49,6 +49,7 @@ import {
 } from '../components/config'
 import { ContextMenu } from '../components/contextmenu'
 import Sidebar from '../components/Sidebar'
+import TModal from '../components/TModal'
 import { Tweaks } from '../components/Tweaks'
 import { usePersistantState } from '../util/persistant-state'
 import { ThemeContext, ThemeContextProps } from '../util/themecontext'
@@ -569,170 +570,201 @@ export function GraphPage() {
 
   return (
     <VariablesContext.Provider value={{ ...emacsVariables }}>
-      <Box
-        display="flex"
-        alignItems="flex-start"
-        flexDirection="row"
-        height="100vh"
-        overflow="clip"
-      >
-        <Tweaks
-          {...{
-            physics,
-            setPhysics,
-            threeDim,
-            setThreeDim,
-            filter,
-            setFilter,
-            visuals,
-            setVisuals,
-            mouse,
-            setMouse,
-            behavior,
-            setBehavior,
-            tagColors,
-            setTagColors,
-            linktagColors,
-            setLinkTagColors,
-            coloring,
-            setColoring,
-            local,
-            setLocal,
-          }}
-          tags={tagsRef.current}
-          linktags={linktagsRef.current}
-        />
-        <Box position="absolute">
-          {graphData && (
-            <Graph
-              //ref={graphRef}
-              nodeById={nodeByIdRef.current!}
-              linksByNodeId={linksByNodeIdRef.current!}
-              webSocket={WebSocketRef.current}
-              variables={emacsVariables}
-              {...{
-                physics,
-                graphData,
-                threeDim,
-                emacsNodeId,
-                filter,
-                visuals,
-                behavior,
-                mouse,
-                scope,
-                setScope,
-                tagColors,
-                linktagColors,
-                setPreviewNode,
-                sidebarHighlightedNode,
-                windowWidth,
-                windowHeight,
-                openContextMenu,
-                contextMenu,
-                handleLocal,
-                mainWindowWidth,
-                setMainWindowWidth,
-                setContextMenuTarget,
-                graphRef,
-                clusterRef,
-                coloring,
-                local,
-              }}
-            />
-          )}
-        </Box>
-        <Box position="relative" zIndex={4} width="100%">
-          <Flex className="headerBar" h={10} flexDir="column">
-            <Flex alignItems="center" h={10} justifyContent="flex-end">
-              {/* <Flex flexDir="row" alignItems="center">
-               *   <Box color="blue.500" bgColor="alt.100" h="100%" p={3} mr={4}>
-               *     {mainItem.icon}
-               *   </Box>
-               *   <Heading size="sm">{mainItem.title}</Heading>
-               * </Flex> */}
-              <Flex height="100%" flexDirection="row">
-                {scope.nodeIds.length > 0 && (
-                  <Tooltip label="Return to main graph">
-                    <IconButton
-                      m={1}
-                      icon={<BiNetworkChart />}
-                      aria-label="Exit local mode"
-                      onClick={() =>
-                        setScope((currentScope: Scope) => ({
-                          ...currentScope,
-                          nodeIds: [],
-                        }))
-                      }
-                      variant="subtle"
-                    />
-                  </Tooltip>
-                )}
-                <Tooltip label={isOpen ? 'Close sidebar' : 'Open sidebar'}>
-                  <IconButton
-                    m={1}
-                    // eslint-disable-next-line react/jsx-no-undef
-                    icon={<BsReverseLayoutSidebarInsetReverse />}
-                    aria-label="Close file-viewer"
-                    variant="subtle"
-                    onClick={isOpen ? onClose : onOpen}
-                  />
-                </Tooltip>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Box>
-
-        <Box position="relative" zIndex={4}>
-          <Sidebar
-            {...{
-              isOpen,
-              onOpen,
-              onClose,
-              previewNode,
-              setPreviewNode,
-              canUndo,
-              canRedo,
-              previousPreviewNode,
-              nextPreviewNode,
-              resetPreviewNode,
-              setSidebarHighlightedNode,
-              openContextMenu,
-              scope,
-              setScope,
-              windowWidth,
-              tagColors,
-              setTagColors,
-              filter,
-              setFilter,
-            }}
-            macros={emacsVariables.katexMacros}
-            attachDir={emacsVariables.attachDir || ''}
-            useInheritance={emacsVariables.useInheritance || false}
+    <Box
+      display="flex"
+      alignItems="flex-start"
+      flexDirection="row"
+      height="100vh"
+      overflow="clip"
+    >
+      <Tweaks
+        {...{
+          physics,
+          setPhysics,
+          threeDim,
+          setThreeDim,
+          filter,
+          setFilter,
+          visuals,
+          setVisuals,
+          mouse,
+          setMouse,
+          behavior,
+          setBehavior,
+          tagColors,
+          setTagColors,
+          linktagColors,
+          setLinkTagColors,
+          coloring,
+          setColoring,
+          local,
+          setLocal,
+        }}
+        tags={tagsRef.current}
+        linktags={linktagsRef.current}
+      />
+      <Box position="absolute">
+        {graphData && (
+          <Graph
+            //ref={graphRef}
             nodeById={nodeByIdRef.current!}
             linksByNodeId={linksByNodeIdRef.current!}
-            nodeByCite={nodeByCiteRef.current!}
+            webSocket={WebSocketRef.current}
+            variables={emacsVariables}
+            {...{
+              physics,
+              graphData,
+              threeDim,
+              emacsNodeId,
+              filter,
+              visuals,
+              behavior,
+              mouse,
+              scope,
+              setScope,
+              tagColors,
+              linktagColors,
+              setPreviewNode,
+              sidebarHighlightedNode,
+              windowWidth,
+              windowHeight,
+              openContextMenu,
+              contextMenu,
+              handleLocal,
+              mainWindowWidth,
+              setMainWindowWidth,
+              setContextMenuTarget,
+              graphRef,
+              clusterRef,
+              coloring,
+              local,
+            }}
           />
-        </Box>
-        {contextMenu.isOpen && (
-          <div ref={contextMenuRef}>
-            <ContextMenu
-              //contextMenuRef={contextMenuRef}
-              scope={scope}
-              target={contextMenuTarget}
-              background={false}
-              coordinates={contextPos}
-              handleLocal={handleLocal}
-              menuClose={contextMenu.onClose.bind(contextMenu)}
-              webSocket={WebSocketRef.current}
-              setPreviewNode={setPreviewNode}
-              setFilter={setFilter}
-              filter={filter}
-              setTagColors={setTagColors}
-              tagColors={tagColors}
-            />
-          </div>
         )}
       </Box>
+      <Box position="relative" zIndex={4} width="100%">
+        <Flex className="headerBar" h={10} flexDir="column">
+          <Flex alignItems="center" h={10} justifyContent="flex-end">
+            {/* <Flex flexDir="row" alignItems="center">
+              *   <Box color="blue.500" bgColor="alt.100" h="100%" p={3} mr={4}>
+              *     {mainItem.icon}
+              *   </Box>
+              *   <Heading size="sm">{mainItem.title}</Heading>
+              * </Flex> */}
+            <Flex height="100%" flexDirection="row">
+              {scope.nodeIds.length > 0 && (
+                <Tooltip label="Return to main graph">
+                  <IconButton
+                    m={1}
+                    icon={<BiNetworkChart />}
+                    aria-label="Exit local mode"
+                    onClick={() =>
+                      setScope((currentScope: Scope) => ({
+                        ...currentScope,
+                        nodeIds: [],
+                      }))
+                    }
+                    variant="subtle"
+                  />
+                </Tooltip>
+              )}
+              <Tooltip label={isOpen ? 'Close sidebar' : 'Open sidebar'}>
+                <IconButton
+                  m={1}
+                  // eslint-disable-next-line react/jsx-no-undef
+                  icon={<BsReverseLayoutSidebarInsetReverse />}
+                  aria-label="Close file-viewer"
+                  variant="subtle"
+                  onClick={isOpen ? onClose : onOpen}
+                />
+              </Tooltip>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Box>
+
+      <Box position="relative" zIndex={4}>
+        <Sidebar
+          {...{
+            isOpen,
+            onOpen,
+            onClose,
+            previewNode,
+            setPreviewNode,
+            canUndo,
+            canRedo,
+            previousPreviewNode,
+            nextPreviewNode,
+            resetPreviewNode,
+            setSidebarHighlightedNode,
+            openContextMenu,
+            scope,
+            setScope,
+            windowWidth,
+            tagColors,
+            setTagColors,
+            filter,
+            setFilter,
+          }}
+          macros={emacsVariables.katexMacros}
+          attachDir={emacsVariables.attachDir || ''}
+          useInheritance={emacsVariables.useInheritance || false}
+          nodeById={nodeByIdRef.current!}
+          linksByNodeId={linksByNodeIdRef.current!}
+          nodeByCite={nodeByCiteRef.current!}
+        />
+      </Box>
+      <Box position="relative" zIndex={4}>
+        <TModal
+          {...{
+            isOpen,
+            onOpen,
+            onClose,
+            previewNode,
+            setPreviewNode,
+            canUndo,
+            canRedo,
+            previousPreviewNode,
+            nextPreviewNode,
+            resetPreviewNode,
+            setSidebarHighlightedNode,
+            openContextMenu,
+            scope,
+            setScope,
+            windowWidth,
+            tagColors,
+            setTagColors,
+            filter,
+            setFilter,
+          }}
+          macros={emacsVariables.katexMacros}
+          attachDir={emacsVariables.attachDir || ''}
+          useInheritance={emacsVariables.useInheritance || false}
+          nodeById={nodeByIdRef.current!}
+          linksByNodeId={linksByNodeIdRef.current!}
+          nodeByCite={nodeByCiteRef.current!}
+        />
+      </Box>
+      {contextMenu.isOpen && (
+        <div ref={contextMenuRef}>
+          <ContextMenu
+            //contextMenuRef={contextMenuRef}
+            scope={scope}
+            target={contextMenuTarget}
+            background={false}
+            coordinates={contextPos}
+            handleLocal={handleLocal}
+            menuClose={contextMenu.onClose.bind(contextMenu)}
+            webSocket={WebSocketRef.current}
+            setPreviewNode={setPreviewNode}
+            setFilter={setFilter}
+            filter={filter}
+            setTagColors={setTagColors}
+            tagColors={tagColors}
+          />
+        </div>
+      )}
+    </Box>
     </VariablesContext.Provider>
   )
 }
