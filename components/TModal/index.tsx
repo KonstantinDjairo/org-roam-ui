@@ -50,6 +50,7 @@ function TModal() {
       <ModalOverlay  />
       <ModalContent height="70%">
         <ModalHeader>Modal Title</ModalHeader>
+        <SelectId options={ ["лпордлро", "длопждло"] } />
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>
