@@ -49,7 +49,6 @@ function TModal() {
     <Modal isOpen={isOpen} onClose={onClose} size="full" >
       <ModalOverlay  />
       <ModalContent height="70%">
-        <ModalHeader>Modal Title</ModalHeader>
         <SelectId options={ ["лпордлро", "длопждло"] } />
         <ModalCloseButton />
         <Scrollbars>

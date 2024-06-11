@@ -13,8 +13,8 @@ const layout = [
 export const MyGrid = () => {
   return (
       <GridLayout layout={layout} cols={5} rowHeight={300} width={1000}>
-        <div key="a">aaaaaa aaaa</div>
-        <div key="b">bbbb</div>
+        <div key="a" style={{ backgroundColor: "green" }} >aaaaaa aaaa</div>
+        <div key="b" style={{ backgroundColor: "gray" }} >bbbb</div>
         <div key="c">c</div>
         <div key="d">ddddd</div>
         <div key="e">e</div>

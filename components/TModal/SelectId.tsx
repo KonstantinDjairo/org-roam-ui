@@ -41,13 +41,13 @@ export const SelectId = (props: SelectIdProps) => {
       placeholder=" "
       onCreateItem={(item) => null}
       disableCreateItem={true}
-//      selectedItems={selectedItems}
-//      onSelectedItemsChange={(changes) => {
-//        if (changes.selectedItems) {
-//          setSelectedItems(changes.selectedItems)
-//          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
-//        }
-//      }}
+      //      selectedItems={selectedItems}
+      //      onSelectedItemsChange={(changes) => {
+        //        if (changes.selectedItems) {
+        //          setSelectedItems(changes.selectedItems)
+        //          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
+        //        }
+        //      }}
       listItemStyleProps={{ overflow: 'hidden' }}
       highlightItemBg="gray.400"
       toggleButtonStyleProps={{ variant: 'outline' }}
@@ -74,6 +74,8 @@ export const SelectId = (props: SelectIdProps) => {
       }}
       hideToggleButton
       itemRenderer={(selected) => selected.label}
+      disableCreateItem="true"
+      hideToggleButton="true"
     />
   )
-}
+      }
