@@ -32,7 +32,8 @@ import {
 import { MyGrid } from './TextGrid'
 import { SelectId } from './SelectId'
 
-function TModal() {
+function TModal(props) {
+  const layout = props.layout
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
@@ -53,7 +54,7 @@ function TModal() {
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>
-            <MyGrid />
+            <MyGrid layout={layout} />
           </ModalBody>
         </Scrollbars>
 
