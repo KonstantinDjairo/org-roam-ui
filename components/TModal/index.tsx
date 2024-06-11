@@ -29,8 +29,8 @@ import {
 } from '@chakra-ui/react'
 //import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 //import 'react-tabs/style/react-tabs.css';
-import { MyGrid } from './TextGrid'
-import { SelectId } from './SelectId'
+import { TextGrid } from './TextGrid'
+import { SelectId, SelectIdProps } from './SelectId'
 
 function TModal(props) {
   const layout = props.layout
@@ -54,7 +54,7 @@ function TModal(props) {
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>
-            <MyGrid layout={layout} />
+            <TextGrid layout={layout} />
           </ModalBody>
         </Scrollbars>
 
