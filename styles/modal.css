@@ -1,6 +1,6 @@
 .card {
   background-color: gray
 }
-.card-static {
+.card.static {
   background-color: green
 }
