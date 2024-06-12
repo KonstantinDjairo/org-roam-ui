@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { WidthProvider, Responsive } from "react-grid-layout";
-import _ from "lodash";
+//import _ from "lodash";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 interface gridRow {
@@ -51,7 +51,7 @@ export default function AddRemoveLayout (props) {
       // Add a new item. It must have a unique key!
       items: state.items.concat({
         i: "n" + state.newCounter,
-        x: (state.items.length * 2) % (state.cols || 12),
+        x: (state.items.length * 2) % (props.cols || 12),
         y: Infinity, // puts it at the bottom
         w: 2,
         h: 2
