@@ -36,8 +36,8 @@ export const SelectId = (props: SelectIdProps) => {
     <CUIAutoComplete
       labelStyleProps={{ fontWeight: 300, fontSize: 14 }}
       items={optionArray}
-      label={`Select Node`}
-      placeholder=" "
+      label=""
+      placeholder="Node... "
       onCreateItem={(item) => null}
       disableCreateItem={true}
       //      selectedItems={selectedItems}
@@ -47,34 +47,35 @@ export const SelectId = (props: SelectIdProps) => {
       //          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
       //        }
       //      }}
-      listItemStyleProps={{ overflow: 'hidden' }}
+      listItemStyleProps={{ overflow: 'hidden', fontSize: 12, height: 6 }}
       highlightItemBg="gray.400"
       toggleButtonStyleProps={{ variant: 'outline' }}
       inputStyleProps={{
-        mt: 2,
-        height: 8,
+        mt: 1,
+        height: 6,
         focusBorderColor: highlightColor,
         color: 'gray.800',
         borderColor: 'gray.500',
+        fontSize: 12,
       }}
       tagStyleProps={{
         justifyContent: 'flex-start',
         //variant: 'subtle',
-        fontSize: 10,
+        fontSize: 12,
         borderColor: highlightColor,
         borderWidth: 1,
         borderRadius: 'md',
         color: highlightColor,
         bg: '',
         height: 4,
-        mb: 2,
+        mb: 1,
         //paddingLeft: 4,
         //fontWeight: 'bold',
       }}
       hideToggleButton
       itemRenderer={(selected) => selected.label}
-      disableCreateItem="true"
-      hideToggleButton="true"
+      disableCreateItem="false"
+      hideToggleButton="false"
     />
   )
       }
