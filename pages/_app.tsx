@@ -1,5 +1,4 @@
 import '../styles/globals.css'
-import '../styles/modal.css'
 import type { AppProps } from 'next/app'
 import { ChakraProvider, extendTheme, withDefaultColorScheme } from '@chakra-ui/react'
 import { useEffect, useState, useMemo, useContext, useReducer } from 'react'
