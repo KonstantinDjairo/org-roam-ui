@@ -35,7 +35,7 @@ export default function AddRemoveLayout (props) {
         <span
           className="remove"
           style={removeStyle}
-          onClick={onRemoveItem(i)}
+          onClick={() => onRemoveItem(i)}
         >
           x
         </span>
@@ -91,7 +91,7 @@ export default function AddRemoveLayout (props) {
           onBreakpointChange={onBreakpointChange}
           {...props}
         >
-          {_.map(state.items, el => createElement(el))}
+          {state.items.map(el => createElement(el))}
         </ResponsiveReactGridLayout>
       </div>
     );
