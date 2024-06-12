@@ -34,6 +34,7 @@ import { SelectId, SelectIdProps } from './SelectId'
 
 function TModal(props) {
   const layout = props.layout
+  const options = Object.values(props.nodeById)
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
@@ -50,7 +51,7 @@ function TModal(props) {
     <Modal isOpen={isOpen} onClose={onClose} size="full" >
       <ModalOverlay  />
       <ModalContent height="70%">
-        <SelectId options={ ["лпордлро", "длопждло"] } />
+        <SelectId options={options} />
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>

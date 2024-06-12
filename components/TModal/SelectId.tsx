@@ -1,11 +1,10 @@
-//'use client'
 import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import React, { useContext, useState } from 'react'
 import { ThemeContext } from '../../util/themecontext'
 //import { initialFilter } from '../config'
 
 export interface SelectIdProps {
-  options: string[]
+  options: NodeById
   //filter: typeof initialFilter
   //setFilter: any
   //listName: 'tagsBlacklist' | 'tagsWhitelist' | 'linktagsBlacklist' | 'linktagsWhitelist' | 'dirsAllowlist' | 'dirsBlocklist'
@@ -20,7 +19,7 @@ export const SelectId = (props: SelectIdProps) => {
   const optionArray =
     options?.map((option) => {
       //return { value: option, label: labelFilter ? option.replace(labelFilter, '') : option }
-      return { value: option, label: option }
+      return { value: option.id, label: option.title }
     }) || []
 
 //  const [selectedItems, setSelectedItems] = useState<typeof optionArray>(
@@ -43,11 +42,11 @@ export const SelectId = (props: SelectIdProps) => {
       disableCreateItem={true}
       //      selectedItems={selectedItems}
       //      onSelectedItemsChange={(changes) => {
-        //        if (changes.selectedItems) {
-        //          setSelectedItems(changes.selectedItems)
-        //          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
-        //        }
-        //      }}
+      //        if (changes.selectedItems) {
+      //          setSelectedItems(changes.selectedItems)
+      //          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
+      //        }
+      //      }}
       listItemStyleProps={{ overflow: 'hidden' }}
       highlightItemBg="gray.400"
       toggleButtonStyleProps={{ variant: 'outline' }}
