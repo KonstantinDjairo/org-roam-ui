@@ -8,12 +8,12 @@ import { usePersistantState } from '../../util/persistant-state'
 import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 import { SelectId, SelectIdProps } from './SelectId'
-import { useWindowSize, useWindowWidth } from '@react-hook/window-size'
 
 export default function TextGrid (props) {
   console.log("TextGrid:PROPS",props);
   const {
     options,
+    onOpen,
     onClose,
     setPreviewNode,
     previewNode,
@@ -25,6 +25,7 @@ export default function TextGrid (props) {
     macros,
     attachDir,
     useInheritance,
+    windowWidth
   } = props;
   console.log("TextGrid:NodeById",nodeById);
   const [ layout, setLayout ] = useState<Layout>([]);
@@ -35,7 +36,6 @@ export default function TextGrid (props) {
   //const [font, setFont] = useState('sans serif')
   //const [indent, setIndent] = useState(0)
   const [collapse, setCollapse] = useState(false)
-  const [windowWidth, windowHeight] = useWindowSize()
 
   const createElement = (el) => {
     const removeStyle = {

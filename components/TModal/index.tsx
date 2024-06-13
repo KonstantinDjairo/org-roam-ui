@@ -33,6 +33,7 @@ import TextGrid from './TextGrid'
 
 function TModal(props) {
   const options = Object.values(props.nodeById)
+  //const { isOpen, onOpen, onClose } = props
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
@@ -46,13 +47,13 @@ function TModal(props) {
           onClick={isOpen ? onClose : onOpen}
         />
       </Tooltip>
-    <Modal isOpen={isOpen} onClose={onClose} size="full" scrollBehavior="outside" >
+    <Modal isOpen={isOpen} onClose={onClose} size="full" >
       <ModalOverlay  />
       <ModalContent height="70%">
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>
-            <TextGrid options={options} onClose={onClose} {...props} />
+            <TextGrid options={options} {...props} />
           </ModalBody>
         </Scrollbars>
         
