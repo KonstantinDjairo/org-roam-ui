@@ -67,8 +67,17 @@ export default function TextGrid (props) {
   const onSelectedItemsChange = (changes,selectedItems) => {
     console.debug("SELECTED-OLD:", selectedItems)
     console.debug("SELECTED-NEW:", changes.selectedItems)
-    const ids = Object.values(changes)
-    
+    const selectedIds = changes.selectedItems.map((item) => item.value)
+    const layoutIds = layout.map((l) => l.i)
+    console.debug("S-ids",selectedIds)
+    console.debug("L-ids",layoutIds)
+    var id
+    for (id of selectedIds) {
+      if (!layoutIds.includes(id))
+      {console.debug("NOT-INCLUDED:",id)
+        
+      }
+    }
     if (changes.selectedItems) {
       setSelectedItems(changes.selectedItems)
       //          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
