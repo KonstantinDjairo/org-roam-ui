@@ -40,41 +40,46 @@ export default function TextGrid (props) {
       position: "absolute",
       right: "2px",
       top: 0,
-      cursor: "pointer"
+      cursor: "pointer",
     };
     const i = el.i;
+    function onRemoveItemi() {return onRemoveItem(i)};
+    
     return (
       <Box key={i} data-grid={el}
            className="card"
-           p={3}
+           p={2}
+           pr={0}
            bg="white"
-           borderWidth='2px'>
-        <Box
+           borderWidth='2px'
+      >
+        <Scrollbars>
+          <Title previewNode={nodeById[i]} />
+          <Note
+            setPreviewNode={setPreviewNode}
+            justificationList={justificationList}
+            justification={justification}
+            previewNode={nodeById[i]} 
+            nodeById={nodeById}
+            nodeByCite={nodeByCite}
+            setSidebarHighlightedNode={setSidebarHighlightedNode}
+            linksByNodeId={linksByNodeId}
+            openContextMenu={openContextMenu}
+            outline={outline}
+            collapse={collapse}
+            macros={macros}
+            attachDir={attachDir}
+            useInheritance={useInheritance}
+          />
+        </Scrollbars>
+        <Button
           className="remove"
           style={removeStyle}
-          onClick={() => onRemoveItem(i)}
+          size="xs"
+          onClick={onRemoveItemi}
         >
           x
-        </Box>
-        <Scrollbars>
-        <Title previewNode={nodeById[i]} />
-        <Note
-          setPreviewNode={setPreviewNode}
-          justificationList={justificationList}
-          justification={justification}
-          previewNode={nodeById[i]} 
-          nodeById
-          nodeByCite={nodeByCite}
-          setSidebarHighlightedNode={setSidebarHighlightedNode}
-          linksByNodeId={linksByNodeId}
-          openContextMenu={openContextMenu}
-          outline={outline}
-          collapse={collapse}
-          macros={macros}
-          attachDir={attachDir}
-          useInheritance={useInheritance}
-        />
-        </Scrollbars>
+        </Button>
       </Box>
     );
   }
@@ -87,9 +92,9 @@ export default function TextGrid (props) {
       // Add a new item. It must have a unique key!
       (layout as Array).concat({
         i: id,
-        x: (layout.length * 2) % (props.cols || 12),
+        x: (layout.length * 5) % (props.cols || 12),
         y: Infinity, // puts it at the bottom
-        w: 4,
+        w: 5,
         h: 2
       }),
     );
@@ -146,11 +151,12 @@ export default function TextGrid (props) {
         layout={layout}
         cols={12}
         rowHeight={300}
-        width={1000}
+        width={1200}
         containerPadding={[20,20]}
         //compactType={null}
         isDroppable={true}
         onLayoutChange={onLayoutChange}
+        resizeHandles={['sw','nw','se','ne']}
         {...props}
       >
         {layout.map(el => createElement(el))}

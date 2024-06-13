@@ -57,7 +57,7 @@ function TModal(props) {
         </Scrollbars>
         
         <ModalFooter>
-          <Button onClick={onClose} variant="outline">Закрыть</Button>
+          <Button onClick={onClose} size="xs" variant="outline">Закрыть</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
