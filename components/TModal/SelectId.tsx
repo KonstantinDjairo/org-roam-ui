@@ -14,7 +14,7 @@ export interface SelectIdProps {
 
 export const SelectId = (props: SelectIdProps) => {
   //const { filter, labelFilter, setFilter, options = [] } = props
-  const { options = [] } = props
+  const { options = [], selectedItems, onSelectedItemsChange } = props
   const { highlightColor } = useContext(ThemeContext)
   const optionArray =
     options?.map((option) => {
@@ -22,7 +22,7 @@ export const SelectId = (props: SelectIdProps) => {
       return { value: option.id, label: option.title }
     }) || []
 
-  const [selectedItems, setSelectedItems] = useState<typeof optionArray>([]
+//  const [selectedItems, setSelectedItems] = useState<typeof optionArray>([]
 //    filter[listName]?.map((option) => {
 //      return {
 //        value: option,
@@ -30,7 +30,7 @@ export const SelectId = (props: SelectIdProps) => {
 //        label: option,
 //      }
 //    }) || [],
-  )
+//  )
 
   return (
     <CUIAutoComplete
@@ -41,13 +41,7 @@ export const SelectId = (props: SelectIdProps) => {
       onCreateItem={(item) => null}
       disableCreateItem={true}
       selectedItems={selectedItems}
-      onSelectedItemsChange={(changes) => {
-        if (changes.selectedItems) {
-          setSelectedItems(changes.selectedItems)
-          console.debug("SELECTED:", changes)
-      //          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
-        }
-      }}
+      onSelectedItemsChange={(changes) => onSelectedItemsChange(changes,selectedItems)}
       listItemStyleProps={{ overflow: 'hidden', fontSize: 12, height: 6 }}
       highlightItemBg="gray.400"
       toggleButtonStyleProps={{ variant: 'outline' }}
@@ -79,4 +73,4 @@ export const SelectId = (props: SelectIdProps) => {
       hideToggleButton="false"
     />
   )
-      }
+}

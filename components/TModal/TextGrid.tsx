@@ -4,22 +4,6 @@ import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { SelectId, SelectIdProps } from './SelectId'
 
-//import { WidthProvider, Responsive } from "react-grid-layout";
-//import _ from "lodash";
-//const ResponsiveReactGridLayout = WidthProvider(Responsive);
-
-interface gridRow {
-  i: string;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
-interface gridState {
-  items: gridRow[];
-  newCounter: number;
-}
-
 export default function TextGrid (props) {
   const options = props.options;
   const [ layout, setLayout ] = useState<Layout>([]);
@@ -79,9 +63,23 @@ export default function TextGrid (props) {
     //setLayout({ items: _.reject(layout.items, { i: i }) });
   }
 
+  const [selectedItems, setSelectedItems] = useState<typeof optionArray>([])
+  const onSelectedItemsChange = (changes,selectedItems) => {
+    console.debug("SELECTED-OLD:", selectedItems)
+    console.debug("SELECTED-NEW:", changes.selectedItems)
+    const ids = Object.values(changes)
+    
+    if (changes.selectedItems) {
+      setSelectedItems(changes.selectedItems)
+      //          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
+    }
+  }
+
   return (
     <div>
-      <SelectId options={options} />
+      <SelectId options={options}
+                selectedItems={selectedItems}
+                onSelectedItemsChange={onSelectedItemsChange} />
       <button onClick={onAddItem}>Add Item</button>
       <GridLayout
         layout={layout}
