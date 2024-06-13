@@ -13,7 +13,6 @@ export default function TextGrid (props) {
   console.log("TextGrid:PROPS",props);
   const {
     options,
-    onOpen,
     onClose,
     setPreviewNode,
     previewNode,

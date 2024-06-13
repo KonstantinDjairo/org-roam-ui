@@ -43,13 +43,9 @@ function TModal(props) {
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>
-            <TextGrid options={options} {...props} />
+            <TextGrid options={options} onClose={onCloseModal} {...props} />
           </ModalBody>
         </Scrollbars>
-        
-        <ModalFooter>
-          <Button onClick={onCloseModal} size="xs" variant="outline">Закрыть</Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
     </>
