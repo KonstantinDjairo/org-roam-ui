@@ -2,12 +2,35 @@ import React, { useState } from "react";
 import GridLayout from "react-grid-layout";
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+import { usePersistantState } from '../../util/persistant-state'
+import { Note } from '../Sidebar/Note'
+import { Title } from '../Sidebar/Title'
 import { SelectId, SelectIdProps } from './SelectId'
 
 export default function TextGrid (props) {
-  const options = props.options;
+  console.log("TextGrid:PROPS",props);
+  const {
+    options,
+    setPreviewNode,
+    previewNode,
+    nodeById,
+    nodeByCite,
+    setSidebarHighlightedNode,
+    linksByNodeId,
+    openContextMenu,
+    macros,
+    attachDir,
+    useInheritance,
+  } = props;
+  console.log("TextGrid:NodeById",nodeById);
   const [ layout, setLayout ] = useState<Layout>([]);
   const [ counter, setCounter ] = useState(0);
+  const [justification, setJustification] = usePersistantState('justification', 1)
+  const [outline, setOutline] = usePersistantState('outline', false)
+  const justificationList = ['justify', 'start', 'end', 'center']
+  //const [font, setFont] = useState('sans serif')
+  //const [indent, setIndent] = useState(0)
+  const [collapse, setCollapse] = useState(false)
 
   const createElement = (el) => {
     const removeStyle = {
@@ -19,14 +42,30 @@ export default function TextGrid (props) {
     const i = el.i;
     return (
       <div key={i} data-grid={el} className="card">
-        <span className="text">{i}</span>
-        <span
+        <div
           className="remove"
           style={removeStyle}
           onClick={() => onRemoveItem(i)}
         >
           x
-        </span>
+        </div>
+        <Title previewNode={nodeById[i]} />
+        <Note
+          setPreviewNode={setPreviewNode}
+          justificationList={justificationList}
+          justification={justification}
+          previewNode={nodeById[i]} 
+          nodeById
+          nodeByCite={nodeByCite}
+          setSidebarHighlightedNode={setSidebarHighlightedNode}
+          linksByNodeId={linksByNodeId}
+          openContextMenu={openContextMenu}
+          outline={outline}
+          collapse={collapse}
+          macros={macros}
+          attachDir={attachDir}
+          useInheritance={useInheritance}
+        />
       </div>
     );
   }

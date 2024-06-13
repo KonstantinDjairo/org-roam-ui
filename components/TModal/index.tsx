@@ -52,10 +52,10 @@ function TModal(props) {
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>
-            <TextGrid options={options} />
+            <TextGrid options={options} {...props} />
           </ModalBody>
         </Scrollbars>
-
+        
         <ModalFooter>
         </ModalFooter>
       </ModalContent>
