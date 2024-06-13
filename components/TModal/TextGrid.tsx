@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import GridLayout from "react-grid-layout";
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+import { SelectId, SelectIdProps } from './SelectId'
 
 //import { WidthProvider, Responsive } from "react-grid-layout";
 //import _ from "lodash";
@@ -20,6 +21,7 @@ interface gridState {
 }
 
 export default function TextGrid (props) {
+  const options = props.options;
   const [ layout, setLayout ] = useState<Layout>([]);
   const [ counter, setCounter ] = useState(0);
 
@@ -79,6 +81,7 @@ export default function TextGrid (props) {
 
   return (
     <div>
+      <SelectId options={options} />
       <button onClick={onAddItem}>Add Item</button>
       <GridLayout
         layout={layout}

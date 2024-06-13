@@ -30,7 +30,6 @@ import {
 //import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 //import 'react-tabs/style/react-tabs.css';
 import TextGrid from './TextGrid'
-import { SelectId, SelectIdProps } from './SelectId'
 
 function TModal(props) {
   const options = Object.values(props.nodeById)
@@ -50,11 +49,10 @@ function TModal(props) {
     <Modal isOpen={isOpen} onClose={onClose} size="full" >
       <ModalOverlay  />
       <ModalContent height="70%">
-        <SelectId options={options} />
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>
-            <TextGrid />
+            <TextGrid options={options} />
           </ModalBody>
         </Scrollbars>
 

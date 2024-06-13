@@ -22,7 +22,7 @@ export const SelectId = (props: SelectIdProps) => {
       return { value: option.id, label: option.title }
     }) || []
 
-//  const [selectedItems, setSelectedItems] = useState<typeof optionArray>(
+  const [selectedItems, setSelectedItems] = useState<typeof optionArray>([]
 //    filter[listName]?.map((option) => {
 //      return {
 //        value: option,
@@ -30,7 +30,7 @@ export const SelectId = (props: SelectIdProps) => {
 //        label: option,
 //      }
 //    }) || [],
-//  )
+  )
 
   return (
     <CUIAutoComplete
@@ -40,13 +40,14 @@ export const SelectId = (props: SelectIdProps) => {
       placeholder="Node... "
       onCreateItem={(item) => null}
       disableCreateItem={true}
-      //      selectedItems={selectedItems}
-      //      onSelectedItemsChange={(changes) => {
-      //        if (changes.selectedItems) {
-      //          setSelectedItems(changes.selectedItems)
+      selectedItems={selectedItems}
+      onSelectedItemsChange={(changes) => {
+        if (changes.selectedItems) {
+          setSelectedItems(changes.selectedItems)
+          console.debug("SELECTED:", changes)
       //          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
-      //        }
-      //      }}
+        }
+      }}
       listItemStyleProps={{ overflow: 'hidden', fontSize: 12, height: 6 }}
       highlightItemBg="gray.400"
       toggleButtonStyleProps={{ variant: 'outline' }}
