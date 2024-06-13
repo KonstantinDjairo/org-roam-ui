@@ -31,21 +31,19 @@ export default function TextGrid (props) {
     );
   }
 
-  const onAddItem = () => {
+  const onAddItem = (id) => {
     /*eslint no-console: 0*/
-    console.log("adding", "n" + counter);
-    console.log(counter,layout)
+    console.log("adding", id);
+    console.log(layout)
     setLayout(
       // Add a new item. It must have a unique key!
       (layout as Array).concat({
-        i: "n" + counter,
+        i: id,
         x: (layout.length * 2) % (props.cols || 12),
         y: Infinity, // puts it at the bottom
         w: 2,
         h: 2
       }),
-      // Increment the counter to ensure key is always unique.
-      setCounter(counter + 1)
     );
   }
 
@@ -75,7 +73,7 @@ export default function TextGrid (props) {
     for (id of selectedIds) {
       if (!layoutIds.includes(id))
       {console.debug("NOT-INCLUDED:",id)
-        
+        onAddItem(id)
       }
     }
     if (changes.selectedItems) {
@@ -84,19 +82,24 @@ export default function TextGrid (props) {
     }
   }
 
+  const onRestart = () => {
+    setSelectedItems([])
+    setLayout([])
+  }
+
   return (
     <div>
+      <button onClick={onRestart}>Очистить</button>
       <SelectId options={options}
                 selectedItems={selectedItems}
                 onSelectedItemsChange={onSelectedItemsChange} />
-      <button onClick={onAddItem}>Add Item</button>
       <GridLayout
         layout={layout}
         cols={12}
         rowHeight={300}
         width={1000}
         containerPadding={[20,20]}
-        compactType={null}
+        //compactType={null}
         isDroppable={true}
         onLayoutChange={onLayoutChange}
         {...props}
