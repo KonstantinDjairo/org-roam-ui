@@ -147,7 +147,9 @@ export function GraphPage() {
     future: futurePreviewNodes,
   } = previewNodeState
   const [sidebarHighlightedNode, setSidebarHighlightedNode] = useState<OrgRoamNode | null>(null)
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  //const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isOpenSidebar, onOpen: onOpenSidebar, onClose: onCloseSidebar } = useDisclosure()
+  const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: onCloseModal } = useDisclosure()
 
   const nodeByIdRef = useRef<NodeById>({})
   const linksByNodeIdRef = useRef<LinksByNodeId>({})
@@ -668,14 +670,24 @@ export function GraphPage() {
                   />
                 </Tooltip>
               )}
-              <Tooltip label={isOpen ? 'Close sidebar' : 'Open sidebar'}>
+              <Tooltip label={isOpenModal ? 'Close modal' : 'Open modal'}>
+                <IconButton
+                  m={1}
+                  // eslint-disable-next-line react/jsx-no-undef
+                  icon={<BsBack />}
+                  aria-label="Close modal view"
+                  variant="subtle"
+                  onClick={isOpenModal ? onCloseModal : onOpenModal}
+                />
+              </Tooltip>
+              <Tooltip label={isOpenSidebar ? 'Close sidebar' : 'Open sidebar'}>
                 <IconButton
                   m={1}
                   // eslint-disable-next-line react/jsx-no-undef
                   icon={<BsReverseLayoutSidebarInsetReverse />}
                   aria-label="Close file-viewer"
                   variant="subtle"
-                  onClick={isOpen ? onClose : onOpen}
+                  onClick={isOpenSidebar ? onCloseSidebar : onOpenSidebar}
                 />
               </Tooltip>
             </Flex>
@@ -686,9 +698,9 @@ export function GraphPage() {
       <Box position="relative" zIndex={4}>
         <Sidebar
           {...{
-            isOpen,
-            onOpen,
-            onClose,
+            isOpenSidebar,
+            onOpenSidebar,
+            onCloseSidebar,
             previewNode,
             setPreviewNode,
             canUndo,
@@ -717,9 +729,9 @@ export function GraphPage() {
       <Box position="relative" zIndex={4}>
         <TModal
           {...{
-            isOpen,
-            onOpen,
-            onClose,
+            isOpenModal,
+            onOpenModal,
+            onCloseModal,
             //previewNode,
             //setPreviewNode,
             //canUndo,

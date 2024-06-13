@@ -27,9 +27,9 @@ import { usePersistantState } from '../../util/persistant-state'
 import { initialFilter, TagColors } from '../config'
 
 export interface SidebarProps {
-  isOpen: boolean
-  onClose: any
-  onOpen: any
+  isOpenSidebar: boolean
+  onCloseSidebar: any
+  onOpenSidebar: any
   nodeById: NodeById
   previewNode: NodeObject
   setPreviewNode: any
@@ -56,9 +56,9 @@ export interface SidebarProps {
 
 const Sidebar = (props: SidebarProps) => {
   const {
-    isOpen,
-    onOpen,
-    onClose,
+    isOpenSidebar,
+    onOpenSidebar,
+    onCloseSidebar,
     previewNode,
     setPreviewNode,
     nodeById,
@@ -89,10 +89,10 @@ const Sidebar = (props: SidebarProps) => {
 
   useEffect(() => {
     if (!previewNode?.id) {
-      onClose()
+      onCloseSidebar()
       return
     }
-    onOpen()
+    onOpenSidebar()
     setPreviewRoamNode(previewNode as OrgRoamNode)
   }, [previewNode?.id])
 
@@ -108,7 +108,7 @@ const Sidebar = (props: SidebarProps) => {
     <Collapse
       animateOpacity={false}
       dimension="width"
-      in={isOpen}
+      in={isOpenSidebar}
       //style={{ position: 'relative' }}
       unmountOnExit
       startingSize={0}

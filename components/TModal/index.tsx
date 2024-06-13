@@ -33,21 +33,11 @@ import TextGrid from './TextGrid'
 
 function TModal(props) {
   const options = Object.values(props.nodeById)
-  //const { isOpen, onOpen, onClose } = props
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpenModal, onOpenModal, onCloseModal } = props
+  //const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
-      <Tooltip label={isOpen ? 'Close modal' : 'Open modal'}>
-        <IconButton
-          m={1}
-          // eslint-disable-next-line react/jsx-no-undef
-          icon={<BsBack />}
-          aria-label="Close modal view"
-          variant="subtle"
-          onClick={isOpen ? onClose : onOpen}
-        />
-      </Tooltip>
-    <Modal isOpen={isOpen} onClose={onClose} size="full" >
+    <Modal isOpen={isOpenModal} onClose={onCloseModal} size="full" >
       <ModalOverlay  />
       <ModalContent height="70%">
         <ModalCloseButton />
@@ -58,7 +48,7 @@ function TModal(props) {
         </Scrollbars>
         
         <ModalFooter>
-          <Button onClick={onClose} size="xs" variant="outline">Закрыть</Button>
+          <Button onClick={onCloseModal} size="xs" variant="outline">Закрыть</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
