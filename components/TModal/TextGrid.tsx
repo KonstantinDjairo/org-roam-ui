@@ -20,10 +20,9 @@ export const TextGrid = (props) => {
       containerPadding={[20,20]}
       //allowOverlap={true}
       //preventCollision={true}
-      compactType={null}
+      //compactType={null}
       isDroppable={true}
-    onLayoutChange={function() {}}
-    //props={null}
+      onLayoutChange={function() {}}
       //for Firefox
       //onDragStart={e => e.dataTransfer.setData('text/plain', '')}
     >
