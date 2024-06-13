@@ -568,15 +568,6 @@ export function GraphPage() {
     windowWidth,
   )
 
-  const layout = [
-    { i: "a", x: 0, y: 0, w: 5, h: 1, static: true },
-    { i: "b", x: 5, y: 0, w: 3, h: 1 },
-    { i: "c", x: 8, y: 0, w: 3, h: 1 },
-    { i: "d", x: 11, y: 0, w: 3, h: 1 },
-    { i: "e", x: 14, y: 0, w: 3, h: 1 }
-  ]
-  console.log(layout)
-
   return (
     <VariablesContext.Provider value={{ ...emacsVariables }}>
     <Box
@@ -745,7 +736,6 @@ export function GraphPage() {
             setTagColors,
             filter,
             setFilter,
-            layout,
           }}
           macros={emacsVariables.katexMacros}
           attachDir={emacsVariables.attachDir || ''}
