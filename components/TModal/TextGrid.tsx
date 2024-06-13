@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { Box, Button } from '@chakra-ui/react';
 import GridLayout from "react-grid-layout";
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import { usePersistantState } from '../../util/persistant-state'
 import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
@@ -11,6 +13,7 @@ export default function TextGrid (props) {
   console.log("TextGrid:PROPS",props);
   const {
     options,
+    onClose,
     setPreviewNode,
     previewNode,
     nodeById,
@@ -41,14 +44,19 @@ export default function TextGrid (props) {
     };
     const i = el.i;
     return (
-      <div key={i} data-grid={el} className="card">
-        <div
+      <Box key={i} data-grid={el}
+           className="card"
+           p={3}
+           bg="white"
+           borderWidth='2px'>
+        <Box
           className="remove"
           style={removeStyle}
           onClick={() => onRemoveItem(i)}
         >
           x
-        </div>
+        </Box>
+        <Scrollbars>
         <Title previewNode={nodeById[i]} />
         <Note
           setPreviewNode={setPreviewNode}
@@ -66,7 +74,8 @@ export default function TextGrid (props) {
           attachDir={attachDir}
           useInheritance={useInheritance}
         />
-      </div>
+        </Scrollbars>
+      </Box>
     );
   }
 
@@ -80,7 +89,7 @@ export default function TextGrid (props) {
         i: id,
         x: (layout.length * 2) % (props.cols || 12),
         y: Infinity, // puts it at the bottom
-        w: 2,
+        w: 4,
         h: 2
       }),
     );
@@ -128,7 +137,8 @@ export default function TextGrid (props) {
 
   return (
     <div>
-      <button onClick={onRestart}>Очистить</button>
+      <Button onClick={onRestart} size="xs" variant="outline">Очистить</Button>
+      <Button onClick={onClose} size="xs" variant="outline">Закрыть</Button>
       <SelectId options={options}
                 selectedItems={selectedItems}
                 onSelectedItemsChange={onSelectedItemsChange} />

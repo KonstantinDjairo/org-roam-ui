@@ -46,17 +46,18 @@ function TModal(props) {
           onClick={isOpen ? onClose : onOpen}
         />
       </Tooltip>
-    <Modal isOpen={isOpen} onClose={onClose} size="full" >
+    <Modal isOpen={isOpen} onClose={onClose} size="full" scrollBehavior="outside" >
       <ModalOverlay  />
       <ModalContent height="70%">
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>
-            <TextGrid options={options} {...props} />
+            <TextGrid options={options} onClose={onClose} {...props} />
           </ModalBody>
         </Scrollbars>
         
         <ModalFooter>
+          <Button onClick={onClose} variant="outline">Закрыть</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
