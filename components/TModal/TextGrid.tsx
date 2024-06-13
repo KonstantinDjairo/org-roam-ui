@@ -8,6 +8,7 @@ import { usePersistantState } from '../../util/persistant-state'
 import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 import { SelectId, SelectIdProps } from './SelectId'
+import { useWindowSize, useWindowWidth } from '@react-hook/window-size'
 
 export default function TextGrid (props) {
   console.log("TextGrid:PROPS",props);
@@ -34,6 +35,7 @@ export default function TextGrid (props) {
   //const [font, setFont] = useState('sans serif')
   //const [indent, setIndent] = useState(0)
   const [collapse, setCollapse] = useState(false)
+  const [windowWidth, windowHeight] = useWindowSize()
 
   const createElement = (el) => {
     const removeStyle = {
@@ -92,9 +94,9 @@ export default function TextGrid (props) {
       // Add a new item. It must have a unique key!
       (layout as Array).concat({
         i: id,
-        x: (layout.length * 5) % (props.cols || 12),
+        x: (layout.length * 3) % (props.cols || 12),
         y: Infinity, // puts it at the bottom
-        w: 5,
+        w: 3,
         h: 2
       }),
     );
@@ -151,7 +153,7 @@ export default function TextGrid (props) {
         layout={layout}
         cols={12}
         rowHeight={300}
-        width={1200}
+        width={windowWidth - 50}
         containerPadding={[20,20]}
         //compactType={null}
         isDroppable={true}
