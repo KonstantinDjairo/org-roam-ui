@@ -57,26 +57,20 @@ export default function TextGrid (props) {
   const [collapse, setCollapse] = useState(false)
 
   const createElement = (el) => {
-    const removeStyle = {
-      position: "absolute",
-      right: "2px",
-      top: 0,
-      cursor: "pointer",
-    };
     const i = el.i;
-    function onRemoveItemi() {return onRemoveItem(i)};
+    //const onRemoveItemi = () => {return onRemoveItem(i)};
     
     return (
       <Box key={i} data-grid={el}
            className="card"
            p={2}
            pr={0}
-           bg="white"
-           borderWidth='2px'
+      bg="white"
+      borderWidth='2px'
       >
-        <Scrollbars>
-          <Flex mr={3} >
-            <Spacer />
+      <Scrollbars>
+        <Flex mr={3} >
+          <Spacer />
           <IconButton
             variant="subtle"
             size="xs"
@@ -87,27 +81,27 @@ export default function TextGrid (props) {
             variant="subtle"
             size="xs"
             icon={<CloseIcon />}
-            onClick={onRemoveItemi}
+            onClick={() => {return onRemoveItem(i)}}
           />
-          </Flex>
-          <Title previewNode={nodeById[i]} />
-          <Note
-            setPreviewNode={setPreviewNode}
-            justificationList={justificationList}
-            justification={justification}
-            previewNode={nodeById[i]} 
-            nodeById={nodeById}
-            nodeByCite={nodeByCite}
-            setSidebarHighlightedNode={setSidebarHighlightedNode}
-            linksByNodeId={linksByNodeId}
-            openContextMenu={openContextMenu}
-            outline={outline}
-            collapse={collapse}
-            macros={macros}
-            attachDir={attachDir}
-            useInheritance={useInheritance}
-          />
-        </Scrollbars>
+        </Flex>
+        <Title previewNode={nodeById[i]} />
+        <Note
+          setPreviewNode={setPreviewNode}
+          justificationList={justificationList}
+          justification={justification}
+          previewNode={nodeById[i]} 
+          nodeById={nodeById}
+          nodeByCite={nodeByCite}
+          setSidebarHighlightedNode={setSidebarHighlightedNode}
+          linksByNodeId={linksByNodeId}
+          openContextMenu={openContextMenu}
+          outline={outline}
+          collapse={collapse}
+          macros={macros}
+          attachDir={attachDir}
+          useInheritance={useInheritance}
+        />
+      </Scrollbars>
       </Box>
     );
   }
