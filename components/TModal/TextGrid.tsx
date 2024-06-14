@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Box, Button, Flex, IconButton } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Spacer,
+  IconButton
+} from '@chakra-ui/react';
 import GridLayout from "react-grid-layout";
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -68,17 +74,22 @@ export default function TextGrid (props) {
            bg="white"
            borderWidth='2px'
       >
-            <IconButton
-              variant="subtle"
-              icon={<EditIcon />}
-              onClick={() => openNodeInEmacs(nodeById[i] as OrgRoamNode, webSocket)}
-            />
-            <IconButton
-              variant="subtle"
-              icon={<CloseIcon />}
-              onClick={onRemoveItemi}
-            />
         <Scrollbars>
+          <Flex mr={3} >
+            <Spacer />
+          <IconButton
+            variant="subtle"
+            size="xs"
+            icon={<EditIcon />}
+            onClick={() => openNodeInEmacs(nodeById[i] as OrgRoamNode, webSocket)}
+          />
+          <IconButton
+            variant="subtle"
+            size="xs"
+            icon={<CloseIcon />}
+            onClick={onRemoveItemi}
+          />
+          </Flex>
           <Title previewNode={nodeById[i]} />
           <Note
             setPreviewNode={setPreviewNode}

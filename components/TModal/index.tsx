@@ -55,36 +55,37 @@ function TModal(props) {
   }
 
   const onLayoutChange = (layout) => {
-    console.log("PROPS:",props)
+    //console.log("PROPS:",props)
     //this.props.onLayoutChange(layout);
     setLayout(layout);
   }
 
   const onRemoveItem = (i) => {
-    console.log("removing", i);
-    console.log(layout);
+    //console.log("removing", i);
+    //console.log(layout);
     setLayout((layout as Array).filter((item) => item.i !== i));
     //setLayout({ items: _.reject(layout.items, { i: i }) });
   }
 
   const [selectedItems, setSelectedItems] = useState<typeof optionArray>([])
   const onSelectedItemsChange = (changes,selectedItems) => {
-    console.debug("SELECTED-OLD:", selectedItems)
-    console.debug("SELECTED-NEW:", changes.selectedItems)
+    //console.debug("SELECTED-OLD:", selectedItems)
+    //console.debug("SELECTED-NEW:", changes.selectedItems)
     const selectedIds = changes.selectedItems.map((item) => item.value)
     const layoutIds = layout.map((l) => l.i)
-    console.debug("S-ids",selectedIds)
-    console.debug("L-ids",layoutIds)
+    //console.debug("S-ids",selectedIds)
+    //console.debug("L-ids",layoutIds)
     var id
     for (id of selectedIds) {
       if (!layoutIds.includes(id))
-      {console.debug("NOT-INCLUDED:",id)
+      {
+        //console.debug("NOT-INCLUDED:",id)
         onAddItem(id)
       }
     }
     if (changes.selectedItems) {
       setSelectedItems(changes.selectedItems)
-      //          setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
+      // setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
     }
   }
 
