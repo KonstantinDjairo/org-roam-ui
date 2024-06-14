@@ -6,6 +6,7 @@ import 'react-resizable/css/styles.css'
 import { Scrollbars } from 'react-custom-scrollbars-2'
 import {
   EditIcon,
+  CloseIcon,
   ViewIcon,
   ExternalLinkIcon,
   ChevronRightIcon,
@@ -80,6 +81,11 @@ export default function TextGrid (props) {
               icon={<EditIcon />}
               onClick={() => openNodeInEmacs(nodeById[i] as OrgRoamNode, webSocket)}
             />
+            <IconButton
+              variant="subtle"
+              icon={<CloseIcon />}
+              onClick={onRemoveItemi}
+            />
           </Flex>
         </Flex>
         <Scrollbars>
@@ -101,14 +107,6 @@ export default function TextGrid (props) {
             useInheritance={useInheritance}
           />
         </Scrollbars>
-        <Button
-          className="remove"
-          style={removeStyle}
-          size="xs"
-          onClick={onRemoveItemi}
-        >
-          x
-        </Button>
       </Box>
     );
   }
@@ -170,9 +168,8 @@ export default function TextGrid (props) {
   }
 
   return (
-    <div>
+    <>
       <Button onClick={onRestart} size="xs" variant="outline">Очистить</Button>
-      <Button onClick={onClose} size="xs" variant="outline">Закрыть</Button>
       <SelectId options={options}
                 selectedItems={selectedItems}
                 onSelectedItemsChange={onSelectedItemsChange} />
@@ -190,6 +187,6 @@ export default function TextGrid (props) {
       >
         {layout.map(el => createElement(el))}
       </GridLayout>
-    </div>
+    </>
   );
 };

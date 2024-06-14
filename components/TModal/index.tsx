@@ -37,16 +37,19 @@ function TModal(props) {
   //const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
-    <Modal isOpen={isOpenModal} onClose={onCloseModal} size="full" >
-      <ModalOverlay  />
-      <ModalContent height="70%">
-        <ModalCloseButton />
-        <Scrollbars>
-          <ModalBody>
-            <TextGrid options={options} onClose={onCloseModal} {...props} />
-          </ModalBody>
-        </Scrollbars>
-      </ModalContent>
+      <Modal isOpen={isOpenModal} onClose={onCloseModal} size="full" >
+        <ModalOverlay  />
+        <ModalContent height="70%">
+          <ModalHeader>
+            <Button onClick={onCloseModal} size="xs" variant="outline">Закрыть</Button>
+    </ModalHeader>
+    <ModalCloseButton />
+    <Scrollbars>
+      <ModalBody>
+        <TextGrid options={options} onClose={onCloseModal} {...props} />
+      </ModalBody>
+    </Scrollbars>
+    </ModalContent>
     </Modal>
     </>
   )
