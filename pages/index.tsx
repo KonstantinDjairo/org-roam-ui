@@ -755,6 +755,7 @@ export function GraphPage() {
           nodeById={nodeByIdRef.current!}
           linksByNodeId={linksByNodeIdRef.current!}
           nodeByCite={nodeByCiteRef.current!}
+          webSocket={WebSocketRef.current}
         />
       </Box>
       {contextMenu.isOpen && (

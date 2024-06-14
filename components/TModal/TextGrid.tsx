@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, Flex, IconButton } from '@chakra-ui/react';
 import GridLayout from "react-grid-layout";
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { Scrollbars } from 'react-custom-scrollbars-2'
+import {
+  EditIcon,
+  ViewIcon,
+  ExternalLinkIcon,
+  ChevronRightIcon,
+  PlusSquareIcon,
+  MinusIcon,
+} from '@chakra-ui/icons'
+import { BiDotsVerticalRounded } from 'react-icons/bi'
+import { openNodeInEmacs } from '../../util/webSocketFunctions'
 import { usePersistantState } from '../../util/persistant-state'
 import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
@@ -24,7 +34,8 @@ export default function TextGrid (props) {
     macros,
     attachDir,
     useInheritance,
-    windowWidth
+    windowWidth,
+    webSocket
   } = props;
   console.log("TextGrid:NodeById",nodeById);
   const [ layout, setLayout ] = useState<Layout>([]);
@@ -54,6 +65,23 @@ export default function TextGrid (props) {
            bg="white"
            borderWidth='2px'
       >
+        <Flex
+          //whiteSpace="nowrap"
+          // overflow="hidden"
+          // textOverflow="ellipsis"
+          pl={2}
+          alignItems="center"
+          color="black"
+          width="100%"
+        >
+          <Flex flexDir="row" ml="auto">
+            <IconButton
+              variant="subtle"
+              icon={<EditIcon />}
+              onClick={() => openNodeInEmacs(nodeById[i] as OrgRoamNode, webSocket)}
+            />
+          </Flex>
+        </Flex>
         <Scrollbars>
           <Title previewNode={nodeById[i]} />
           <Note
@@ -157,7 +185,7 @@ export default function TextGrid (props) {
         //compactType={null}
         isDroppable={true}
         onLayoutChange={onLayoutChange}
-        resizeHandles={['sw','nw','se','ne']}
+        resizeHandles={['s','n','e','w','sw','nw','se','ne']}
         {...props}
       >
         {layout.map(el => createElement(el))}
