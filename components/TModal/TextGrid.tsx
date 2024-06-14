@@ -22,9 +22,10 @@ import { Title } from '../Sidebar/Title'
 export default function TextGrid (props) {
   console.log("TextGrid:PROPS",props);
   const {
-    options,
+    //options,
     layout,
     onLayoutChange,
+    onRemoveItem,
     onClose,
     setPreviewNode,
     previewNode,
@@ -41,7 +42,7 @@ export default function TextGrid (props) {
   } = props;
   console.log("TextGrid:NodeById",nodeById);
   //const [ layout, setLayout ] = useState<Layout>([]);
-  const [ counter, setCounter ] = useState(0);
+  //const [ counter, setCounter ] = useState(0);
   const [justification, setJustification] = usePersistantState('justification', 1)
   const [outline, setOutline] = usePersistantState('outline', false)
   const justificationList = ['justify', 'start', 'end', 'center']
@@ -67,16 +68,6 @@ export default function TextGrid (props) {
            bg="white"
            borderWidth='2px'
       >
-        <Flex
-          //whiteSpace="nowrap"
-          // overflow="hidden"
-          // textOverflow="ellipsis"
-          pl={2}
-          alignItems="center"
-          color="black"
-          width="100%"
-        >
-          <Flex flexDir="row" ml="auto">
             <IconButton
               variant="subtle"
               icon={<EditIcon />}
@@ -87,8 +78,6 @@ export default function TextGrid (props) {
               icon={<CloseIcon />}
               onClick={onRemoveItemi}
             />
-          </Flex>
-        </Flex>
         <Scrollbars>
           <Title previewNode={nodeById[i]} />
           <Note

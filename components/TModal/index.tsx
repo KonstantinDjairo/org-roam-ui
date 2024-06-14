@@ -62,9 +62,8 @@ function TModal(props) {
 
   const onRemoveItem = (i) => {
     console.log("removing", i);
-    console.log(counter,layout);
+    console.log(layout);
     setLayout((layout as Array).filter((item) => item.i !== i));
-    setCounter(counter - 1);
     //setLayout({ items: _.reject(layout.items, { i: i }) });
   }
 
@@ -105,8 +104,7 @@ function TModal(props) {
             </Button>
     <SelectId options={options}
               selectedItems={selectedItems}
-              onSelectedItemsChange={onSelectedItemsChange}
-    />
+              onSelectedItemsChange={onSelectedItemsChange} />
     </ModalHeader>
     <ModalCloseButton />
     <Scrollbars>
@@ -116,6 +114,7 @@ function TModal(props) {
           layout={layout}
           onClose={onCloseModal}
           onLayoutChange={onLayoutChange}
+          onRemoveItem={onRemoveItem}
           {...props}
         />
       </ModalBody>
