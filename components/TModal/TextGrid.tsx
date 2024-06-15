@@ -65,43 +65,45 @@ export default function TextGrid (props) {
            className="card"
            p={2}
            pr={0}
-      bg="white"
-      borderWidth='2px'
+           bg="white"
+           borderWidth='2px'
       >
-      <Scrollbars>
-        <Flex mr={3} >
-          <Spacer />
-          <IconButton
-            variant="subtle"
-            size="xs"
-            icon={<EditIcon />}
-            onClick={() => openNodeInEmacs(nodeById[i] as OrgRoamNode, webSocket)}
+        <Scrollbars>
+          <Flex mr={3} >
+            <Spacer />
+            <IconButton
+              variant="subtle"
+              size="xs"
+              icon={<EditIcon />}
+              onClick={() => openNodeInEmacs(nodeById[i] as OrgRoamNode, webSocket)}
+              className="nodrag"
+            />
+            <IconButton
+              variant="subtle"
+              size="xs"
+              icon={<CloseIcon />}
+              onClick={() => onRemoveItem(i)}
+              className="nodrag"
+            />
+          </Flex>
+          <Title previewNode={nodeById[i]} />
+          <Note
+            setPreviewNode={setPreviewNode}
+            justificationList={justificationList}
+            justification={justification}
+            previewNode={nodeById[i]} 
+            nodeById={nodeById}
+            nodeByCite={nodeByCite}
+            setSidebarHighlightedNode={setSidebarHighlightedNode}
+            linksByNodeId={linksByNodeId}
+            openContextMenu={openContextMenu}
+            outline={outline}
+            collapse={collapse}
+            macros={macros}
+            attachDir={attachDir}
+            useInheritance={useInheritance}
           />
-          <IconButton
-            variant="subtle"
-            size="xs"
-            icon={<CloseIcon />}
-            onClick={() => onRemoveItem(i)}
-          />
-        </Flex>
-        <Title previewNode={nodeById[i]} />
-        <Note
-          setPreviewNode={setPreviewNode}
-          justificationList={justificationList}
-          justification={justification}
-          previewNode={nodeById[i]} 
-          nodeById={nodeById}
-          nodeByCite={nodeByCite}
-          setSidebarHighlightedNode={setSidebarHighlightedNode}
-          linksByNodeId={linksByNodeId}
-          openContextMenu={openContextMenu}
-          outline={outline}
-          collapse={collapse}
-          macros={macros}
-          attachDir={attachDir}
-          useInheritance={useInheritance}
-        />
-      </Scrollbars>
+        </Scrollbars>
       </Box>
     );
   }
@@ -118,6 +120,7 @@ export default function TextGrid (props) {
         isDroppable={true}
         onLayoutChange={onLayoutChange}
         resizeHandles={['s','n','e','w','sw','nw','se','ne']}
+        draggableCancel=".nodrag"
         {...props}
       >
         {layout.map(el => createElement(el))}
