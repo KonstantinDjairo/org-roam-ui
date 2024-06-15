@@ -88,7 +88,6 @@ export const NodeLink = (props: NodeLinkProps) => {
   const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
   const ID = id ?? uri
   const linkText = isWiki ? `[[${children}]]` : children
-  console.log("URI=",uri)
   return (
     <Text
       as="a"

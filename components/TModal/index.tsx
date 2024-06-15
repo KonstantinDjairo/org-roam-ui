@@ -45,8 +45,6 @@ function TModal(props) {
 
   const onAddItem = (id) => {
     /*eslint no-console: 0*/
-    console.log("adding", id);
-    console.log(layout)
     setLayout(
       // Add a new item. It must have a unique key!
       (layout as Array).concat({
@@ -60,31 +58,23 @@ function TModal(props) {
   }
 
   const onLayoutChange = (layout) => {
-    //console.log("PROPS:",props)
     //this.props.onLayoutChange(layout);
     setLayout(layout);
   }
 
   const onRemoveItem = (i) => {
-    //console.log("removing", i);
-    //console.log(layout);
     setLayout((layout as Array).filter((item) => item.i !== i));
     //setLayout({ items: _.reject(layout.items, { i: i }) });
   }
 
   const [selectedItems, setSelectedItems] = useState<typeof optionArray>([])
   const onSelectedItemsChange = (changes,selectedItems) => {
-    //console.debug("SELECTED-OLD:", selectedItems)
-    //console.debug("SELECTED-NEW:", changes.selectedItems)
     const selectedIds = changes.selectedItems.map((item) => item.value)
     const layoutIds = layout.map((l) => l.i)
-    //console.debug("S-ids",selectedIds)
-    //console.debug("L-ids",layoutIds)
     var id
     for (id of selectedIds) {
       if (!layoutIds.includes(id))
       {
-        //console.debug("NOT-INCLUDED:",id)
         onAddItem(id)
       }
     }
@@ -100,7 +90,6 @@ function TModal(props) {
   }
 
   const setAddPreviewNode = (node) => {
-    console.log("AddPreview:",node,node.id)
     onAddItem(node.id);
     setPreviewNode(node);
   }
