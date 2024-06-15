@@ -88,6 +88,7 @@ export const NodeLink = (props: NodeLinkProps) => {
   const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
   const ID = id ?? uri
   const linkText = isWiki ? `[[${children}]]` : children
+  console.log("URI=",uri)
   return (
     <Text
       as="a"
@@ -149,7 +150,7 @@ export const PreviewLink = (props: LinkProps) => {
   const type = href.replaceAll(/(.*?)\:.*/g, '$1')
 
   const extraNoteStyle = outline ? outlineNoteStyle : viewerNoteStyle
-  console.log(previewNode)
+  //console.log(previewNode)
   const getText = () => {
     fetch(`http://localhost:35901/node/${id}`)
       .then((res) => {

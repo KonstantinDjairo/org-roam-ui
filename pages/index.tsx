@@ -733,7 +733,7 @@ export function GraphPage() {
             onOpenModal,
             onCloseModal,
             //previewNode,
-            //setPreviewNode,
+            setPreviewNode,
             //canUndo,
             //canRedo,
             //previousPreviewNode,

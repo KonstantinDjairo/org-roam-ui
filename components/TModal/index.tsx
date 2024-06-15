@@ -34,7 +34,12 @@ import { SelectId, SelectIdProps } from './SelectId'
 
 function TModal(props) {
   const options = Object.values(props.nodeById)
-  const { isOpenModal, onOpenModal, onCloseModal } = props
+  const {
+    isOpenModal,
+    onOpenModal,
+    onCloseModal,
+    setPreviewNode,
+  } = props
   //const { isOpen, onOpen, onClose } = useDisclosure()
   const [ layout, setLayout ] = useState<Layout>([]);
 
@@ -94,6 +99,12 @@ function TModal(props) {
     setLayout([])
   }
 
+  const setAddPreviewNode = (node) => {
+    console.log("AddPreview:",node,node.id)
+    onAddItem(node.id);
+    setPreviewNode(node);
+  }
+      
   return (
     <>
       <Modal isOpen={isOpenModal} onClose={onCloseModal} size="full" >
@@ -111,12 +122,13 @@ function TModal(props) {
     <Scrollbars>
       <ModalBody>
         <TextGrid
+          {...props}
           options={options}
           layout={layout}
           onClose={onCloseModal}
           onLayoutChange={onLayoutChange}
           onRemoveItem={onRemoveItem}
-          {...props}
+          setPreviewNode={setAddPreviewNode}
         />
       </ModalBody>
     </Scrollbars>
