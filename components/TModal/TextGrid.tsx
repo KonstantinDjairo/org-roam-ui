@@ -26,7 +26,7 @@ import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 
 export default function TextGrid (props) {
-  console.log("TextGrid:PROPS",props);
+  //console.log("TextGrid:PROPS",props);
   const {
     //options,
     layout,
@@ -46,7 +46,7 @@ export default function TextGrid (props) {
     windowWidth,
     webSocket
   } = props;
-  console.log("TextGrid:NodeById",nodeById);
+  //console.log("TextGrid:NodeById",nodeById);
   //const [ layout, setLayout ] = useState<Layout>([]);
   //const [ counter, setCounter ] = useState(0);
   const [justification, setJustification] = usePersistantState('justification', 1)
@@ -58,7 +58,7 @@ export default function TextGrid (props) {
 
   const createElement = (el) => {
     const i = el.i;
-    //const onRemoveItemi = () => {return onRemoveItem(i)};
+    //function onRemoveItemi() {console.log("REMOVEi-",i); onRemoveItem(i)};
     
     return (
       <Box key={i} data-grid={el}
@@ -81,7 +81,7 @@ export default function TextGrid (props) {
             variant="subtle"
             size="xs"
             icon={<CloseIcon />}
-            onClick={() => {return onRemoveItem(i)}}
+            onClick={() => onRemoveItem(i)}
           />
         </Flex>
         <Title previewNode={nodeById[i]} />
