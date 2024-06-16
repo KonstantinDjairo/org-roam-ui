@@ -130,6 +130,7 @@ export function GraphPage() {
   const [coloring, setColoring] = usePersistantState('coloring', initialColoring)
   const [local, setLocal] = usePersistantState('local', initialLocal)
   const [layout, setLayout] = useState<Layout>([]);
+  const [selectedItems, setSelectedItems] = useState([])
 
   const [
     previewNodeState,
@@ -735,6 +736,8 @@ export function GraphPage() {
             onCloseModal,
             layout,
             setLayout,
+            selectedItems,
+            setSelectedItems,
             //previewNode,
             setPreviewNode,
             //canUndo,

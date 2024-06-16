@@ -35,16 +35,18 @@ import {
 //import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 //import 'react-tabs/style/react-tabs.css';
 import TextGrid from './TextGrid'
-import { SelectId, SelectIdProps } from './SelectId'
+import { SelectNodes, SelectNodesProps } from './SelectNodes'
 
 function Desk(props) {
-  const nodeNames = Object.values(props.nodeById)
+  const nodes = Object.values(props.nodeById)
   const {
     isOpenModal,
     onOpenModal,
     onCloseModal,
     layout,
     setLayout,
+    selectedItems,
+    setSelectedItems,
     setPreviewNode,
   } = props
   //const { isOpen, onOpen, onClose } = useDisclosure()
@@ -73,7 +75,6 @@ function Desk(props) {
     //setLayout({ items: _.reject(layout.items, { i: i }) });
   }
 
-  const [selectedItems, setSelectedItems] = useState<typeof optionArray>([])
   const onSelectedItemsChange = (changes,selectedItems) => {
     const selectedIds = changes.selectedItems.map((item) => item.value)
     const layoutIds = layout.map((l) => l.i)
@@ -115,9 +116,9 @@ function Desk(props) {
       <Button onClick={onRestart} size="xs" variant="outline">
         Очистить
       </Button>
-      <SelectId nodeNames={nodeNames}
-                selectedItems={selectedItems}
-                onSelectedItemsChange={onSelectedItemsChange} />
+      <SelectNodes nodes={nodes}
+                   selectedItems={selectedItems}
+                   onSelectedItemsChange={onSelectedItemsChange} />
     </AccordionPanel>
     </AccordionItem>
     </Accordion>
@@ -126,7 +127,7 @@ function Desk(props) {
       <ModalBody>
         <TextGrid
           {...props}
-          //nodeNames={nodeNames}
+          //nodes={nodes}
           layout={layout}
           onClose={onCloseModal}
           onLayoutChange={onLayoutChange}

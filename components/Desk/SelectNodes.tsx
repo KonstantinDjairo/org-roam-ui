@@ -3,8 +3,8 @@ import React, { useContext, useState } from 'react'
 import { ThemeContext } from '../../util/themecontext'
 //import { initialFilter } from '../config'
 
-export interface SelectIdProps {
-  nodeNames: NodeById
+export interface SelectNodesProps {
+  nodes: NodeById
   //filter: typeof initialFilter
   //setFilter: any
   //listName: 'tagsBlacklist' | 'tagsWhitelist' | 'linktagsBlacklist' | 'linktagsWhitelist' | 'dirsAllowlist' | 'dirsBlocklist'
@@ -12,14 +12,14 @@ export interface SelectIdProps {
   //labelFilter?: string
 }
 
-export const SelectId = (props: SelectIdProps) => {
-  //const { filter, labelFilter, setFilter, nodeNames = [] } = props
-  const { nodeNames = [], selectedItems, onSelectedItemsChange } = props
+export const SelectNodes = (props: SelectNodesProps) => {
+  //const { filter, labelFilter, setFilter, nodes = [] } = props
+  const { nodes = [], selectedItems, onSelectedItemsChange } = props
   const { highlightColor } = useContext(ThemeContext)
   const optionArray =
-    nodeNames?.map((option) => {
+    nodes?.map((node) => {
       //return { value: option, label: labelFilter ? option.replace(labelFilter, '') : option }
-      return { value: option.id, label: option.title }
+      return { value: node.id, label: node.title }
     }) || []
 
 //  const [selectedItems, setSelectedItems] = useState<typeof optionArray>([]
