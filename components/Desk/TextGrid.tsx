@@ -31,7 +31,7 @@ export default function TextGrid (props) {
     //nodeNames,
     layout,
     onLayoutChange,
-    onRemoveItem,
+    onCloseNode,
     onClose,
     setPreviewNode,
     previewNode,
@@ -58,7 +58,7 @@ export default function TextGrid (props) {
 
   const createElement = (el) => {
     const i = el.i;
-    //function onRemoveItemi() {console.log("REMOVEi-",i); onRemoveItem(i)};
+    //function onCloseNodei() {console.log("REMOVEi-",i); onCloseNode(i)};
     
     return (
       <Box key={i} data-grid={el}
@@ -85,7 +85,7 @@ export default function TextGrid (props) {
               variant="subtle"
               size="xs"
               icon={<CloseIcon />}
-              onClick={() => onRemoveItem(i)}
+              onClick={() => onCloseNode(i)}
             />
           </Flex>
           <Note

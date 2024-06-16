@@ -70,20 +70,36 @@ function Desk(props) {
     setLayout(layout);
   }
 
-  const onRemoveItem = (i) => {
+  const onCloseNode = (i) => {
     setLayout((layout as Array).filter((item) => item.i !== i));
     //setLayout({ items: _.reject(layout.items, { i: i }) });
   }
 
   const onSelectedItemsChange = (changes,selectedItems) => {
-    const selectedIds = changes.selectedItems.map((item) => item.value)
-    const layoutIds = layout.map((l) => l.i)
-    var id
-    for (id of selectedIds) {
-      if (!layoutIds.includes(id))
-      {
-        onAddItem(id)
-      }
+    //console.log("OLD-SEL-ITEMS:",selectedItems)
+    //console.log("NEW-SEL-ITEMS:",changes,changes.selectedItems)
+    const oldIds = selectedItems.map((item) => item.value)
+    const newIds = changes.selectedItems.map((item) => item.value)
+    //const layoutIds = layout.map((l) => l.i)
+    switch(changes.type) {
+      case "__function_remove_selected_item__":
+        console.log("remove item");
+        for (let id of oldIds) {
+          if (!newIds.includes(id))
+          {
+            onCloseNode(id)
+          }
+        }
+        break;
+      case "__function_add_selected_item__":
+        console.log("add item");
+        for (let id of newIds) {
+          if (!oldIds.includes(id))
+          {
+            onAddItem(id)
+          }
+        }
+        break;
     }
     if (changes.selectedItems) {
       setSelectedItems(changes.selectedItems)
@@ -131,7 +147,7 @@ function Desk(props) {
           layout={layout}
           onClose={onCloseModal}
           onLayoutChange={onLayoutChange}
-          onRemoveItem={onRemoveItem}
+          onCloseNode={onCloseNode}
           setPreviewNode={setAddPreviewNode}
         />
       </ModalBody>
