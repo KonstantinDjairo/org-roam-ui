@@ -28,7 +28,7 @@ import { Title } from '../Sidebar/Title'
 export default function TextGrid (props) {
   //console.log("TextGrid:PROPS",props);
   const {
-    //options,
+    //nodeNames,
     layout,
     onLayoutChange,
     onRemoveItem,

@@ -38,7 +38,7 @@ import TextGrid from './TextGrid'
 import { SelectId, SelectIdProps } from './SelectId'
 
 function Desk(props) {
-  const options = Object.values(props.nodeById)
+  const nodeNames = Object.values(props.nodeById)
   const {
     isOpenModal,
     onOpenModal,
@@ -114,7 +114,7 @@ function Desk(props) {
       <Button onClick={onRestart} size="xs" variant="outline">
         Очистить
       </Button>
-      <SelectId options={options}
+      <SelectId nodeNames={nodeNames}
                 selectedItems={selectedItems}
                 onSelectedItemsChange={onSelectedItemsChange} />
     </AccordionPanel>
@@ -125,7 +125,7 @@ function Desk(props) {
       <ModalBody>
         <TextGrid
           {...props}
-          options={options}
+          //nodeNames={nodeNames}
           layout={layout}
           onClose={onCloseModal}
           onLayoutChange={onLayoutChange}

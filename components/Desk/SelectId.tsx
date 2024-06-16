@@ -4,7 +4,7 @@ import { ThemeContext } from '../../util/themecontext'
 //import { initialFilter } from '../config'
 
 export interface SelectIdProps {
-  options: NodeById
+  nodeNames: NodeById
   //filter: typeof initialFilter
   //setFilter: any
   //listName: 'tagsBlacklist' | 'tagsWhitelist' | 'linktagsBlacklist' | 'linktagsWhitelist' | 'dirsAllowlist' | 'dirsBlocklist'
@@ -13,11 +13,11 @@ export interface SelectIdProps {
 }
 
 export const SelectId = (props: SelectIdProps) => {
-  //const { filter, labelFilter, setFilter, options = [] } = props
-  const { options = [], selectedItems, onSelectedItemsChange } = props
+  //const { filter, labelFilter, setFilter, nodeNames = [] } = props
+  const { nodeNames = [], selectedItems, onSelectedItemsChange } = props
   const { highlightColor } = useContext(ThemeContext)
   const optionArray =
-    options?.map((option) => {
+    nodeNames?.map((option) => {
       //return { value: option, label: labelFilter ? option.replace(labelFilter, '') : option }
       return { value: option.id, label: option.title }
     }) || []
