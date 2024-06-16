@@ -129,6 +129,7 @@ export function GraphPage() {
   const [mouse, setMouse] = usePersistantState('mouse', initialMouse)
   const [coloring, setColoring] = usePersistantState('coloring', initialColoring)
   const [local, setLocal] = usePersistantState('local', initialLocal)
+  const [layout, setLayout] = useState<Layout>([]);
 
   const [
     previewNodeState,
@@ -732,6 +733,8 @@ export function GraphPage() {
             isOpenModal,
             onOpenModal,
             onCloseModal,
+            layout,
+            setLayout,
             //previewNode,
             setPreviewNode,
             //canUndo,

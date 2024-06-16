@@ -43,10 +43,11 @@ function Desk(props) {
     isOpenModal,
     onOpenModal,
     onCloseModal,
+    layout,
+    setLayout,
     setPreviewNode,
   } = props
   //const { isOpen, onOpen, onClose } = useDisclosure()
-  const [ layout, setLayout ] = useState<Layout>([]);
 
   const onAddItem = (id) => {
     /*eslint no-console: 0*/
