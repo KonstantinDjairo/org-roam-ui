@@ -104,7 +104,7 @@ function TModal(props) {
       <Modal isOpen={isOpenModal} onClose={onCloseModal} size="full" >
         <ModalOverlay  />
         <ModalContent height="70%">
-          <Accordion allowToggle ml={2} w="95%" borderWidth={1}>
+          <Accordion allowToggle defaultIndex={[0]} ml={2} w="95%" borderWidth={1}>
             <AccordionItem mt={0}>
               <AccordionButton>
                 <Box as='span' flex='1' textAlign='left'>Tools</Box>
