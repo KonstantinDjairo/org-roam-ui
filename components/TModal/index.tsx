@@ -54,10 +54,10 @@ function TModal(props) {
       // Add a new item. It must have a unique key!
       (layout as Array).concat({
         i: id,
-        x: (layout.length * 3) % (props.cols || 12),
+        x: (layout.length * 12) % (props.cols || 48),
         y: Infinity, // puts it at the bottom
-        w: 3,
-        h: 2
+        w: 12,
+        h: 4
       }),
     );
   }

@@ -113,8 +113,8 @@ export default function TextGrid (props) {
     <>
       <GridLayout
         layout={layout}
-        cols={12}
-        rowHeight={300}
+        cols={48}
+        rowHeight={100}
         width={windowWidth - 50}
         containerPadding={[20,20]}
         //compactType={null}
@@ -122,6 +122,7 @@ export default function TextGrid (props) {
         onLayoutChange={onLayoutChange}
         resizeHandles={['s','n','e','w','sw','nw','se','ne']}
         draggableCancel=".nodrag"
+        allowOverlap={true}
         {...props}
       >
         {layout.map(el => createElement(el))}
