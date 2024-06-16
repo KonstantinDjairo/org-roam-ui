@@ -151,7 +151,7 @@ export function GraphPage() {
   const [sidebarHighlightedNode, setSidebarHighlightedNode] = useState<OrgRoamNode | null>(null)
   //const { isOpen, onOpen, onClose } = useDisclosure()
   const { isOpen: isOpenSidebar, onOpen: onOpenSidebar, onClose: onCloseSidebar } = useDisclosure()
-  const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: onCloseModal } = useDisclosure()
+  const { isOpen: isOpenDesk, onOpen: onOpenDesk, onClose: onCloseDesk } = useDisclosure()
 
   const nodeByIdRef = useRef<NodeById>({})
   const linksByNodeIdRef = useRef<LinksByNodeId>({})
@@ -672,14 +672,14 @@ export function GraphPage() {
                   />
                 </Tooltip>
               )}
-              <Tooltip label={isOpenModal ? 'Close modal' : 'Open modal'}>
+              <Tooltip label={isOpenDesk ? 'Close Desk' : 'Open Desk'}>
                 <IconButton
                   m={1}
                   // eslint-disable-next-line react/jsx-no-undef
                   icon={<BsBack />}
                   aria-label="Close modal view"
                   variant="subtle"
-                  onClick={isOpenModal ? onCloseModal : onOpenModal}
+                  onClick={isOpenDesk ? onCloseDesk : onOpenDesk}
                 />
               </Tooltip>
               <Tooltip label={isOpenSidebar ? 'Close sidebar' : 'Open sidebar'}>
@@ -731,20 +731,14 @@ export function GraphPage() {
       <Box position="relative" zIndex={4}>
         <Desk
           {...{
-            isOpenModal,
-            onOpenModal,
-            onCloseModal,
+            isOpenDesk,
+            onOpenDesk,
+            onCloseDesk,
             layout,
             setLayout,
             selectedItems,
             setSelectedItems,
-            //previewNode,
             setPreviewNode,
-            //canUndo,
-            //canRedo,
-            //previousPreviewNode,
-            //nextPreviewNode,
-            //resetPreviewNode,
             setSidebarHighlightedNode,
             openContextMenu,
             scope,

@@ -26,9 +26,7 @@ import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 
 export default function TextGrid (props) {
-  //console.log("TextGrid:PROPS",props);
   const {
-    //nodeNames,
     layout,
     onLayoutChange,
     onCloseNode,
@@ -46,9 +44,6 @@ export default function TextGrid (props) {
     windowWidth,
     webSocket
   } = props;
-  //console.log("TextGrid:NodeById",nodeById);
-  //const [ layout, setLayout ] = useState<Layout>([]);
-  //const [ counter, setCounter ] = useState(0);
   const [justification, setJustification] = usePersistantState('justification', 1)
   const [outline, setOutline] = usePersistantState('outline', false)
   const justificationList = ['justify', 'start', 'end', 'center']
@@ -58,7 +53,6 @@ export default function TextGrid (props) {
 
   const createElement = (el) => {
     const i = el.i;
-    //function onCloseNodei() {console.log("REMOVEi-",i); onCloseNode(i)};
     
     return (
       <Box key={i} data-grid={el}

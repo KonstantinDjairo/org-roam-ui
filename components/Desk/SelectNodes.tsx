@@ -7,8 +7,6 @@ export interface SelectNodesProps {
   nodes: NodeById
   //filter: typeof initialFilter
   //setFilter: any
-  //listName: 'tagsBlacklist' | 'tagsWhitelist' | 'linktagsBlacklist' | 'linktagsWhitelist' | 'dirsAllowlist' | 'dirsBlocklist'
-  //displayName: string
   //labelFilter?: string
 }
 
@@ -22,22 +20,12 @@ export const SelectNodes = (props: SelectNodesProps) => {
       return { value: node.id, label: node.title }
     }) || []
 
-//  const [selectedItems, setSelectedItems] = useState<typeof optionArray>([]
-//    filter[listName]?.map((option) => {
-//      return {
-//        value: option,
-        //label: labelFilter ? (option as string)?.replace(labelFilter, '') : option,
-//        label: option,
-//      }
-//    }) || [],
-//  )
-
   return (
     <CUIAutoComplete
       labelStyleProps={{ fontWeight: 300, fontSize: 14 }}
       items={optionArray}
       label=""
-      placeholder="Node... "
+      placeholder="Choose nodes... "
       onCreateItem={(item) => null}
       disableCreateItem={true}
       selectedItems={selectedItems}
