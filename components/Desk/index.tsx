@@ -57,7 +57,7 @@ function Desk(props) {
       // Add a new item. It must have a unique key!
       (layout as Array).concat({
         i: id,
-        x: (layout.length * 12) % (props.cols || 48),
+        x: (layout.length * 12) % 48,
         y: Infinity, // puts it at the bottom
         w: 12,
         h: 4
@@ -72,31 +72,32 @@ function Desk(props) {
 
   const onCloseNode = (i) => {
     setLayout((layout as Array).filter((item) => item.i !== i));
+    setSelectedItems(selectedItems.filter((item) => item.value !== i))
     //setLayout({ items: _.reject(layout.items, { i: i }) });
   }
 
   const onSelectedItemsChange = (changes,selectedItems) => {
     //console.log("OLD-SEL-ITEMS:",selectedItems)
     //console.log("NEW-SEL-ITEMS:",changes,changes.selectedItems)
-    const oldIds = selectedItems.map((item) => item.value)
-    const newIds = changes.selectedItems.map((item) => item.value)
+    //const oldIds = selectedItems.map((item) => item.value)
+    //const newIds = changes.selectedItems.map((item) => item.value)
     //const layoutIds = layout.map((l) => l.i)
     switch(changes.type) {
       case "__function_remove_selected_item__":
         console.log("remove item");
-        for (let id of oldIds) {
-          if (!newIds.includes(id))
+        for (let id of selectedItems) {
+          if (!changes.selectedItems.includes(id))
           {
-            onCloseNode(id)
+            onCloseNode(id.value)
           }
         }
         break;
       case "__function_add_selected_item__":
         console.log("add item");
-        for (let id of newIds) {
-          if (!oldIds.includes(id))
+        for (let id of changes.selectedItems) {
+          if (!selectedItems.includes(id))
           {
-            onAddItem(id)
+            onAddItem(id.value)
           }
         }
         break;
