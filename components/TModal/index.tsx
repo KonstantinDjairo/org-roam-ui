@@ -15,6 +15,11 @@ import {
 import { BsBack } from 'react-icons/bs'
 import { BiDotsVerticalRounded, BiFile, BiNetworkChart } from 'react-icons/bi'
 import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -99,14 +104,22 @@ function TModal(props) {
       <Modal isOpen={isOpenModal} onClose={onCloseModal} size="full" >
         <ModalOverlay  />
         <ModalContent height="70%">
-          <ModalHeader>
-            <Button onClick={onRestart} size="xs" variant="outline">
-              Очистить
-            </Button>
-    <SelectId options={options}
-              selectedItems={selectedItems}
-              onSelectedItemsChange={onSelectedItemsChange} />
-    </ModalHeader>
+            <Accordion allowToggle w="95%">
+              <AccordionItem>
+                <AccordionButton>
+                  <Box as='span' flex='1' textAlign='left'>Tools</Box>
+    <AccordionIcon />
+    </AccordionButton>
+    <AccordionPanel>
+      <Button onClick={onRestart} size="xs" variant="outline">
+        Очистить
+      </Button>
+      <SelectId options={options}
+                selectedItems={selectedItems}
+                onSelectedItemsChange={onSelectedItemsChange} />
+    </AccordionPanel>
+    </AccordionItem>
+    </Accordion>
     <ModalCloseButton />
     <Scrollbars>
       <ModalBody>

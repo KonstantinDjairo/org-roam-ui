@@ -66,27 +66,28 @@ export default function TextGrid (props) {
            p={2}
            pr={0}
            bg="white"
-           borderWidth='2px'
+           borderWidth='1px'
+           boxShadow="lg"
       >
         <Scrollbars>
           <Flex mr={3} >
+            <Title previewNode={nodeById[i]} />
             <Spacer />
             <IconButton
+              className="nodrag"
               variant="subtle"
               size="xs"
               icon={<EditIcon />}
               onClick={() => openNodeInEmacs(nodeById[i] as OrgRoamNode, webSocket)}
-              className="nodrag"
             />
             <IconButton
+              className="nodrag"
               variant="subtle"
               size="xs"
               icon={<CloseIcon />}
               onClick={() => onRemoveItem(i)}
-              className="nodrag"
             />
           </Flex>
-          <Title previewNode={nodeById[i]} />
           <Note
             setPreviewNode={setPreviewNode}
             justificationList={justificationList}
