@@ -49,7 +49,7 @@ import {
 } from '../components/config'
 import { ContextMenu } from '../components/contextmenu'
 import Sidebar from '../components/Sidebar'
-import TModal from '../components/TModal'
+import Desk from '../components/Desk'
 import { Tweaks } from '../components/Tweaks'
 import { usePersistantState } from '../util/persistant-state'
 import { ThemeContext, ThemeContextProps } from '../util/themecontext'
@@ -727,7 +727,7 @@ export function GraphPage() {
         />
       </Box>
       <Box position="relative" zIndex={4}>
-        <TModal
+        <Desk
           {...{
             isOpenModal,
             onOpenModal,

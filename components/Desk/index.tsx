@@ -37,7 +37,7 @@ import {
 import TextGrid from './TextGrid'
 import { SelectId, SelectIdProps } from './SelectId'
 
-function TModal(props) {
+function Desk(props) {
   const options = Object.values(props.nodeById)
   const {
     isOpenModal,
@@ -106,7 +106,7 @@ function TModal(props) {
         <ModalContent height="70%">
           <Accordion allowToggle defaultIndex={[0]} ml={2} w="95%" borderWidth={1}>
             <AccordionItem mt={0}>
-              <AccordionButton>
+              <AccordionButton _expanded={{ bg: 'gray.100' }}>
                 <Box as='span' flex='1' textAlign='left'>Tools</Box>
     <AccordionIcon />
     </AccordionButton>
@@ -140,4 +140,4 @@ function TModal(props) {
   )
 }
 
-export default TModal
+export default Desk
