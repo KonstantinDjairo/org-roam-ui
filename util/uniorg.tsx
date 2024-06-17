@@ -46,7 +46,7 @@ export const UniOrg = (props: UniOrgProps) => {
           return '(empty node)'
         }
         if (res !== 'error') {
-          console.log(res)
+          //console.log(res)
           setPreviewText(res)
         }
       })
