@@ -83,23 +83,31 @@ function Desk(props: DeskProps) {
     webSocket,
   } = props
 
-  const onAddItem = (id: string) => {
+  const onAddItem: boolean = (id: string) => {
     /*eslint no-console: 0*/
-    setLayout(
-      // Add a new item. It must have a unique key!
-      layout.concat({
-        i: id,
-        x: (layout.length * 12) % 48,
-        y: Infinity, // puts it at the bottom
-        w: 12,
-        h: 4
-      }),
-    );
+    // Add a new item. It must have a unique key!
+    console.log("ADD:",id,layout,layout.find((l) => l.i === id))
+    if (layout.find((l) => l.i == id) === undefined) {
+      setLayout(
+        (layout as Array).concat({
+          i: id,
+          x: 0,  //(layout.length * 12) % 48,
+          y: Infinity, // puts it at the bottom
+          w: 12,
+          h: 4
+        }));
+      console.log("TRUE",layout)
+      return true;
+    } else {
+      console.log("FALSE(FOUND)",layout)
+      return false;
+    }
   }
 
   const onLayoutChange = (layout: Layout[]) => {
+    console.log("CHANGE:",layout)
     //this.props.onLayoutChange(layout);
-    setLayout(layout);
+    //setLayout(layout);
   }
 
   const onCloseNode = (i: string) => {
