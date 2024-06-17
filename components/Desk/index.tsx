@@ -37,6 +37,7 @@ import { Item } from 'chakra-ui-autocomplete'
 import { BsBack } from 'react-icons/bs'
 import { BiDotsVerticalRounded, BiFile, BiNetworkChart } from 'react-icons/bi'
 import { Layout } from "react-grid-layout";
+import ReconnectingWebSocket from 'reconnecting-websocket'
 
 import { OrgRoamNode } from '../../api'
 import TextGrid from './TextGrid'
@@ -56,11 +57,13 @@ export interface DeskProps {
   setSelectedItems: any
   setPreviewNode: any
   setSidebarHighlightedNode: any
+  attachDir: string
+  useInheritance: boolean
+  windowWidth: number
+  webSocket: ReconnectingWebSocket
 }
 
 function Desk(props: DeskProps) {
-  //const nodes = Object.values(props.nodeById)
-  //console.log("NODES:",(typeof nodes),nodes)
   const {
     nodeById,
     nodeByCite,
@@ -74,6 +77,10 @@ function Desk(props: DeskProps) {
     setSelectedItems,
     setPreviewNode,
     setSidebarHighlightedNode,
+    attachDir,
+    useInheritance,
+    windowWidth,
+    webSocket,
   } = props
 
   const onAddItem = (id: string) => {

@@ -22,23 +22,26 @@ import {
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
+import { OrgRoamNode } from '../../api'
 import { openNodeInEmacs } from '../../util/webSocketFunctions'
 import { usePersistantState } from '../../util/persistant-state'
+import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
+import GridNote from './GridNote'
 import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 
 export interface TextGridProps {
   layout: Layout[]
   onLayoutChange: any
-  onCloseNode: anн
+  onCloseNode: any
   onClose: any
   setPreviewNode: any
-  previewNode: OrgRoamNode
+  //previewNode: OrgRoamNode
   nodeById: NodeById
   nodeByCite: NodeByCite
   setSidebarHighlightedNode: any
   linksByNodeId: LinksByNodeId
-  openContextMenu: any
+  //openContextMenu: any
   macros?: { [key: string]: string }
   attachDir: string
   useInheritance: boolean
@@ -53,12 +56,12 @@ export default function TextGrid (props: TextGridProps) {
     onCloseNode,
     onClose,
     setPreviewNode,
-    previewNode,
+    //previewNode,
     nodeById,
     nodeByCite,
     setSidebarHighlightedNode,
     linksByNodeId,
-    openContextMenu,
+    //openContextMenu,
     macros,
     attachDir,
     useInheritance,
@@ -72,7 +75,7 @@ export default function TextGrid (props: TextGridProps) {
   //const [indent, setIndent] = useState(0)
   const [collapse, setCollapse] = useState(false)
 
-  const createElement = (el) => {
+  const createElement = (el: Layout) => {
     const i = el.i;
     
     return (
@@ -84,42 +87,20 @@ export default function TextGrid (props: TextGridProps) {
            borderWidth='1px'
            boxShadow="lg"
       >
-        <Scrollbars>
-          <Flex mr={3} >
-            <Title previewNode={nodeById[i]} />
-            <Spacer />
-            <IconButton
-              className="nodrag"
-              variant="subtle"
-              size="xs"
-              icon={<EditIcon />}
-              onClick={() => openNodeInEmacs(nodeById[i] as OrgRoamNode, webSocket)}
-            />
-            <IconButton
-              className="nodrag"
-              variant="subtle"
-              size="xs"
-              icon={<CloseIcon />}
-              onClick={() => onCloseNode(i)}
-            />
-          </Flex>
-          <Note
-            setPreviewNode={setPreviewNode}
-            justificationList={justificationList}
-            justification={justification}
-            previewNode={nodeById[i]} 
-            nodeById={nodeById}
-            nodeByCite={nodeByCite}
-            setSidebarHighlightedNode={setSidebarHighlightedNode}
-            linksByNodeId={linksByNodeId}
-            openContextMenu={openContextMenu}
-            outline={outline}
-            collapse={collapse}
-            macros={macros}
-            attachDir={attachDir}
-            useInheritance={useInheritance}
-          />
-        </Scrollbars>
+        <GridNote
+          previewNodeId={i}
+          setPreviewNode={setPreviewNode}
+          nodeById={nodeById}
+          nodeByCite={nodeByCite}
+          linksByNodeId={linksByNodeId}
+          setSidebarHighlightedNode={setSidebarHighlightedNode}
+          openNodeInEmacs={openNodeInEmacs}
+          onCloseNode={onCloseNode}
+          macros={macros}
+          attachDir={attachDir}
+          useInheritance={useInheritance}
+          webSocket={webSocket}
+        />
       </Box>
     );
   }
