@@ -94,6 +94,8 @@ export type Scope = {
   excludedNodeIds: string[]
 }
 
+import { Item } from 'chakra-ui-autocomplete'
+
 export default function Home() {
   // only render on the client
   const [showPage, setShowPage] = useState(false)
@@ -130,7 +132,7 @@ export function GraphPage() {
   const [coloring, setColoring] = usePersistantState('coloring', initialColoring)
   const [local, setLocal] = usePersistantState('local', initialLocal)
   const [layout, setLayout] = useState<Layout>([]);
-  const [selectedItems, setSelectedItems] = useState([])
+  const [selectedItems, setSelectedItems] = useState<Item[]>([])
 
   const [
     previewNodeState,

@@ -6,7 +6,7 @@ import {
   Spacer,
   IconButton
 } from '@chakra-ui/react';
-import GridLayout from "react-grid-layout";
+import GridLayout, { Layout } from "react-grid-layout";
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { Scrollbars } from 'react-custom-scrollbars-2'
@@ -20,12 +20,33 @@ import {
   MinusIcon,
 } from '@chakra-ui/icons'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
+import ReconnectingWebSocket from 'reconnecting-websocket'
+
 import { openNodeInEmacs } from '../../util/webSocketFunctions'
 import { usePersistantState } from '../../util/persistant-state'
 import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 
-export default function TextGrid (props) {
+export interface TextGridProps {
+  layout: Layout[]
+  onLayoutChange: any
+  onCloseNode: anн
+  onClose: any
+  setPreviewNode: any
+  previewNode: OrgRoamNode
+  nodeById: NodeById
+  nodeByCite: NodeByCite
+  setSidebarHighlightedNode: any
+  linksByNodeId: LinksByNodeId
+  openContextMenu: any
+  macros?: { [key: string]: string }
+  attachDir: string
+  useInheritance: boolean
+  windowWidth: number
+  webSocket: ReconnectingWebSocket
+}
+
+export default function TextGrid (props: TextGridProps) {
   const {
     layout,
     onLayoutChange,

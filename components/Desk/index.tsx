@@ -2,19 +2,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 //import Image from "next/image";
-import { VStack, Flex, Box, IconButton } from '@chakra-ui/react'
-import { Scrollbars } from 'react-custom-scrollbars-2'
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CloseIcon,
-  HamburgerIcon,
-  ViewIcon,
-  ViewOffIcon,
-} from '@chakra-ui/icons'
-import { BsBack } from 'react-icons/bs'
-import { BiDotsVerticalRounded, BiFile, BiNetworkChart } from 'react-icons/bi'
-import {
+  VStack,
+  Flex,
+  Box,
+  IconButton,
   Accordion,
   AccordionItem,
   AccordionButton,
@@ -32,12 +24,47 @@ import {
   ChakraProvider,
   Tooltip,
 } from '@chakra-ui/react'
+import { Scrollbars } from 'react-custom-scrollbars-2'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CloseIcon,
+  HamburgerIcon,
+  ViewIcon,
+  ViewOffIcon,
+} from '@chakra-ui/icons'
+import { Item } from 'chakra-ui-autocomplete'
+import { BsBack } from 'react-icons/bs'
+import { BiDotsVerticalRounded, BiFile, BiNetworkChart } from 'react-icons/bi'
+import { Layout } from "react-grid-layout";
+
+import { OrgRoamNode } from '../../api'
 import TextGrid from './TextGrid'
 import { SelectNodes, SelectNodesProps } from './SelectNodes'
+import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
 
-function Desk(props) {
-  const nodes = Object.values(props.nodeById)
+export interface DeskProps {
+  nodeById: NodeById
+  nodeByCite: NodeByCite
+  linksByNodeId: LinksByNodeId
+  isOpenDesk: boolean
+  onOpenDesk: any
+  onCloseDesk: any
+  layout: Layout[]
+  setLayout: any
+  selectedItems: Item[]
+  setSelectedItems: any
+  setPreviewNode: any
+  setSidebarHighlightedNode: any
+}
+
+function Desk(props: DeskProps) {
+  //const nodes = Object.values(props.nodeById)
+  //console.log("NODES:",(typeof nodes),nodes)
   const {
+    nodeById,
+    nodeByCite,
+    linksByNodeId,
     isOpenDesk,
     onOpenDesk,
     onCloseDesk,
@@ -46,13 +73,14 @@ function Desk(props) {
     selectedItems,
     setSelectedItems,
     setPreviewNode,
+    setSidebarHighlightedNode,
   } = props
 
-  const onAddItem = (id) => {
+  const onAddItem = (id: string) => {
     /*eslint no-console: 0*/
     setLayout(
       // Add a new item. It must have a unique key!
-      (layout as Array).concat({
+      layout.concat({
         i: id,
         x: (layout.length * 12) % 48,
         y: Infinity, // puts it at the bottom
@@ -62,18 +90,18 @@ function Desk(props) {
     );
   }
 
-  const onLayoutChange = (layout) => {
+  const onLayoutChange = (layout: Layout[]) => {
     //this.props.onLayoutChange(layout);
     setLayout(layout);
   }
 
-  const onCloseNode = (i) => {
-    setLayout((layout as Array).filter((item) => item.i !== i));
-    setSelectedItems(selectedItems.filter((item) => item.value !== i))
+  const onCloseNode = (i: string) => {
+    setLayout(layout.filter((item: Layout) => item.i !== i));
+    setSelectedItems(selectedItems.filter((item: Item) => item.value !== i))
     //setLayout({ items: _.reject(layout.items, { i: i }) });
   }
 
-  const onSelectedItemsChange = (changes,selectedItems) => {
+  const onSelectedItemsChange = (changes: any,selectedItems: Item[]) => {
     switch(changes.type) {
       case "__function_remove_selected_item__":
         for (let id of selectedItems) {
@@ -103,7 +131,7 @@ function Desk(props) {
     setLayout([])
   }
 
-  const setAddPreviewNode = (node) => {
+  const setAddPreviewNode = (node: OrgRoamNode) => {
     onAddItem(node.id);
     setPreviewNode(node);
   }
@@ -123,7 +151,7 @@ function Desk(props) {
       <Button onClick={onRestart} size="xs" variant="outline">
         Очистить
       </Button>
-      <SelectNodes nodes={nodes}
+      <SelectNodes nodeById={nodeById}
                    selectedItems={selectedItems}
                    onSelectedItemsChange={onSelectedItemsChange} />
     </AccordionPanel>

@@ -1,23 +1,29 @@
-import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import React, { useContext, useState } from 'react'
+import { CUIAutoComplete, Item } from 'chakra-ui-autocomplete'
 import { ThemeContext } from '../../util/themecontext'
 //import { initialFilter } from '../config'
+import { NodeById } from '../../pages/index'
+//import { OrgRoamNode } from '../../api'
 
 export interface SelectNodesProps {
-  nodes: NodeById
+  nodeById: NodeById
+  //nodes: OrgRoamNode[]
   //filter: typeof initialFilter
   //setFilter: any
   //labelFilter?: string
+  selectedItems: Item[]
+  onSelectedItemsChange: any
 }
 
 export const SelectNodes = (props: SelectNodesProps) => {
   //const { filter, labelFilter, setFilter, nodes = [] } = props
-  const { nodes = [], selectedItems, onSelectedItemsChange } = props
+  const { nodeById = {}, selectedItems, onSelectedItemsChange } = props
   const { highlightColor } = useContext(ThemeContext)
+  const nodes = Object.values(nodeById)
   const optionArray =
     nodes?.map((node) => {
       //return { value: option, label: labelFilter ? option.replace(labelFilter, '') : option }
-      return { value: node.id, label: node.title }
+      return { value: node?.id, label: node?.title } as Item
     }) || []
 
   return (
@@ -26,8 +32,6 @@ export const SelectNodes = (props: SelectNodesProps) => {
       items={optionArray}
       label=""
       placeholder="Choose nodes... "
-      onCreateItem={(item) => null}
-      disableCreateItem={true}
       selectedItems={selectedItems}
       onSelectedItemsChange={(changes) => onSelectedItemsChange(changes,selectedItems)}
       listItemStyleProps={{ overflow: 'hidden', fontSize: 12, height: 6 }}
@@ -57,8 +61,8 @@ export const SelectNodes = (props: SelectNodesProps) => {
       }}
       hideToggleButton
       itemRenderer={(selected) => selected.label}
-      disableCreateItem="false"
-      hideToggleButton="false"
+      //onCreateItem={(item) => null}
+      disableCreateItem
     />
   )
 }
