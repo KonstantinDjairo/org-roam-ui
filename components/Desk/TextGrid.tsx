@@ -24,7 +24,6 @@ import { BiDotsVerticalRounded } from 'react-icons/bi'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
 import { OrgRoamNode } from '../../api'
-//import { openNodeInEmacs } from '../../util/webSocketFunctions'
 import { usePersistantState } from '../../util/persistant-state'
 import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
 import GridNote from './GridNote'
@@ -33,11 +32,11 @@ import { Title } from '../Sidebar/Title'
 
 export interface TextGridProps {
   layout: Layout
+  setLayout: any
   onLayoutChange: any
   onCloseNode: any
   onClose: any
   setPreviewNode: any
-  //previewNode: OrgRoamNode
   nodeById: NodeById
   nodeByCite: NodeByCite
   setSidebarHighlightedNode: any
@@ -53,11 +52,11 @@ export interface TextGridProps {
 export default function TextGrid (props: TextGridProps) {
   const {
     layout,
+    setLayout,
     onLayoutChange,
     onCloseNode,
     onClose,
     setPreviewNode,
-    //previewNode,
     nodeById,
     nodeByCite,
     setSidebarHighlightedNode,
@@ -69,18 +68,16 @@ export default function TextGrid (props: TextGridProps) {
     windowWidth,
     webSocket
   } = props;
-  const [justification, setJustification] = usePersistantState('justification', 1)
-  const [outline, setOutline] = usePersistantState('outline', false)
-  const justificationList = ['justify', 'start', 'end', 'center']
+  //const [justification, setJustification] = usePersistantState('justification', 1)
+  //const [outline, setOutline] = usePersistantState('outline', false)
+  //const justificationList = ['justify', 'start', 'end', 'center']
   //const [font, setFont] = useState('sans serif')
   //const [indent, setIndent] = useState(0)
   const [collapse, setCollapse] = useState(false)
 
-  const createElement = (el: LayoutItem) => {
-    const i = el.i;
-    
+  const createGridNote = (id: string) => {
     return (
-      <Box key={i} data-grid={el}
+      <Box key={id}
            className="card"
            p={2}
            pr={0}
@@ -89,13 +86,12 @@ export default function TextGrid (props: TextGridProps) {
            boxShadow="lg"
       >
         <GridNote
-          previewNodeId={i}
+          previewNodeId={id}
           setPreviewNode={setPreviewNode}
           nodeById={nodeById}
           nodeByCite={nodeByCite}
           linksByNodeId={linksByNodeId}
           setSidebarHighlightedNode={setSidebarHighlightedNode}
-          //openNodeInEmacs={openNodeInEmacs}
           onCloseNode={onCloseNode}
           macros={macros}
           attachDir={attachDir}
@@ -109,7 +105,6 @@ export default function TextGrid (props: TextGridProps) {
   return (
     <>
       <ReactGridLayout
-        //layout={layout}
         cols={48}
         rowHeight={100}
         width={windowWidth - 50}
@@ -122,7 +117,7 @@ export default function TextGrid (props: TextGridProps) {
         allowOverlap={true}
         {...props}
       >
-        {layout.map((el) => createElement(el))}
+        {layout.map((item) => createGridNote(item.i))}
       </ReactGridLayout>
     </>
   );

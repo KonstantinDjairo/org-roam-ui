@@ -83,7 +83,7 @@ export default function GridNote (props: GridNoteProps) {
       <Note
         previewNode={previewNode as NodeObject} 
         setPreviewNode={setPreviewNode}
-        justificationList={["left"]}
+        justificationList={["start"]}
         justification={0}
         nodeById={nodeById}
         nodeByCite={nodeByCite}
