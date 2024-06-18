@@ -41,7 +41,7 @@ import { normalizeLinkEnds } from './normalizeLinkEnds'
 export interface ProcessedOrgProps {
   nodeById: NodeById
   previewNode: OrgRoamNode
-  setPreviewNode: any
+  //setPreviewNode: any
   onLinkClick: any
   previewText: any
   nodeByCite: NodeByCite
@@ -59,7 +59,7 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
   const {
     nodeById,
     setSidebarHighlightedNode,
-    setPreviewNode,
+    //setPreviewNode,
     onLinkClick,
     previewText,
     nodeByCite,
@@ -154,11 +154,11 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
                   href={`${href as string}`}
                   nodeById={nodeById}
                   linksByNodeId={linksByNodeId}
-                  setPreviewNode={setPreviewNode}
+                  //setPreviewNode={setPreviewNode}
                   onLinkClick={onLinkClick}
                   openContextMenu={openContextMenu}
                   outline={outline}
-                  previewNode={previewNode}
+                  //previewNode={previewNode}
                   isWiki={isMarkdown}
                   macros={macros}
                   attachDir={attachDir}

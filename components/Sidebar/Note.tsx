@@ -9,7 +9,7 @@ import { defaultNoteStyle, viewerNoteStyle, outlineNoteStyle } from './noteStyle
 import { OrgRoamLink } from '../../api'
 
 export interface NoteProps {
-  setPreviewNode: any
+  //setPreviewNode: any
   onLinkClick: any
   previewNode: NodeObject
   nodeById: NodeById
@@ -28,7 +28,7 @@ export interface NoteProps {
 
 export const Note = (props: NoteProps) => {
   const {
-    setPreviewNode,
+    //setPreviewNode,
     onLinkClick,
     justificationList,
     justification,
@@ -67,7 +67,7 @@ export const Note = (props: NoteProps) => {
         >
           <UniOrg
             {...{
-              setPreviewNode,
+              //setPreviewNode,
               onLinkClick,
               previewNode,
               nodeByCite,
@@ -84,7 +84,7 @@ export const Note = (props: NoteProps) => {
           />
           <Backlinks
             {...{
-              setPreviewNode,
+              //setPreviewNode,
               onLinkClick,
               previewNode,
               nodeById,

@@ -145,11 +145,6 @@ function Desk(props: DeskProps) {
     setLayout([])
   }
 
-  const setAddPreviewNode = (node: OrgRoamNode) => {
-    onAddDeskCard(node.id);
-    setPreviewNode(node);
-  }
-      
   return (
     <Modal isOpen={isOpenDesk} onClose={onCloseDesk} size="full" >
       <ModalOverlay  />
@@ -178,7 +173,6 @@ function Desk(props: DeskProps) {
               onLinkClick={onAddDeskCard}
               onLayoutChange={onLayoutChange}
               onCloseDeskCard={onCloseDeskCard}
-              //setPreviewNode={null}
             />
           </ModalBody>
         </Scrollbars>

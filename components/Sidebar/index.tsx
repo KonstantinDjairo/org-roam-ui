@@ -219,7 +219,7 @@ const Sidebar = (props: SidebarProps) => {
                 />
                 <Note
                   {...{
-                    setPreviewNode,
+                    //setPreviewNode,
                     previewNode,
                     nodeById,
                     nodeByCite,
@@ -235,7 +235,7 @@ const Sidebar = (props: SidebarProps) => {
                     attachDir,
                     useInheritance,
                   }}
-                  //onLinkClick={() => setPreviewNode(previewNode)}
+                  onLinkClick={(id: string) => setPreviewNode(nodeById[id])}
                 />
               </VStack>
             )}

@@ -78,7 +78,6 @@ export default function DeskCard (props: DeskCardProps) {
       </Flex>
       <Note
         previewNode={previewNode as NodeObject} 
-        setPreviewNode={null}
         onLinkClick={onLinkClick}
         justificationList={["start"]}
         justification={0}

@@ -31,8 +31,8 @@ import { LinksByNodeId, NodeByCite, NodeById } from '../../pages'
 export interface LinkProps {
   href: any
   children: any
-  previewNode?: any
-  setPreviewNode: any
+  //previewNode?: any
+  //setPreviewNode: any
   onLinkClick: any
   setSidebarHighlightedNode: any
   nodeByCite: NodeByCite
@@ -48,7 +48,7 @@ export interface LinkProps {
 }
 
 export interface NodeLinkProps {
-  setPreviewNode: any
+  //setPreviewNode: any
   onLinkClick: any
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -75,7 +75,7 @@ export const NodeLink = (props: NodeLinkProps) => {
     noUnderline,
     id,
     setSidebarHighlightedNode,
-    setPreviewNode,
+    //setPreviewNode,
     onLinkClick,
     nodeById,
     openContextMenu,
@@ -91,7 +91,6 @@ export const NodeLink = (props: NodeLinkProps) => {
   const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
   const ID = id ?? uri
   const linkText = isWiki ? `[[${children}]]` : children
-  console.log("setPreviewNode:",setPreviewNode)
   return (
     <Text
       as="a"
@@ -107,7 +106,8 @@ export const NodeLink = (props: NodeLinkProps) => {
         e.preventDefault()
         openContextMenu(nodeById[uri], e)
       }}
-      onClick={setPreviewNode ? () => setPreviewNode(nodeById[uri]) : () => onLinkClick(uri)}
+      onClick={() => onLinkClick(uri)}
+      //onClick={setPreviewNode ? () => setPreviewNode(nodeById[uri]) : () => onLinkClick(uri)}
       // TODO  don't hardcode the opacitycolor
       _hover={{ textDecoration: 'none', cursor: 'pointer', bgColor: coolHighlightColor + '22' }}
       _focus={{ outlineColor: highlightColor }}
@@ -135,7 +135,7 @@ export const PreviewLink = (props: LinkProps) => {
     nodeById,
     setSidebarHighlightedNode,
     //previewNode,
-    setPreviewNode,
+    //setPreviewNode,
     onLinkClick,
     nodeByCite,
     openContextMenu,
@@ -230,7 +230,7 @@ export const PreviewLink = (props: LinkProps) => {
                 {...{
                   id,
                   setSidebarHighlightedNode,
-                  setPreviewNode,
+                  //setPreviewNode,
                   onLinkClick,
                   nodeById,
                   href,
@@ -294,7 +294,7 @@ export const PreviewLink = (props: LinkProps) => {
                       {...{
                         nodeById,
                         setSidebarHighlightedNode,
-                        setPreviewNode,
+                        //setPreviewNode,
                         onLinkClick,
                         nodeByCite,
                         openContextMenu,
