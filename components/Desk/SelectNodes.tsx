@@ -1,28 +1,20 @@
 import React, { useContext, useState } from 'react'
 import { CUIAutoComplete, Item } from 'chakra-ui-autocomplete'
 import { ThemeContext } from '../../util/themecontext'
-//import { initialFilter } from '../config'
 import { NodeById } from '../../pages/index'
-//import { OrgRoamNode } from '../../api'
 
 export interface SelectNodesProps {
   nodeById: NodeById
-  //nodes: OrgRoamNode[]
-  //filter: typeof initialFilter
-  //setFilter: any
-  //labelFilter?: string
   selectedItems: Item[]
   onSelectedItemsChange: any
 }
 
 export const SelectNodes = (props: SelectNodesProps) => {
-  //const { filter, labelFilter, setFilter, nodes = [] } = props
   const { nodeById = {}, selectedItems, onSelectedItemsChange } = props
   const { highlightColor } = useContext(ThemeContext)
   const nodes = Object.values(nodeById)
   const optionArray =
     nodes?.map((node) => {
-      //return { value: option, label: labelFilter ? option.replace(labelFilter, '') : option }
       return { value: node?.id, label: node?.title } as Item
     }) || []
 

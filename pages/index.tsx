@@ -141,7 +141,7 @@ export function GraphPage() {
   const [coloring, setColoring] = usePersistantState('coloring', initialColoring)
   const [local, setLocal] = usePersistantState('local', initialLocal)
   const [layout, setLayout] = useState<Layout>([]);
-  const [selectedItems, setSelectedItems] = useState<Array<Item>>([])
+  const [selectedItems, setSelectedItems] = useState<Item[]>([])
 
   const [
     previewNodeState,
@@ -160,7 +160,6 @@ export function GraphPage() {
     future: futurePreviewNodes,
   } = previewNodeState
   const [sidebarHighlightedNode, setSidebarHighlightedNode] = useState<OrgRoamNode | null>(null)
-  //const { isOpen, onOpen, onClose } = useDisclosure()
   const { isOpen: isOpenSidebar, onOpen: onOpenSidebar, onClose: onCloseSidebar } = useDisclosure()
   const { isOpen: isOpenDesk, onOpen: onOpenDesk, onClose: onCloseDesk } = useDisclosure()
 
@@ -688,7 +687,7 @@ export function GraphPage() {
                   m={1}
                   // eslint-disable-next-line react/jsx-no-undef
                   icon={<BsBack />}
-                  aria-label="Close modal view"
+                  aria-label="Close desk view"
                   variant="subtle"
                   onClick={isOpenDesk ? onCloseDesk : onOpenDesk}
                 />
@@ -757,8 +756,6 @@ export function GraphPage() {
             windowWidth,
             tagColors,
             setTagColors,
-            //filter,
-            //setFilter,
           }}
           macros={emacsVariables.katexMacros}
           attachDir={emacsVariables.attachDir || ''}

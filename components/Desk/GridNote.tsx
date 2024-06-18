@@ -6,15 +6,11 @@ import {
   Spacer,
   IconButton
 } from '@chakra-ui/react';
-//import GridLayout, { Layout, LayoutItem } from "react-grid-layout";
 import { NodeObject } from "force-graph";
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { Scrollbars } from 'react-custom-scrollbars-2'
-import {
-  EditIcon,
-  CloseIcon,
-} from '@chakra-ui/icons'
+import { EditIcon, CloseIcon } from '@chakra-ui/icons'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 //import ReconnectingWebSocket from 'reconnecting-websocket'
 
@@ -40,8 +36,6 @@ export interface GridNoteProps {
 }
 
 export default function GridNote (props: GridNoteProps) {
-  //const [previewNode, setPreviewNode] = useState<OrgRoamNode>({})
-
   const {
     previewNodeId,
     setPreviewNode,

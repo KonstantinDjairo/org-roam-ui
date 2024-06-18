@@ -36,14 +36,13 @@ import {
 import { Item } from 'chakra-ui-autocomplete'
 import { BsBack } from 'react-icons/bs'
 import { BiDotsVerticalRounded, BiFile, BiNetworkChart } from 'react-icons/bi'
-//import { Layout } from 'react-grid-layout'
-import { Layout, LayoutItem } from '../../pages'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
 import { OrgRoamNode } from '../../api'
+import { Layout, LayoutItem } from '../../pages'
+import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
 import TextGrid from './TextGrid'
 import { SelectNodes, SelectNodesProps } from './SelectNodes'
-import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
 
 export interface DeskProps {
   nodeById: NodeById
@@ -86,21 +85,19 @@ function Desk(props: DeskProps) {
     webSocket,
   } = props
 
-  const onAddItem = (id: string): boolean => {
+  const onAddNote = (id: string): boolean => {
     /*eslint no-console: 0*/
     // Add a new item. It must have a unique key!
     console.log("ADD:",id,layout,layout.find((l) => l.i === id))
     if (layout.find((l) => l.i == id) === undefined) {
-        const l0 = layout.concat({
+      setLayout(layout.concat({
           i: id,
           x: 0,  //(layout.length * 12) % 48,
           y: Infinity, // puts it at the bottom
           w: 12,
           h: 4
-        });
-      console.log("L0=",l0)
-      setLayout(l0);
-      console.log("TRUE",l0)
+        }));
+      console.log("TRUE,OLD-LAYOUT:",layout)
       return true;
     } else {
       console.log("FALSE(FOUND)",layout)
@@ -114,10 +111,9 @@ function Desk(props: DeskProps) {
     //setLayout(layout);
   }
 
-  const onCloseNode = (i: string) => {
+  const onCloseNote = (i: string) => {
     setLayout(layout.filter((item) => item.i !== i));
     setSelectedItems(selectedItems.filter((item: Item) => item.value !== i))
-    //setLayout({ items: _.reject(layout.items, { i: i }) });
   }
 
   const onSelectedItemsChange = (changes: any,selectedItems: Item[]) => {
@@ -126,7 +122,7 @@ function Desk(props: DeskProps) {
         for (let id of selectedItems) {
           if (!changes.selectedItems.includes(id))
           {
-            onCloseNode(id.value)
+            onCloseNote(id.value)
           }
         }
         break;
@@ -134,14 +130,13 @@ function Desk(props: DeskProps) {
         for (let id of changes.selectedItems) {
           if (!selectedItems.includes(id))
           {
-            onAddItem(id.value)
+            onAddNote(id.value)
           }
         }
         break;
     }
     if (changes.selectedItems) {
       setSelectedItems(changes.selectedItems)
-      // setFilter({ ...filter, [listName]: changes.selectedItems.map((item) => item.value) })
     }
   }
 
@@ -151,48 +146,44 @@ function Desk(props: DeskProps) {
   }
 
   const setAddPreviewNode = (node: OrgRoamNode) => {
-    onAddItem(node.id);
+    onAddNote(node.id);
     setPreviewNode(node);
   }
       
   return (
-    <>
-      <Modal isOpen={isOpenDesk} onClose={onCloseDesk} size="full" >
-        <ModalOverlay  />
-        <ModalContent height="70%">
-          <Accordion allowToggle defaultIndex={[0]} ml={2} w="95%" borderWidth={1}>
-            <AccordionItem mt={0}>
-              <AccordionButton _expanded={{ bg: 'gray.100' }}>
-                <Box as='span' flex='1' textAlign='left'>Управление</Box>
-    <AccordionIcon />
-    </AccordionButton>
-    <AccordionPanel>
-      <Button onClick={onRestart} size="xs" variant="outline">
-        Очистить
-      </Button>
-      <SelectNodes nodeById={nodeById}
-                   selectedItems={selectedItems}
-                   onSelectedItemsChange={onSelectedItemsChange} />
-    </AccordionPanel>
-    </AccordionItem>
-    </Accordion>
-    <ModalCloseButton />
-    <Scrollbars>
-      <ModalBody>
-        <TextGrid
-          {...props}
-          //nodes={nodes}
-          layout={layout}
-          onClose={onCloseDesk}
-          onLayoutChange={onLayoutChange}
-          onCloseNode={onCloseNode}
-          setPreviewNode={setAddPreviewNode}
-        />
-      </ModalBody>
-    </Scrollbars>
-    </ModalContent>
+    <Modal isOpen={isOpenDesk} onClose={onCloseDesk} size="full" >
+      <ModalOverlay  />
+      <ModalContent height="70%">
+        <Accordion allowToggle defaultIndex={[0]} ml={2} w="95%" borderWidth={1}>
+          <AccordionItem mt={0}>
+            <AccordionButton _expanded={{ bg: 'gray.100' }}>
+              <Box as='span' flex='1' textAlign='left'>Управление</Box>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel>
+              <Button onClick={onRestart} size="xs" variant="outline">
+                Очистить
+              </Button>
+              <SelectNodes nodeById={nodeById}
+                           selectedItems={selectedItems}
+                           onSelectedItemsChange={onSelectedItemsChange} />
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+        <ModalCloseButton />
+        <Scrollbars>
+          <ModalBody>
+            <TextGrid
+              {...props}
+              onClose={onCloseDesk}
+              onLayoutChange={onLayoutChange}
+              onCloseNote={onCloseNote}
+              setPreviewNode={setAddPreviewNode}
+            />
+          </ModalBody>
+        </Scrollbars>
+      </ModalContent>
     </Modal>
-    </>
   )
 }
 

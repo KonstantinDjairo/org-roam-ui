@@ -35,7 +35,6 @@ export interface TextGridProps {
   setLayout: any
   onLayoutChange: any
   onCloseNode: any
-  onClose: any
   setPreviewNode: any
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -55,7 +54,6 @@ export default function TextGrid (props: TextGridProps) {
     setLayout,
     onLayoutChange,
     onCloseNode,
-    onClose,
     setPreviewNode,
     nodeById,
     nodeByCite,
@@ -73,7 +71,7 @@ export default function TextGrid (props: TextGridProps) {
   //const justificationList = ['justify', 'start', 'end', 'center']
   //const [font, setFont] = useState('sans serif')
   //const [indent, setIndent] = useState(0)
-  const [collapse, setCollapse] = useState(false)
+  //const [collapse, setCollapse] = useState(false)
 
   const createGridNote = (id: string) => {
     return (
@@ -104,6 +102,7 @@ export default function TextGrid (props: TextGridProps) {
 
   return (
     <ReactGridLayout
+      layout={layout}
       cols={48}
       rowHeight={100}
       width={windowWidth - 50}
@@ -114,7 +113,6 @@ export default function TextGrid (props: TextGridProps) {
       resizeHandles={['s','n','e','w','sw','nw','se','ne']}
       draggableCancel=".nodrag"
       allowOverlap={true}
-      {...props}
     >
       {layout.map((item) => createGridNote(item.i))}
     </ReactGridLayout>
