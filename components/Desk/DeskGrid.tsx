@@ -26,15 +26,16 @@ import ReconnectingWebSocket from 'reconnecting-websocket'
 import { OrgRoamNode } from '../../api'
 import { usePersistantState } from '../../util/persistant-state'
 import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
-import GridNote from './GridNote'
+import DeskCard from './DeskCard'
 import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 
-export interface TextGridProps {
+export interface DeskGridProps {
   layout: Layout
   setLayout: any
   onLayoutChange: any
-  onCloseNode: any
+  onCloseDeskCard: any
+  //onClose: any
   setPreviewNode: any
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -48,12 +49,13 @@ export interface TextGridProps {
   webSocket: any
 }
 
-export default function TextGrid (props: TextGridProps) {
+export default function DeskGrid (props: DeskGridProps) {
   const {
     layout,
     setLayout,
     onLayoutChange,
-    onCloseNode,
+    onCloseDeskCard,
+    //onClose,
     setPreviewNode,
     nodeById,
     nodeByCite,
@@ -73,7 +75,7 @@ export default function TextGrid (props: TextGridProps) {
   //const [indent, setIndent] = useState(0)
   //const [collapse, setCollapse] = useState(false)
 
-  const createGridNote = (id: string) => {
+  const createDeskCard = (id: string) => {
     return (
       <Box key={id}
            className="card"
@@ -83,14 +85,14 @@ export default function TextGrid (props: TextGridProps) {
            borderWidth='1px'
            boxShadow="lg"
       >
-        <GridNote
+        <DeskCard
           previewNodeId={id}
           setPreviewNode={setPreviewNode}
           nodeById={nodeById}
           nodeByCite={nodeByCite}
           linksByNodeId={linksByNodeId}
           setSidebarHighlightedNode={setSidebarHighlightedNode}
-          onCloseNode={onCloseNode}
+          onCloseDeskCard={onCloseDeskCard}
           macros={macros}
           attachDir={attachDir}
           useInheritance={useInheritance}
@@ -114,7 +116,7 @@ export default function TextGrid (props: TextGridProps) {
       draggableCancel=".nodrag"
       allowOverlap={true}
     >
-      {layout.map((item) => createGridNote(item.i))}
+      {layout.map((item) => createDeskCard(item.i))}
     </ReactGridLayout>
   );
 };

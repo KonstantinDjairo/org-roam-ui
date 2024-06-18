@@ -21,21 +21,21 @@ import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
 import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 
-export interface GridNoteProps {
+export interface DeskCardProps {
   previewNodeId: string
   setPreviewNode: any
   nodeById: NodeById
   nodeByCite: NodeByCite
   linksByNodeId: LinksByNodeId
   setSidebarHighlightedNode: any
-  onCloseNode: any
+  onCloseDeskCard: any
   macros?: { [key: string]: string }
   attachDir: string
   useInheritance: boolean
   webSocket: any
 }
 
-export default function GridNote (props: GridNoteProps) {
+export default function DeskCard (props: DeskCardProps) {
   const {
     previewNodeId,
     setPreviewNode,
@@ -43,7 +43,7 @@ export default function GridNote (props: GridNoteProps) {
     nodeByCite,
     linksByNodeId,
     setSidebarHighlightedNode,
-    onCloseNode,
+    onCloseDeskCard,
     macros,
     attachDir,
     useInheritance,
@@ -71,7 +71,7 @@ export default function GridNote (props: GridNoteProps) {
           aria-label="Close"
           size="xs"
           icon={<CloseIcon />}
-          onClick={() => onCloseNode(previewNodeId)}
+          onClick={() => onCloseDeskCard(previewNodeId)}
         />
       </Flex>
       <Note

@@ -41,7 +41,7 @@ import ReconnectingWebSocket from 'reconnecting-websocket'
 import { OrgRoamNode } from '../../api'
 import { Layout, LayoutItem } from '../../pages'
 import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
-import TextGrid from './TextGrid'
+import DeskGrid from './DeskGrid'
 import { SelectNodes, SelectNodesProps } from './SelectNodes'
 
 export interface DeskProps {
@@ -85,7 +85,7 @@ function Desk(props: DeskProps) {
     webSocket,
   } = props
 
-  const onAddNote = (id: string): boolean => {
+  const onAddDeskCard = (id: string): boolean => {
     /*eslint no-console: 0*/
     // Add a new item. It must have a unique key!
     console.log("ADD:",id,layout,layout.find((l) => l.i === id))
@@ -111,7 +111,7 @@ function Desk(props: DeskProps) {
     //setLayout(layout);
   }
 
-  const onCloseNote = (i: string) => {
+  const onCloseDeskCard = (i: string) => {
     setLayout(layout.filter((item) => item.i !== i));
     setSelectedItems(selectedItems.filter((item: Item) => item.value !== i))
   }
@@ -122,7 +122,7 @@ function Desk(props: DeskProps) {
         for (let id of selectedItems) {
           if (!changes.selectedItems.includes(id))
           {
-            onCloseNote(id.value)
+            onCloseDeskCard(id.value)
           }
         }
         break;
@@ -130,7 +130,7 @@ function Desk(props: DeskProps) {
         for (let id of changes.selectedItems) {
           if (!selectedItems.includes(id))
           {
-            onAddNote(id.value)
+            onAddDeskCard(id.value)
           }
         }
         break;
@@ -146,7 +146,7 @@ function Desk(props: DeskProps) {
   }
 
   const setAddPreviewNode = (node: OrgRoamNode) => {
-    onAddNote(node.id);
+    onAddDeskCard(node.id);
     setPreviewNode(node);
   }
       
@@ -173,11 +173,10 @@ function Desk(props: DeskProps) {
         <ModalCloseButton />
         <Scrollbars>
           <ModalBody>
-            <TextGrid
+            <DeskGrid
               {...props}
-              onClose={onCloseDesk}
               onLayoutChange={onLayoutChange}
-              onCloseNote={onCloseNote}
+              onCloseDeskCard={onCloseDeskCard}
               setPreviewNode={setAddPreviewNode}
             />
           </ModalBody>
