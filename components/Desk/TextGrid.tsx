@@ -103,22 +103,20 @@ export default function TextGrid (props: TextGridProps) {
   }
 
   return (
-    <>
-      <ReactGridLayout
-        cols={48}
-        rowHeight={100}
-        width={windowWidth - 50}
-        containerPadding={[20,20]}
-        //compactType={null}
-        isDroppable={true}
-        //onLayoutChange={onLayoutChange}
-        resizeHandles={['s','n','e','w','sw','nw','se','ne']}
-        draggableCancel=".nodrag"
-        allowOverlap={true}
-        {...props}
-      >
-        {layout.map((item) => createGridNote(item.i))}
-      </ReactGridLayout>
-    </>
+    <ReactGridLayout
+      cols={48}
+      rowHeight={100}
+      width={windowWidth - 50}
+      containerPadding={[20,20]}
+      //compactType={null}
+      isDroppable={true}
+      //onLayoutChange={onLayoutChange}
+      resizeHandles={['s','n','e','w','sw','nw','se','ne']}
+      draggableCancel=".nodrag"
+      allowOverlap={true}
+      {...props}
+    >
+      {layout.map((item) => createGridNote(item.i))}
+    </ReactGridLayout>
   );
 };
