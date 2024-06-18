@@ -36,7 +36,8 @@ import {
 import { Item } from 'chakra-ui-autocomplete'
 import { BsBack } from 'react-icons/bs'
 import { BiDotsVerticalRounded, BiFile, BiNetworkChart } from 'react-icons/bi'
-import { Layout } from "react-grid-layout";
+//import { Layout } from 'react-grid-layout'
+import { Layout, LayoutItem } from '../../pages'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
 import { OrgRoamNode } from '../../api'
@@ -51,16 +52,17 @@ export interface DeskProps {
   isOpenDesk: boolean
   onOpenDesk: any
   onCloseDesk: any
-  layout: Layout[]
+  layout: Layout
   setLayout: any
   selectedItems: Item[]
   setSelectedItems: any
   setPreviewNode: any
   setSidebarHighlightedNode: any
+  macros?: { [key: string]: string }
   attachDir: string
   useInheritance: boolean
   windowWidth: number
-  webSocket: ReconnectingWebSocket
+  webSocket: any
 }
 
 function Desk(props: DeskProps) {
@@ -77,26 +79,28 @@ function Desk(props: DeskProps) {
     setSelectedItems,
     setPreviewNode,
     setSidebarHighlightedNode,
+    macros,
     attachDir,
     useInheritance,
     windowWidth,
     webSocket,
   } = props
 
-  const onAddItem: boolean = (id: string) => {
+  const onAddItem = (id: string): boolean => {
     /*eslint no-console: 0*/
     // Add a new item. It must have a unique key!
     console.log("ADD:",id,layout,layout.find((l) => l.i === id))
     if (layout.find((l) => l.i == id) === undefined) {
-      setLayout(
-        (layout as Array).concat({
+        const l0 = layout.concat({
           i: id,
           x: 0,  //(layout.length * 12) % 48,
           y: Infinity, // puts it at the bottom
           w: 12,
           h: 4
-        }));
-      console.log("TRUE",layout)
+        });
+      console.log("L0=",l0)
+      setLayout(l0);
+      console.log("TRUE",l0)
       return true;
     } else {
       console.log("FALSE(FOUND)",layout)
@@ -104,14 +108,14 @@ function Desk(props: DeskProps) {
     }
   }
 
-  const onLayoutChange = (layout: Layout[]) => {
+  const onLayoutChange = (layout: Layout) => {
     console.log("CHANGE:",layout)
     //this.props.onLayoutChange(layout);
     //setLayout(layout);
   }
 
   const onCloseNode = (i: string) => {
-    setLayout(layout.filter((item: Layout) => item.i !== i));
+    setLayout(layout.filter((item) => item.i !== i));
     setSelectedItems(selectedItems.filter((item: Item) => item.value !== i))
     //setLayout({ items: _.reject(layout.items, { i: i }) });
   }

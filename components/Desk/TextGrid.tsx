@@ -6,7 +6,8 @@ import {
   Spacer,
   IconButton
 } from '@chakra-ui/react';
-import GridLayout, { Layout } from "react-grid-layout";
+import ReactGridLayout from "react-grid-layout";
+import { Layout, LayoutItem } from '../../pages'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { Scrollbars } from 'react-custom-scrollbars-2'
@@ -23,7 +24,7 @@ import { BiDotsVerticalRounded } from 'react-icons/bi'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
 import { OrgRoamNode } from '../../api'
-import { openNodeInEmacs } from '../../util/webSocketFunctions'
+//import { openNodeInEmacs } from '../../util/webSocketFunctions'
 import { usePersistantState } from '../../util/persistant-state'
 import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
 import GridNote from './GridNote'
@@ -31,7 +32,7 @@ import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 
 export interface TextGridProps {
-  layout: Layout[]
+  layout: Layout
   onLayoutChange: any
   onCloseNode: any
   onClose: any
@@ -46,7 +47,7 @@ export interface TextGridProps {
   attachDir: string
   useInheritance: boolean
   windowWidth: number
-  webSocket: ReconnectingWebSocket
+  webSocket: any
 }
 
 export default function TextGrid (props: TextGridProps) {
@@ -75,7 +76,7 @@ export default function TextGrid (props: TextGridProps) {
   //const [indent, setIndent] = useState(0)
   const [collapse, setCollapse] = useState(false)
 
-  const createElement = (el: Layout) => {
+  const createElement = (el: LayoutItem) => {
     const i = el.i;
     
     return (
@@ -94,7 +95,7 @@ export default function TextGrid (props: TextGridProps) {
           nodeByCite={nodeByCite}
           linksByNodeId={linksByNodeId}
           setSidebarHighlightedNode={setSidebarHighlightedNode}
-          openNodeInEmacs={openNodeInEmacs}
+          //openNodeInEmacs={openNodeInEmacs}
           onCloseNode={onCloseNode}
           macros={macros}
           attachDir={attachDir}
@@ -107,22 +108,22 @@ export default function TextGrid (props: TextGridProps) {
 
   return (
     <>
-      <GridLayout
-        layout={layout}
+      <ReactGridLayout
+        //layout={layout}
         cols={48}
         rowHeight={100}
         width={windowWidth - 50}
         containerPadding={[20,20]}
         //compactType={null}
         isDroppable={true}
-        onLayoutChange={onLayoutChange}
+        //onLayoutChange={onLayoutChange}
         resizeHandles={['s','n','e','w','sw','nw','se','ne']}
         draggableCancel=".nodrag"
         allowOverlap={true}
         {...props}
       >
-        {layout.map(el => createElement(el))}
-      </GridLayout>
+        {layout.map((el) => createElement(el))}
+      </ReactGridLayout>
     </>
   );
 };

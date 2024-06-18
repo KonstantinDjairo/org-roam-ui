@@ -34,6 +34,15 @@ import { BsReverseLayoutSidebarInsetReverse, BsBack } from 'react-icons/bs'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import SpriteText from 'three-spritetext'
 import useUndo from 'use-undo'
+//import { Layout } from "react-grid-layout";
+export type LayoutItem = {
+  i: string,
+  x: number,
+  y: number,
+  w: number,
+  h: number
+}
+export type Layout = LayoutItem[]
 import { OrgRoamGraphReponse, OrgRoamLink, OrgRoamNode } from '../api'
 import {
   algos,
@@ -132,7 +141,7 @@ export function GraphPage() {
   const [coloring, setColoring] = usePersistantState('coloring', initialColoring)
   const [local, setLocal] = usePersistantState('local', initialLocal)
   const [layout, setLayout] = useState<Layout>([]);
-  const [selectedItems, setSelectedItems] = useState<Item[]>([])
+  const [selectedItems, setSelectedItems] = useState<Array<Item>>([])
 
   const [
     previewNodeState,

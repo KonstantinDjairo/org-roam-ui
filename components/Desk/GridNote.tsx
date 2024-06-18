@@ -6,7 +6,8 @@ import {
   Spacer,
   IconButton
 } from '@chakra-ui/react';
-//import GridLayout, { Layout } from "react-grid-layout";
+//import GridLayout, { Layout, LayoutItem } from "react-grid-layout";
+import { NodeObject } from "force-graph";
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { Scrollbars } from 'react-custom-scrollbars-2'
@@ -15,7 +16,7 @@ import {
   CloseIcon,
 } from '@chakra-ui/icons'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
-import ReconnectingWebSocket from 'reconnecting-websocket'
+//import ReconnectingWebSocket from 'reconnecting-websocket'
 
 import { OrgRoamNode } from '../../api'
 import { openNodeInEmacs } from '../../util/webSocketFunctions'
@@ -35,7 +36,7 @@ export interface GridNoteProps {
   macros?: { [key: string]: string }
   attachDir: string
   useInheritance: boolean
-  webSocket: ReconnectingWebSocket
+  webSocket: any
 }
 
 export default function GridNote (props: GridNoteProps) {
@@ -80,7 +81,7 @@ export default function GridNote (props: GridNoteProps) {
         />
       </Flex>
       <Note
-        previewNode={previewNode} 
+        previewNode={previewNode as NodeObject} 
         setPreviewNode={setPreviewNode}
         justificationList={["left"]}
         justification={0}
