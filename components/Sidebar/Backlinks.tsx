@@ -9,6 +9,7 @@ import { ProcessedOrg } from '../../util/processOrg'
 export interface BacklinksProps {
   previewNode: NodeObject | OrgRoamNode
   setPreviewNode: any
+  onLinkClick: any
   nodeById: NodeById
   linksByNodeId: LinksByNodeId
   nodeByCite: NodeByCite
@@ -29,6 +30,7 @@ export const Backlinks = (props: BacklinksProps) => {
   const {
     previewNode,
     setPreviewNode,
+    onLinkClick,
     setSidebarHighlightedNode,
     nodeById,
     linksByNodeId,
@@ -72,6 +74,7 @@ export const Backlinks = (props: BacklinksProps) => {
                   nodeById={nodeById}
                   previewNode={previewNode}
                   setPreviewNode={setPreviewNode}
+                  onLinkClick={onLinkClick}
                   openContextMenu={openContextMenu}
                   outline={outline}
                   noUnderline

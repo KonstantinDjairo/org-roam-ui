@@ -36,7 +36,8 @@ export interface DeskGridProps {
   onLayoutChange: any
   onCloseDeskCard: any
   //onClose: any
-  setPreviewNode: any
+  onLinkClick: any
+  //setPreviewNode: any
   nodeById: NodeById
   nodeByCite: NodeByCite
   setSidebarHighlightedNode: any
@@ -56,7 +57,8 @@ export default function DeskGrid (props: DeskGridProps) {
     onLayoutChange,
     onCloseDeskCard,
     //onClose,
-    setPreviewNode,
+    onLinkClick,
+    //setPreviewNode,
     nodeById,
     nodeByCite,
     setSidebarHighlightedNode,
@@ -87,7 +89,8 @@ export default function DeskGrid (props: DeskGridProps) {
       >
         <DeskCard
           previewNodeId={id}
-          setPreviewNode={setPreviewNode}
+          onLinkClick={onLinkClick}
+          //setPreviewNode={setPreviewNode}
           nodeById={nodeById}
           nodeByCite={nodeByCite}
           linksByNodeId={linksByNodeId}

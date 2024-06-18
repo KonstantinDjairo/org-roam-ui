@@ -748,7 +748,7 @@ export function GraphPage() {
             setLayout,
             selectedItems,
             setSelectedItems,
-            setPreviewNode,
+            //setPreviewNode,
             setSidebarHighlightedNode,
             openContextMenu,
             scope,

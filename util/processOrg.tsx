@@ -42,6 +42,7 @@ export interface ProcessedOrgProps {
   nodeById: NodeById
   previewNode: OrgRoamNode
   setPreviewNode: any
+  onLinkClick: any
   previewText: any
   nodeByCite: NodeByCite
   setSidebarHighlightedNode: any
@@ -59,6 +60,7 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
     nodeById,
     setSidebarHighlightedNode,
     setPreviewNode,
+    onLinkClick,
     previewText,
     nodeByCite,
     previewNode,
@@ -153,6 +155,7 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
                   nodeById={nodeById}
                   linksByNodeId={linksByNodeId}
                   setPreviewNode={setPreviewNode}
+                  onLinkClick={onLinkClick}
                   openContextMenu={openContextMenu}
                   outline={outline}
                   previewNode={previewNode}

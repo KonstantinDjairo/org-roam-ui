@@ -23,7 +23,8 @@ import { Title } from '../Sidebar/Title'
 
 export interface DeskCardProps {
   previewNodeId: string
-  setPreviewNode: any
+  //setPreviewNode: any
+  onLinkClick: any
   nodeById: NodeById
   nodeByCite: NodeByCite
   linksByNodeId: LinksByNodeId
@@ -38,7 +39,8 @@ export interface DeskCardProps {
 export default function DeskCard (props: DeskCardProps) {
   const {
     previewNodeId,
-    setPreviewNode,
+    //setPreviewNode,
+    onLinkClick,
     nodeById,
     nodeByCite,
     linksByNodeId,
@@ -76,7 +78,8 @@ export default function DeskCard (props: DeskCardProps) {
       </Flex>
       <Note
         previewNode={previewNode as NodeObject} 
-        setPreviewNode={setPreviewNode}
+        setPreviewNode={null}
+        onLinkClick={onLinkClick}
         justificationList={["start"]}
         justification={0}
         nodeById={nodeById}

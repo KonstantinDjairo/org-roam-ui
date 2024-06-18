@@ -235,6 +235,7 @@ const Sidebar = (props: SidebarProps) => {
                     attachDir,
                     useInheritance,
                   }}
+                  //onLinkClick={() => setPreviewNode(previewNode)}
                 />
               </VStack>
             )}

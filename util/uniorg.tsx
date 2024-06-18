@@ -6,6 +6,7 @@ export interface UniOrgProps {
   nodeById: NodeById
   previewNode: any
   setPreviewNode: any
+  onLinkClick: any
   nodeByCite: NodeByCite
   setSidebarHighlightedNode: any
   openContextMenu: any
@@ -25,6 +26,7 @@ export const UniOrg = (props: UniOrgProps) => {
     nodeByCite,
     previewNode,
     setPreviewNode,
+    onLinkClick,
     outline,
     collapse,
     linksByNodeId,
@@ -65,6 +67,7 @@ export const UniOrg = (props: UniOrgProps) => {
             nodeById,
             previewNode,
             setPreviewNode,
+            onLinkClick,
             previewText,
             nodeByCite,
             setSidebarHighlightedNode,

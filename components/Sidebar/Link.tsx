@@ -33,6 +33,7 @@ export interface LinkProps {
   children: any
   previewNode?: any
   setPreviewNode: any
+  onLinkClick: any
   setSidebarHighlightedNode: any
   nodeByCite: NodeByCite
   nodeById: NodeById
@@ -48,6 +49,7 @@ export interface LinkProps {
 
 export interface NodeLinkProps {
   setPreviewNode: any
+  onLinkClick: any
   nodeById: NodeById
   nodeByCite: NodeByCite
   href: any
@@ -74,6 +76,7 @@ export const NodeLink = (props: NodeLinkProps) => {
     id,
     setSidebarHighlightedNode,
     setPreviewNode,
+    onLinkClick,
     nodeById,
     openContextMenu,
     href,
@@ -88,6 +91,7 @@ export const NodeLink = (props: NodeLinkProps) => {
   const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
   const ID = id ?? uri
   const linkText = isWiki ? `[[${children}]]` : children
+  console.log("setPreviewNode:",setPreviewNode)
   return (
     <Text
       as="a"
@@ -103,7 +107,7 @@ export const NodeLink = (props: NodeLinkProps) => {
         e.preventDefault()
         openContextMenu(nodeById[uri], e)
       }}
-      onClick={() => setPreviewNode(nodeById[uri])}
+      onClick={setPreviewNode ? () => setPreviewNode(nodeById[uri]) : () => onLinkClick(uri)}
       // TODO  don't hardcode the opacitycolor
       _hover={{ textDecoration: 'none', cursor: 'pointer', bgColor: coolHighlightColor + '22' }}
       _focus={{ outlineColor: highlightColor }}
@@ -130,8 +134,9 @@ export const PreviewLink = (props: LinkProps) => {
     children,
     nodeById,
     setSidebarHighlightedNode,
-    previewNode,
+    //previewNode,
     setPreviewNode,
+    onLinkClick,
     nodeByCite,
     openContextMenu,
     outline,
@@ -226,6 +231,7 @@ export const PreviewLink = (props: LinkProps) => {
                   id,
                   setSidebarHighlightedNode,
                   setPreviewNode,
+                  onLinkClick,
                   nodeById,
                   href,
                   children,
@@ -289,6 +295,7 @@ export const PreviewLink = (props: LinkProps) => {
                         nodeById,
                         setSidebarHighlightedNode,
                         setPreviewNode,
+                        onLinkClick,
                         nodeByCite,
                         openContextMenu,
                         outline,
