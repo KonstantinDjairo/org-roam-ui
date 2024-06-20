@@ -12,10 +12,9 @@ export type Layout = LayoutItem[]
 export interface LayoutContextProps {
   layout: Layout
   setLayout: any
-  onAddFunction: any
 }
 const LayoutContext = createContext<LayoutContextProps>({
-  layout: [], setLayout: null, onAddFunction: null
+  layout: [], setLayout: null
 })
 
 export { LayoutContext }

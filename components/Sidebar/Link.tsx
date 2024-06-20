@@ -33,8 +33,9 @@ export interface LinkProps {
   href: any
   children: any
   //previewNode?: any
-  //setPreviewNode: any
-  onLinkClick: any
+  setPreviewNode: any
+  //onLinkClick: any
+  isDesk: boolean
   onAddDeskCard: any
   setSidebarHighlightedNode: any
   nodeByCite: NodeByCite
@@ -50,8 +51,9 @@ export interface LinkProps {
 }
 
 export interface NodeLinkProps {
-  //setPreviewNode: any
-  onLinkClick: any
+  setPreviewNode: any
+  //onLinkClick: any
+  isDesk: boolean
   onAddDeskCard: any
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -78,8 +80,9 @@ export const NodeLink = (props: NodeLinkProps) => {
     noUnderline,
     id,
     setSidebarHighlightedNode,
-    //setPreviewNode,
-    onLinkClick,
+    setPreviewNode,
+    //onLinkClick,
+    isDesk,
     onAddDeskCard,
     nodeById,
     openContextMenu,
@@ -87,7 +90,7 @@ export const NodeLink = (props: NodeLinkProps) => {
     children,
     isWiki,
   } = props
-  const { layout, onAddFunction } = useContext(LayoutContext)
+  const { layout } = useContext(LayoutContext)
   const { highlightColor } = useContext(ThemeContext)
 
   const theme = useTheme()
@@ -96,8 +99,14 @@ export const NodeLink = (props: NodeLinkProps) => {
   const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
   const ID = id ?? uri
   const linkText = isWiki ? `[[${children}]]` : children
-  console.log("== NODE-LINK == %s, %s\n   layout:%s\n   onAddFunction: %s\n   onAddDeskCard:",
-              uri === id,nodeById[id].title,layout,onAddFunction,onAddDeskCard)
+  //console.log("== NODE-LINK == %s, %s\n   layout:%s\n   onAddFunction: %s\n   onAddDeskCard:",
+  //            uri === id,nodeById[uri].title,layout,onAddFunction,onAddDeskCard)
+  function onClickFunction () {
+    if (isDesk) {
+      return onAddDeskCard(uri,layout);
+    } else {
+      return setPreviewNode(nodeById[uri]);
+    }}
   return (
     <Text
       as="a"
@@ -113,7 +122,8 @@ export const NodeLink = (props: NodeLinkProps) => {
         e.preventDefault()
         openContextMenu(nodeById[uri], e)
       }}
-      onClick={() => { return onAddDeskCard(uri,layout) }} 
+      onClick={onClickFunction}
+      //onClick={() => { return onAddDeskCard(uri,layout) }} 
       //onClick={() => onLinkClick(uri)}
       //onClick={setPreviewNode ? () => setPreviewNode(nodeById[uri]) : () => onLinkClick(uri)}
       // TODO  don't hardcode the opacitycolor
@@ -143,8 +153,9 @@ export const PreviewLink = (props: LinkProps) => {
     nodeById,
     setSidebarHighlightedNode,
     //previewNode,
-    //setPreviewNode,
-    onLinkClick,
+    setPreviewNode,
+    //onLinkClick,
+    isDesk,
     onAddDeskCard,
     nodeByCite,
     openContextMenu,
@@ -233,8 +244,9 @@ export const PreviewLink = (props: LinkProps) => {
         {...{
           id,
           setSidebarHighlightedNode,
-          //setPreviewNode,
-          onLinkClick,
+          setPreviewNode,
+          //onLinkClick,
+          isDesk,
           onAddDeskCard,
           nodeById,
           href,

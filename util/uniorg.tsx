@@ -5,8 +5,9 @@ import { ProcessedOrg } from './processOrg'
 export interface UniOrgProps {
   nodeById: NodeById
   previewNode: any
-  //setPreviewNode: any
-  onLinkClick: any
+  setPreviewNode: any
+  //onLinkClick: any
+  isDesk: boolean
   onAddDeskCard: any
   nodeByCite: NodeByCite
   setSidebarHighlightedNode: any
@@ -26,8 +27,9 @@ export const UniOrg = (props: UniOrgProps) => {
     nodeById,
     nodeByCite,
     previewNode,
-    //setPreviewNode,
-    onLinkClick,
+    setPreviewNode,
+    //onLinkClick,
+    isDesk,
     onAddDeskCard,
     outline,
     collapse,
@@ -68,8 +70,9 @@ export const UniOrg = (props: UniOrgProps) => {
           {...{
             nodeById,
             previewNode,
-            //setPreviewNode,
-            onLinkClick,
+            setPreviewNode,
+            //onLinkClick,
+            isDesk,
             onAddDeskCard,
             previewText,
             nodeByCite,

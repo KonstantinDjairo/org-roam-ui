@@ -56,7 +56,7 @@ export interface DeskProps {
   //setLayout: any
   selectedItems: Item[]
   setSelectedItems: any
-  //setPreviewNode: any
+  setPreviewNode: any
   setSidebarHighlightedNode: any
   macros?: { [key: string]: string }
   attachDir: string
@@ -77,7 +77,7 @@ function Desk(props: DeskProps) {
     //setLayout,
     selectedItems,
     setSelectedItems,
-    //setPreviewNode,
+    setPreviewNode,
     setSidebarHighlightedNode,
     macros,
     attachDir,

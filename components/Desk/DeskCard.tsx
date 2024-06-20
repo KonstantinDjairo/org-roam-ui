@@ -24,7 +24,7 @@ import { Title } from '../Sidebar/Title'
 
 export interface DeskCardProps {
   previewNodeId: string
-  //setPreviewNode: any
+  setPreviewNode: any
   //onLinkClick: any
   onAddDeskCard: any
   nodeById: NodeById
@@ -41,7 +41,7 @@ export interface DeskCardProps {
 export default function DeskCard (props: DeskCardProps) {
   const {
     previewNodeId,
-    //setPreviewNode,
+    setPreviewNode,
     //onLinkClick,
     onAddDeskCard,
     nodeById,
@@ -81,11 +81,13 @@ export default function DeskCard (props: DeskCardProps) {
         />
       </Flex>
       <Note
-        previewNode={previewNode as NodeObject} 
-        onLinkClick={(id: string) => {
-          console.log("== onLinkclick ==\n   layout=",layout);
-          return onAddDeskCard(id,layout)
-        }}
+        previewNode={previewNode as NodeObject}
+        setPreviewNode={setPreviewNode}
+//        onLinkClick={(id: string) => {
+//          console.log("== onLinkclick ==\n   layout=",layout);
+//          return onAddDeskCard(id,layout)
+//        }}
+        isDesk={true}
         onAddDeskCard={onAddDeskCard}
         justificationList={["start"]}
         justification={0}

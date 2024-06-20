@@ -41,8 +41,9 @@ import { normalizeLinkEnds } from './normalizeLinkEnds'
 export interface ProcessedOrgProps {
   nodeById: NodeById
   previewNode: OrgRoamNode
-  //setPreviewNode: any
-  onLinkClick: any
+  setPreviewNode: any
+  //onLinkClick: any
+  isDesk: boolean
   onAddDeskCard: any
   previewText: any
   nodeByCite: NodeByCite
@@ -60,8 +61,9 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
   const {
     nodeById,
     setSidebarHighlightedNode,
-    //setPreviewNode,
-    onLinkClick,
+    setPreviewNode,
+    //onLinkClick,
+    isDesk,
     onAddDeskCard,
     previewText,
     nodeByCite,
@@ -157,8 +159,9 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
                   href={`${href as string}`}
                   nodeById={nodeById}
                   linksByNodeId={linksByNodeId}
-                  //setPreviewNode={setPreviewNode}
-                  onLinkClick={onLinkClick}
+                  setPreviewNode={setPreviewNode}
+                  //onLinkClick={onLinkClick}
+                  isDesk={isDesk}
                   onAddDeskCard={onAddDeskCard}
                   openContextMenu={openContextMenu}
                   outline={outline}

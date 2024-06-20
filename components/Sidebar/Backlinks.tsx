@@ -8,8 +8,9 @@ import React from 'react'
 
 export interface BacklinksProps {
   previewNode: NodeObject | OrgRoamNode
-  //setPreviewNode: any
-  onLinkClick: any
+  setPreviewNode: any
+  //onLinkClick: any
+  isDesk: boolean
   onAddDeskCard: any
   nodeById: NodeById
   linksByNodeId: LinksByNodeId
@@ -30,8 +31,9 @@ import { normalizeLinkEnds } from '../../util/normalizeLinkEnds'
 export const Backlinks = (props: BacklinksProps) => {
   const {
     previewNode,
-    //setPreviewNode,
-    onLinkClick,
+    setPreviewNode,
+    //onLinkClick,
+    isDesk,
     onAddDeskCard,
     setSidebarHighlightedNode,
     nodeById,
@@ -51,8 +53,8 @@ export const Backlinks = (props: BacklinksProps) => {
       return source !== previewNode?.id
     })
     .map((l) => l.source)
-  console.log("== Backlinks == %s\n   ",nodeById[previewNode.id].title,
-              backLinks.map((id) => nodeById[id].title))
+  //console.log("== Backlinks == %s\n   ",nodeById[previewNode?.id].title,
+  //            backLinks.map((id) => nodeById[id].title))
 
   return (
     <Box className="backlinks" borderRadius="sm" mt={6} p={4} bg="white" mb={10}>
@@ -77,8 +79,9 @@ export const Backlinks = (props: BacklinksProps) => {
                  href={`id:${link as string}`}
                  nodeById={nodeById}
                  //previewNode={previewNode}
-                 //setPreviewNode={setPreviewNode}
-                 onLinkClick={onLinkClick}
+                 setPreviewNode={setPreviewNode}
+                 //onLinkClick={onLinkClick}
+                 isDesk={isDesk}
                  onAddDeskCard={onAddDeskCard}
                  openContextMenu={openContextMenu}
                  outline={outline}

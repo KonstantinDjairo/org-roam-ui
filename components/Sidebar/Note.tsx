@@ -10,8 +10,9 @@ import { defaultNoteStyle, viewerNoteStyle, outlineNoteStyle } from './noteStyle
 import { OrgRoamLink } from '../../api'
 
 export interface NoteProps {
-  //setPreviewNode: any
-  onLinkClick: any
+  setPreviewNode: any
+  //onLinkClick: any
+  isDesk: boolean
   onAddDeskCard: any
   previewNode: NodeObject
   nodeById: NodeById
@@ -30,8 +31,9 @@ export interface NoteProps {
 
 export const Note = (props: NoteProps) => {
   const {
-    //setPreviewNode,
-    onLinkClick,
+    setPreviewNode,
+    //onLinkClick,
+    isDesk,
     onAddDeskCard,
     justificationList,
     justification,
@@ -51,8 +53,8 @@ export const Note = (props: NoteProps) => {
 
   const extraStyle = outline ? outlineNoteStyle : viewerNoteStyle
   //console.log("NOTE: %s\n    : %s",previewNode.id,previewNode.title)
-  console.log("== Note == %s\n   layout: %s\n   onAdddeskcard: ",
-              previewNode.title,layout,onAddDeskCard)
+  //console.log("== Note == %s\n   layout: %s\n   onAdddeskcard: ",
+  //            previewNode.title,layout,onAddDeskCard)
   return (
     <Box
       pr={8}
@@ -74,8 +76,9 @@ export const Note = (props: NoteProps) => {
         >
           <UniOrg
             {...{
-              //setPreviewNode,
-              onLinkClick,
+              setPreviewNode,
+              //onLinkClick,
+              isDesk,
               onAddDeskCard,
               previewNode,
               nodeByCite,
@@ -92,8 +95,9 @@ export const Note = (props: NoteProps) => {
           />
           <Backlinks
             {...{
-              //setPreviewNode,
-              onLinkClick,
+              setPreviewNode,
+              //onLinkClick,
+              isDesk,
               onAddDeskCard,
               previewNode,
               nodeById,
