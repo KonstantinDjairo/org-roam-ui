@@ -305,6 +305,8 @@ export const PreviewLink = (props: LinkProps) => {
                     <ProcessedOrg
                       previewText={orgText}
                       {...{
+                        isDesk,
+                        onAddDeskCard,
                         nodeById,
                         setSidebarHighlightedNode,
                         setPreviewNode,
