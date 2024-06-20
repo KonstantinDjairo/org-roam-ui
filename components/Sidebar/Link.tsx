@@ -229,123 +229,104 @@ export const PreviewLink = (props: LinkProps) => {
 
   if (id) {
     return (
-      <NodeLink
-        key={nodeById[id]?.title ?? id}
-        {...{
-          id,
-          setSidebarHighlightedNode,
-          setPreviewNode,
-          isDesk,
-          onAddDeskCard,
-          nodeById,
-          href,
-          children,
-          nodeByCite,
-          openContextMenu,
-          noUnderline,
-          isWiki,
-        }}
+      <>
+        <Popover gutter={12} trigger="hover" placement="top-start">
+          <PopoverTrigger>
+            <Box
+              display="inline"
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+            >
+              <NodeLink
+                key={nodeById[id]?.title ?? id}
+                {...{
+                  id,
+                  setSidebarHighlightedNode,
+                  setPreviewNode,
+                  isDesk,
+                  onAddDeskCard,
+                  nodeById,
+                  href,
+                  children,
+                  nodeByCite,
+                  openContextMenu,
+                  noUnderline,
+                  isWiki,
+                }}
       />
+      </Box>
+      </PopoverTrigger>
+      <Portal>
+      <PopoverContent
+      transform="scale(1)"
+      key={nodeById[id]?.title ?? id}
+              boxShadow="xl"
+              position="relative"
+              zIndex="tooltip"
+              onMouseEnter={() => {
+                setSidebarHighlightedNode(nodeById[id] ?? {})
+              }}
+              onMouseLeave={() => {
+                setSidebarHighlightedNode({})
+              }}
+            >
+              <PopoverArrow />
+              <PopoverBody
+                pb={5}
+                fontSize="xs"
+                position="relative"
+                zIndex="tooltip"
+                transform="scale(1)"
+                width="100%"
+              >
+                <Scrollbars
+                  autoHeight
+                  autoHeightMax={300}
+                  autoHide
+                  renderThumbVertical={({ style, ...props }) => (
+                    <Box
+                      style={{
+                        ...style,
+                        borderRadius: 0,
+                        // backgroundColor: highlightColor,
+                      }}
+                      //color="alt.100"
+                      {...props}
+                    />
+                  )}
+                >
+                  <Box
+                    w="100%"
+                    color="black"
+                    px={3}
+                    sx={{ ...defaultNoteStyle, ...extraNoteStyle }}
+                    //overflowY="scroll"
+                  >
+                    <ProcessedOrg
+                      previewText={orgText}
+                      {...{
+                        nodeById,
+                        setSidebarHighlightedNode,
+                        setPreviewNode,
+                        nodeByCite,
+                        openContextMenu,
+                        outline,
+                        linksByNodeId,
+                        macros,
+                        attachDir,
+                        useInheritance,
+                      }}
+                      previewNode={nodeById[id]!}
+                      collapse={false}
+                    />
+                  </Box>
+                </Scrollbars>
+              </PopoverBody>
+            </PopoverContent>
+          </Portal>
+        </Popover>
+      </>
     )
-    //    return (
-    //      <>
-    //        <Popover gutter={12} trigger="hover" placement="top-start">
-    //          <PopoverTrigger>
-    //            <Box
-    //              display="inline"
-    //              onMouseEnter={() => setHover(true)}
-    //              onMouseLeave={() => setHover(false)}
-    //            >
-    //              <NodeLink
-    //                key={nodeById[id]?.title ?? id}
-    //                {...{
-    //                  id,
-    //                  setSidebarHighlightedNode,
-    //                  //setPreviewNode,
-    //                  onLinkClick,
-    //                  nodeById,
-    //                  href,
-    //                  children,
-    //                  nodeByCite,
-    //                  openContextMenu,
-    //                  noUnderline,
-    //                  isWiki,
-    //                }}
-    //              />
-    //            </Box>
-    //      </PopoverTrigger>
-    //      <Portal>
-    //      <PopoverContent
-    //      transform="scale(1)"
-    //      key={nodeById[id]?.title ?? id}
-    //              boxShadow="xl"
-    //              position="relative"
-    //              zIndex="tooltip"
-    //              onMouseEnter={() => {
-    //                setSidebarHighlightedNode(nodeById[id] ?? {})
-    //              }}
-    //              onMouseLeave={() => {
-    //                setSidebarHighlightedNode({})
-    //              }}
-    //            >
-    //              <PopoverArrow />
-    //              <PopoverBody
-    //                pb={5}
-    //                fontSize="xs"
-    //                position="relative"
-    //                zIndex="tooltip"
-    //                transform="scale(1)"
-    //                width="100%"
-    //              >
-    //                <Scrollbars
-    //                  autoHeight
-    //                  autoHeightMax={300}
-    //                  autoHide
-    //                  renderThumbVertical={({ style, ...props }) => (
-    //                    <Box
-    //                      style={{
-    //                        ...style,
-    //                        borderRadius: 0,
-    //                        // backgroundColor: highlightColor,
-    //                      }}
-    //                      //color="alt.100"
-    //                      {...props}
-    //                    />
-    //                  )}
-    //                >
-    //                  <Box
-    //                    w="100%"
-    //                    color="black"
-    //                    px={3}
-    //                    sx={{ ...defaultNoteStyle, ...extraNoteStyle }}
-    //                    //overflowY="scroll"
-    //                  >
-    //                    <ProcessedOrg
-    //                      previewText={orgText}
-    //                      {...{
-    //                        nodeById,
-    //                        setSidebarHighlightedNode,
-    //                        //setPreviewNode,
-    //                        onLinkClick,
-    //                        nodeByCite,
-    //                        openContextMenu,
-    //                        outline,
-    //                        linksByNodeId,
-    //                        macros,
-    //                        attachDir,
-    //                        useInheritance,
-    //                      }}
-    //                      previewNode={nodeById[id]!}
-    //                      collapse={false}
-    //                    />
-    //                  </Box>
-    //                </Scrollbars>
-    //              </PopoverBody>
-    //            </PopoverContent>
-    //          </Portal>
-    //        </Popover>
-    //      </>
-    //    )
   }
   return (
     <Text as="span" display="inline" className={href} color="base.700" cursor="not-allowed">
