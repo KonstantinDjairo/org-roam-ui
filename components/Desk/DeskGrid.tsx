@@ -7,7 +7,6 @@ import {
   IconButton
 } from '@chakra-ui/react';
 import ReactGridLayout from "react-grid-layout";
-//import { Layout, LayoutItem } from '../../pages'
 import { LayoutContext, LayoutItem } from '../../util/layoutcontext'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -32,12 +31,8 @@ import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 
 export interface DeskGridProps {
-  //layout: Layout
-  //setLayout: any
   onLayoutChange: any
   onCloseDeskCard: any
-  //onClose: any
-  //onLinkClick: any
   onAddDeskCard: any
   setPreviewNode: any
   nodeById: NodeById
@@ -54,12 +49,8 @@ export interface DeskGridProps {
 
 export default function DeskGrid (props: DeskGridProps) {
   const {
-    //layout,
-    //setLayout,
     onLayoutChange,
     onCloseDeskCard,
-    //onClose,
-    //onLinkClick,
     onAddDeskCard,
     setPreviewNode,
     nodeById,
@@ -80,7 +71,6 @@ export default function DeskGrid (props: DeskGridProps) {
   //const [indent, setIndent] = useState(0)
   //const [collapse, setCollapse] = useState(false)
   const { layout } = useContext(LayoutContext);
-  console.log("== GRID ================================")
 
   const createDeskCard = (id: string) => {
     return (
@@ -94,7 +84,6 @@ export default function DeskGrid (props: DeskGridProps) {
       >
         <DeskCard
           previewNodeId={id}
-          //onLinkClick={onLinkClick}
           onAddDeskCard={onAddDeskCard}
           setPreviewNode={setPreviewNode}
           nodeById={nodeById}

@@ -4,12 +4,10 @@ import { GraphData, NodeObject, LinkObject } from 'force-graph'
 
 import { VStack, Box, Button, Heading, StackDivider } from '@chakra-ui/react'
 import React from 'react'
-//import { ProcessedOrg } from '../../util/processOrg'
 
 export interface BacklinksProps {
   previewNode: NodeObject | OrgRoamNode
   setPreviewNode: any
-  //onLinkClick: any
   isDesk: boolean
   onAddDeskCard: any
   nodeById: NodeById
@@ -32,7 +30,6 @@ export const Backlinks = (props: BacklinksProps) => {
   const {
     previewNode,
     setPreviewNode,
-    //onLinkClick,
     isDesk,
     onAddDeskCard,
     setSidebarHighlightedNode,
@@ -53,8 +50,6 @@ export const Backlinks = (props: BacklinksProps) => {
       return source !== previewNode?.id
     })
     .map((l) => l.source)
-  //console.log("== Backlinks == %s\n   ",nodeById[previewNode?.id].title,
-  //            backLinks.map((id) => nodeById[id].title))
 
   return (
     <Box className="backlinks" borderRadius="sm" mt={6} p={4} bg="white" mb={10}>
@@ -80,7 +75,6 @@ export const Backlinks = (props: BacklinksProps) => {
                  nodeById={nodeById}
                  //previewNode={previewNode}
                  setPreviewNode={setPreviewNode}
-                 //onLinkClick={onLinkClick}
                  isDesk={isDesk}
                  onAddDeskCard={onAddDeskCard}
                  openContextMenu={openContextMenu}

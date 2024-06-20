@@ -11,7 +11,6 @@ import { OrgRoamLink } from '../../api'
 
 export interface NoteProps {
   setPreviewNode: any
-  //onLinkClick: any
   isDesk: boolean
   onAddDeskCard: any
   previewNode: NodeObject
@@ -32,7 +31,6 @@ export interface NoteProps {
 export const Note = (props: NoteProps) => {
   const {
     setPreviewNode,
-    //onLinkClick,
     isDesk,
     onAddDeskCard,
     justificationList,
@@ -52,9 +50,7 @@ export const Note = (props: NoteProps) => {
   const { layout } = useContext(LayoutContext)
 
   const extraStyle = outline ? outlineNoteStyle : viewerNoteStyle
-  //console.log("NOTE: %s\n    : %s",previewNode.id,previewNode.title)
-  //console.log("== Note == %s\n   layout: %s\n   onAdddeskcard: ",
-  //            previewNode.title,layout,onAddDeskCard)
+
   return (
     <Box
       pr={8}
@@ -77,7 +73,6 @@ export const Note = (props: NoteProps) => {
           <UniOrg
             {...{
               setPreviewNode,
-              //onLinkClick,
               isDesk,
               onAddDeskCard,
               previewNode,
@@ -96,7 +91,6 @@ export const Note = (props: NoteProps) => {
           <Backlinks
             {...{
               setPreviewNode,
-              //onLinkClick,
               isDesk,
               onAddDeskCard,
               previewNode,

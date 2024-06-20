@@ -34,7 +34,6 @@ export interface LinkProps {
   children: any
   //previewNode?: any
   setPreviewNode: any
-  //onLinkClick: any
   isDesk: boolean
   onAddDeskCard: any
   setSidebarHighlightedNode: any
@@ -52,7 +51,6 @@ export interface LinkProps {
 
 export interface NodeLinkProps {
   setPreviewNode: any
-  //onLinkClick: any
   isDesk: boolean
   onAddDeskCard: any
   nodeById: NodeById
@@ -81,7 +79,6 @@ export const NodeLink = (props: NodeLinkProps) => {
     id,
     setSidebarHighlightedNode,
     setPreviewNode,
-    //onLinkClick,
     isDesk,
     onAddDeskCard,
     nodeById,
@@ -99,14 +96,14 @@ export const NodeLink = (props: NodeLinkProps) => {
   const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
   const ID = id ?? uri
   const linkText = isWiki ? `[[${children}]]` : children
-  //console.log("== NODE-LINK == %s, %s\n   layout:%s\n   onAddFunction: %s\n   onAddDeskCard:",
-  //            uri === id,nodeById[uri].title,layout,onAddFunction,onAddDeskCard)
+
   function onClickFunction () {
     if (isDesk) {
       return onAddDeskCard(uri,layout);
     } else {
       return setPreviewNode(nodeById[uri]);
     }}
+
   return (
     <Text
       as="a"
@@ -123,9 +120,6 @@ export const NodeLink = (props: NodeLinkProps) => {
         openContextMenu(nodeById[uri], e)
       }}
       onClick={onClickFunction}
-      //onClick={() => { return onAddDeskCard(uri,layout) }} 
-      //onClick={() => onLinkClick(uri)}
-      //onClick={setPreviewNode ? () => setPreviewNode(nodeById[uri]) : () => onLinkClick(uri)}
       // TODO  don't hardcode the opacitycolor
       _hover={{ textDecoration: 'none', cursor: 'pointer', bgColor: coolHighlightColor + '22' }}
       _focus={{ outlineColor: highlightColor }}
@@ -154,7 +148,6 @@ export const PreviewLink = (props: LinkProps) => {
     setSidebarHighlightedNode,
     //previewNode,
     setPreviewNode,
-    //onLinkClick,
     isDesk,
     onAddDeskCard,
     nodeByCite,
@@ -167,7 +160,6 @@ export const PreviewLink = (props: LinkProps) => {
     attachDir,
     useInheritance,
   } = props
-  const { layout } = useContext(LayoutContext)
   // TODO figure out how to properly type this
   // see https://github.com/rehypejs/rehype-react/issues/25
   const [orgText, setOrgText] = useState<any>(null)
@@ -234,8 +226,6 @@ export const PreviewLink = (props: LinkProps) => {
 
   const id = getId(type, uri)
   const file = encodeURIComponent(encodeURIComponent(nodeById[id]?.file as string))
-  //console.log("---PREVIEW-LINK: %s\n---%s",id,nodeById[id]?.title)
-  console.log("== PreviewLink ==",nodeById[id]?.title)
 
   if (id) {
     return (
@@ -245,7 +235,6 @@ export const PreviewLink = (props: LinkProps) => {
           id,
           setSidebarHighlightedNode,
           setPreviewNode,
-          //onLinkClick,
           isDesk,
           onAddDeskCard,
           nodeById,

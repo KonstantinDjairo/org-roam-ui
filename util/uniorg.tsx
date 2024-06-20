@@ -6,7 +6,6 @@ export interface UniOrgProps {
   nodeById: NodeById
   previewNode: any
   setPreviewNode: any
-  //onLinkClick: any
   isDesk: boolean
   onAddDeskCard: any
   nodeByCite: NodeByCite
@@ -28,7 +27,6 @@ export const UniOrg = (props: UniOrgProps) => {
     nodeByCite,
     previewNode,
     setPreviewNode,
-    //onLinkClick,
     isDesk,
     onAddDeskCard,
     outline,
@@ -71,7 +69,6 @@ export const UniOrg = (props: UniOrgProps) => {
             nodeById,
             previewNode,
             setPreviewNode,
-            //onLinkClick,
             isDesk,
             onAddDeskCard,
             previewText,

@@ -27,7 +27,7 @@ import remarkRehype from 'remark-rehype'
 
 import { PreviewLink } from '../components/Sidebar/Link'
 import { LinksByNodeId, NodeByCite, NodeById } from '../pages'
-import React, { createContext, ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import { OrgImage } from '../components/Sidebar/OrgImage'
 import { Section } from '../components/Sidebar/Section'
 import { NoteContext } from './NoteContext'
@@ -42,7 +42,6 @@ export interface ProcessedOrgProps {
   nodeById: NodeById
   previewNode: OrgRoamNode
   setPreviewNode: any
-  //onLinkClick: any
   isDesk: boolean
   onAddDeskCard: any
   previewText: any
@@ -62,7 +61,6 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
     nodeById,
     setSidebarHighlightedNode,
     setPreviewNode,
-    //onLinkClick,
     isDesk,
     onAddDeskCard,
     previewText,
@@ -80,7 +78,6 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
   if (!previewNode || !linksByNodeId) {
     return null
   }
-  console.log("== ProcessedOrg ==\n   ",onAddDeskCard)
   
   const orgProcessor = unified()
     .use(uniorgParse)
@@ -160,7 +157,6 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
                   nodeById={nodeById}
                   linksByNodeId={linksByNodeId}
                   setPreviewNode={setPreviewNode}
-                  //onLinkClick={onLinkClick}
                   isDesk={isDesk}
                   onAddDeskCard={onAddDeskCard}
                   openContextMenu={openContextMenu}
@@ -212,7 +208,6 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
   )
 
   const text = useMemo(() => processor.processSync(previewText).result, [previewText])
-  //const text = processor.processSync(previewText).result
   return (
     <NoteContext.Provider value={{ collapse, outline }}>{text as ReactNode}</NoteContext.Provider>
   )

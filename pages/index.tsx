@@ -738,8 +738,6 @@ export function GraphPage() {
             isOpenDesk,
             onOpenDesk,
             onCloseDesk,
-            //layout,
-            //setLayout,
             selectedItems,
             setSelectedItems,
             setPreviewNode,

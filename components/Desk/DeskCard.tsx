@@ -12,7 +12,6 @@ import 'react-resizable/css/styles.css'
 import { Scrollbars } from 'react-custom-scrollbars-2'
 import { EditIcon, CloseIcon } from '@chakra-ui/icons'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
-//import ReconnectingWebSocket from 'reconnecting-websocket'
 
 import { OrgRoamNode } from '../../api'
 import { openNodeInEmacs } from '../../util/webSocketFunctions'
@@ -25,7 +24,6 @@ import { Title } from '../Sidebar/Title'
 export interface DeskCardProps {
   previewNodeId: string
   setPreviewNode: any
-  //onLinkClick: any
   onAddDeskCard: any
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -42,7 +40,6 @@ export default function DeskCard (props: DeskCardProps) {
   const {
     previewNodeId,
     setPreviewNode,
-    //onLinkClick,
     onAddDeskCard,
     nodeById,
     nodeByCite,
@@ -83,10 +80,6 @@ export default function DeskCard (props: DeskCardProps) {
       <Note
         previewNode={previewNode as NodeObject}
         setPreviewNode={setPreviewNode}
-//        onLinkClick={(id: string) => {
-//          console.log("== onLinkclick ==\n   layout=",layout);
-//          return onAddDeskCard(id,layout)
-//        }}
         isDesk={true}
         onAddDeskCard={onAddDeskCard}
         justificationList={["start"]}

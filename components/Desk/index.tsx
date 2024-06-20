@@ -39,7 +39,6 @@ import { BiDotsVerticalRounded, BiFile, BiNetworkChart } from 'react-icons/bi'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
 import { OrgRoamNode } from '../../api'
-//import { Layout, LayoutItem } from '../../pages'
 import { LayoutContext, Layout, LayoutItem } from '../../util/layoutcontext'
 import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
 import DeskGrid from './DeskGrid'
@@ -52,8 +51,6 @@ export interface DeskProps {
   isOpenDesk: boolean
   onOpenDesk: any
   onCloseDesk: any
-  //layout: Layout
-  //setLayout: any
   selectedItems: Item[]
   setSelectedItems: any
   setPreviewNode: any
@@ -73,8 +70,6 @@ function Desk(props: DeskProps) {
     isOpenDesk,
     onOpenDesk,
     onCloseDesk,
-    //layout,
-    //setLayout,
     selectedItems,
     setSelectedItems,
     setPreviewNode,
@@ -91,7 +86,6 @@ function Desk(props: DeskProps) {
   function onAddDeskCard (id: string, layout: Layout): boolean {
     /*eslint no-console: 0*/
     // Add a new item. It must have a unique key!
-    //console.log("ADD:",id,layout,layout.find((l) => l.i === id))
     if (layout.find((l: LayoutItem) => l.i == id) === undefined) {
       setLayout(layout.concat({
           i: id,
@@ -100,16 +94,13 @@ function Desk(props: DeskProps) {
           w: 12,
           h: 4
         }));
-      //console.log("TRUE,OLD-LAYOUT:",layout)
       return true;
     } else {
-      //console.log("FALSE(FOUND)",layout)
       return false;
     }
   }
 
   const onLayoutChange = (layout: Layout) => {
-    //console.log("CHANGE:",layout)
     //this.props.onLayoutChange(layout);
     setLayout(layout);
   }
@@ -173,7 +164,6 @@ function Desk(props: DeskProps) {
           <ModalBody>
             <DeskGrid
               {...props}
-              //onLinkClick={(id: string) => onAddDeskCard(id,layout)}
               onAddDeskCard={onAddDeskCard}
               onLayoutChange={onLayoutChange}
               onCloseDeskCard={onCloseDeskCard}
