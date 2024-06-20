@@ -39,7 +39,8 @@ import { BiDotsVerticalRounded, BiFile, BiNetworkChart } from 'react-icons/bi'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 
 import { OrgRoamNode } from '../../api'
-import { Layout, LayoutItem } from '../../pages'
+//import { Layout, LayoutItem } from '../../pages'
+import { LayoutContext, Layout, LayoutItem } from '../../util/layoutcontext'
 import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
 import DeskGrid from './DeskGrid'
 import { SelectNodes, SelectNodesProps } from './SelectNodes'
@@ -51,8 +52,8 @@ export interface DeskProps {
   isOpenDesk: boolean
   onOpenDesk: any
   onCloseDesk: any
-  layout: Layout
-  setLayout: any
+  //layout: Layout
+  //setLayout: any
   selectedItems: Item[]
   setSelectedItems: any
   //setPreviewNode: any
@@ -72,8 +73,8 @@ function Desk(props: DeskProps) {
     isOpenDesk,
     onOpenDesk,
     onCloseDesk,
-    layout,
-    setLayout,
+    //layout,
+    //setLayout,
     selectedItems,
     setSelectedItems,
     //setPreviewNode,
@@ -85,11 +86,13 @@ function Desk(props: DeskProps) {
     webSocket,
   } = props
 
-  const onAddDeskCard = (id: string): boolean => {
+  const { layout, setLayout } = useContext(LayoutContext);
+  
+  function onAddDeskCard (id: string, layout: Layout): boolean {
     /*eslint no-console: 0*/
     // Add a new item. It must have a unique key!
-    console.log("ADD:",id,layout,layout.find((l) => l.i === id))
-    if (layout.find((l) => l.i == id) === undefined) {
+    //console.log("ADD:",id,layout,layout.find((l) => l.i === id))
+    if (layout.find((l: LayoutItem) => l.i == id) === undefined) {
       setLayout(layout.concat({
           i: id,
           x: 0,  //(layout.length * 12) % 48,
@@ -97,22 +100,22 @@ function Desk(props: DeskProps) {
           w: 12,
           h: 4
         }));
-      console.log("TRUE,OLD-LAYOUT:",layout)
+      //console.log("TRUE,OLD-LAYOUT:",layout)
       return true;
     } else {
-      console.log("FALSE(FOUND)",layout)
+      //console.log("FALSE(FOUND)",layout)
       return false;
     }
   }
 
   const onLayoutChange = (layout: Layout) => {
-    console.log("CHANGE:",layout)
+    //console.log("CHANGE:",layout)
     //this.props.onLayoutChange(layout);
-    //setLayout(layout);
+    setLayout(layout);
   }
 
   const onCloseDeskCard = (i: string) => {
-    setLayout(layout.filter((item) => item.i !== i));
+    setLayout(layout.filter((item: LayoutItem) => item.i !== i));
     setSelectedItems(selectedItems.filter((item: Item) => item.value !== i))
   }
 
@@ -130,7 +133,7 @@ function Desk(props: DeskProps) {
         for (let id of changes.selectedItems) {
           if (!selectedItems.includes(id))
           {
-            onAddDeskCard(id.value)
+            onAddDeskCard(id.value,layout)
           }
         }
         break;
@@ -170,7 +173,8 @@ function Desk(props: DeskProps) {
           <ModalBody>
             <DeskGrid
               {...props}
-              onLinkClick={onAddDeskCard}
+              //onLinkClick={(id: string) => onAddDeskCard(id,layout)}
+              onAddDeskCard={onAddDeskCard}
               onLayoutChange={onLayoutChange}
               onCloseDeskCard={onCloseDeskCard}
             />

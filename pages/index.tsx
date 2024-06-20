@@ -22,6 +22,7 @@ import React, {
   useMemo,
   useRef,
   useState,
+  useDebugValue,
 } from 'react'
 //@ts-expect-error
 import jLouvain from 'jlouvain.js'
@@ -34,15 +35,6 @@ import { BsReverseLayoutSidebarInsetReverse, BsBack } from 'react-icons/bs'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import SpriteText from 'three-spritetext'
 import useUndo from 'use-undo'
-//import { Layout } from "react-grid-layout";
-export type LayoutItem = {
-  i: string,
-  x: number,
-  y: number,
-  w: number,
-  h: number
-}
-export type Layout = LayoutItem[]
 import { OrgRoamGraphReponse, OrgRoamLink, OrgRoamNode } from '../api'
 import {
   algos,
@@ -62,6 +54,7 @@ import Desk from '../components/Desk'
 import { Tweaks } from '../components/Tweaks'
 import { usePersistantState } from '../util/persistant-state'
 import { ThemeContext, ThemeContextProps } from '../util/themecontext'
+import { LayoutContext, Layout, LayoutItem } from '../util/layoutcontext'
 import { openNodeInEmacs } from '../util/webSocketFunctions'
 import { drawLabels } from '../components/Graph/drawLabels'
 import { VariablesContext } from '../util/variablesContext'
@@ -583,6 +576,7 @@ export function GraphPage() {
   )
 
   return (
+    <LayoutContext.Provider value={{layout,setLayout}}>
     <VariablesContext.Provider value={{ ...emacsVariables }}>
     <Box
       display="flex"
@@ -744,8 +738,8 @@ export function GraphPage() {
             isOpenDesk,
             onOpenDesk,
             onCloseDesk,
-            layout,
-            setLayout,
+            //layout,
+            //setLayout,
             selectedItems,
             setSelectedItems,
             //setPreviewNode,
@@ -787,6 +781,7 @@ export function GraphPage() {
       )}
     </Box>
     </VariablesContext.Provider>
+    </LayoutContext.Provider>
   )
 }
 

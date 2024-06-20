@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -16,6 +16,7 @@ import { BiDotsVerticalRounded } from 'react-icons/bi'
 
 import { OrgRoamNode } from '../../api'
 import { openNodeInEmacs } from '../../util/webSocketFunctions'
+import { LayoutContext } from '../../util/layoutcontext'
 //import { usePersistantState } from '../../util/persistant-state'
 import { NodeById, NodeByCite, LinksByNodeId } from '../../pages/index'
 import { Note } from '../Sidebar/Note'
@@ -24,7 +25,8 @@ import { Title } from '../Sidebar/Title'
 export interface DeskCardProps {
   previewNodeId: string
   //setPreviewNode: any
-  onLinkClick: any
+  //onLinkClick: any
+  onAddDeskCard: any
   nodeById: NodeById
   nodeByCite: NodeByCite
   linksByNodeId: LinksByNodeId
@@ -40,7 +42,8 @@ export default function DeskCard (props: DeskCardProps) {
   const {
     previewNodeId,
     //setPreviewNode,
-    onLinkClick,
+    //onLinkClick,
+    onAddDeskCard,
     nodeById,
     nodeByCite,
     linksByNodeId,
@@ -51,7 +54,8 @@ export default function DeskCard (props: DeskCardProps) {
     useInheritance,
     webSocket,
   } = props;
-
+  const { layout } = useContext(LayoutContext)
+  
   const previewNode = nodeById[previewNodeId]
   
   return (
@@ -78,7 +82,11 @@ export default function DeskCard (props: DeskCardProps) {
       </Flex>
       <Note
         previewNode={previewNode as NodeObject} 
-        onLinkClick={onLinkClick}
+        onLinkClick={(id: string) => {
+          console.log("== onLinkclick ==\n   layout=",layout);
+          return onAddDeskCard(id,layout)
+        }}
+        onAddDeskCard={onAddDeskCard}
         justificationList={["start"]}
         justification={0}
         nodeById={nodeById}

@@ -43,6 +43,7 @@ export interface ProcessedOrgProps {
   previewNode: OrgRoamNode
   //setPreviewNode: any
   onLinkClick: any
+  onAddDeskCard: any
   previewText: any
   nodeByCite: NodeByCite
   setSidebarHighlightedNode: any
@@ -61,6 +62,7 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
     setSidebarHighlightedNode,
     //setPreviewNode,
     onLinkClick,
+    onAddDeskCard,
     previewText,
     nodeByCite,
     previewNode,
@@ -76,7 +78,8 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
   if (!previewNode || !linksByNodeId) {
     return null
   }
-
+  console.log("== ProcessedOrg ==\n   ",onAddDeskCard)
+  
   const orgProcessor = unified()
     .use(uniorgParse)
     .use(extractKeywords)
@@ -156,6 +159,7 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
                   linksByNodeId={linksByNodeId}
                   //setPreviewNode={setPreviewNode}
                   onLinkClick={onLinkClick}
+                  onAddDeskCard={onAddDeskCard}
                   openContextMenu={openContextMenu}
                   outline={outline}
                   //previewNode={previewNode}
@@ -205,6 +209,7 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
   )
 
   const text = useMemo(() => processor.processSync(previewText).result, [previewText])
+  //const text = processor.processSync(previewText).result
   return (
     <NoteContext.Provider value={{ collapse, outline }}>{text as ReactNode}</NoteContext.Provider>
   )

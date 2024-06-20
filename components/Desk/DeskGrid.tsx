@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -7,7 +7,8 @@ import {
   IconButton
 } from '@chakra-ui/react';
 import ReactGridLayout from "react-grid-layout";
-import { Layout, LayoutItem } from '../../pages'
+//import { Layout, LayoutItem } from '../../pages'
+import { LayoutContext, LayoutItem } from '../../util/layoutcontext'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { Scrollbars } from 'react-custom-scrollbars-2'
@@ -31,12 +32,13 @@ import { Note } from '../Sidebar/Note'
 import { Title } from '../Sidebar/Title'
 
 export interface DeskGridProps {
-  layout: Layout
-  setLayout: any
+  //layout: Layout
+  //setLayout: any
   onLayoutChange: any
   onCloseDeskCard: any
   //onClose: any
-  onLinkClick: any
+  //onLinkClick: any
+  onAddDeskCard: any
   //setPreviewNode: any
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -52,12 +54,13 @@ export interface DeskGridProps {
 
 export default function DeskGrid (props: DeskGridProps) {
   const {
-    layout,
-    setLayout,
+    //layout,
+    //setLayout,
     onLayoutChange,
     onCloseDeskCard,
     //onClose,
-    onLinkClick,
+    //onLinkClick,
+    onAddDeskCard,
     //setPreviewNode,
     nodeById,
     nodeByCite,
@@ -76,6 +79,8 @@ export default function DeskGrid (props: DeskGridProps) {
   //const [font, setFont] = useState('sans serif')
   //const [indent, setIndent] = useState(0)
   //const [collapse, setCollapse] = useState(false)
+  const { layout } = useContext(LayoutContext);
+  console.log("== GRID ================================")
 
   const createDeskCard = (id: string) => {
     return (
@@ -89,7 +94,8 @@ export default function DeskGrid (props: DeskGridProps) {
       >
         <DeskCard
           previewNodeId={id}
-          onLinkClick={onLinkClick}
+          //onLinkClick={onLinkClick}
+          onAddDeskCard={onAddDeskCard}
           //setPreviewNode={setPreviewNode}
           nodeById={nodeById}
           nodeByCite={nodeByCite}
@@ -114,12 +120,12 @@ export default function DeskGrid (props: DeskGridProps) {
       containerPadding={[20,20]}
       //compactType={null}
       isDroppable={true}
-      //onLayoutChange={onLayoutChange}
+      onLayoutChange={onLayoutChange}
       resizeHandles={['s','n','e','w','sw','nw','se','ne']}
       draggableCancel=".nodrag"
       allowOverlap={true}
     >
-      {layout.map((item) => createDeskCard(item.i))}
+      {layout.map((item: LayoutItem) => createDeskCard(item.i))}
     </ReactGridLayout>
   );
 };

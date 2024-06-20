@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NodeObject } from 'force-graph'
 
 import { NodeById, NodeByCite, LinksByNodeId } from '../../pages'
 import { Box, Flex } from '@chakra-ui/react'
 import { UniOrg } from '../../util/uniorg'
+import { LayoutContext } from '../../util/layoutcontext'
 import { Backlinks } from '../../components/Sidebar/Backlinks'
 import { defaultNoteStyle, viewerNoteStyle, outlineNoteStyle } from './noteStyle'
 import { OrgRoamLink } from '../../api'
@@ -11,6 +12,7 @@ import { OrgRoamLink } from '../../api'
 export interface NoteProps {
   //setPreviewNode: any
   onLinkClick: any
+  onAddDeskCard: any
   previewNode: NodeObject
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -30,6 +32,7 @@ export const Note = (props: NoteProps) => {
   const {
     //setPreviewNode,
     onLinkClick,
+    onAddDeskCard,
     justificationList,
     justification,
     previewNode,
@@ -44,8 +47,12 @@ export const Note = (props: NoteProps) => {
     attachDir,
     useInheritance,
   } = props
+  const { layout } = useContext(LayoutContext)
 
   const extraStyle = outline ? outlineNoteStyle : viewerNoteStyle
+  //console.log("NOTE: %s\n    : %s",previewNode.id,previewNode.title)
+  console.log("== Note == %s\n   layout: %s\n   onAdddeskcard: ",
+              previewNode.title,layout,onAddDeskCard)
   return (
     <Box
       pr={8}
@@ -69,6 +76,7 @@ export const Note = (props: NoteProps) => {
             {...{
               //setPreviewNode,
               onLinkClick,
+              onAddDeskCard,
               previewNode,
               nodeByCite,
               setSidebarHighlightedNode,
@@ -86,6 +94,7 @@ export const Note = (props: NoteProps) => {
             {...{
               //setPreviewNode,
               onLinkClick,
+              onAddDeskCard,
               previewNode,
               nodeById,
               linksByNodeId,

@@ -26,6 +26,7 @@ import { ProcessedOrg } from '../../util/processOrg'
 import 'katex/dist/katex.css'
 // import rehype2react from 'rehype-react'
 import { ThemeContext } from '../../util/themecontext'
+import { LayoutContext } from '../../util/layoutcontext'
 import { LinksByNodeId, NodeByCite, NodeById } from '../../pages'
 
 export interface LinkProps {
@@ -34,6 +35,7 @@ export interface LinkProps {
   //previewNode?: any
   //setPreviewNode: any
   onLinkClick: any
+  onAddDeskCard: any
   setSidebarHighlightedNode: any
   nodeByCite: NodeByCite
   nodeById: NodeById
@@ -50,6 +52,7 @@ export interface LinkProps {
 export interface NodeLinkProps {
   //setPreviewNode: any
   onLinkClick: any
+  onAddDeskCard: any
   nodeById: NodeById
   nodeByCite: NodeByCite
   href: any
@@ -77,12 +80,14 @@ export const NodeLink = (props: NodeLinkProps) => {
     setSidebarHighlightedNode,
     //setPreviewNode,
     onLinkClick,
+    onAddDeskCard,
     nodeById,
     openContextMenu,
     href,
     children,
     isWiki,
   } = props
+  const { layout, onAddFunction } = useContext(LayoutContext)
   const { highlightColor } = useContext(ThemeContext)
 
   const theme = useTheme()
@@ -91,6 +96,8 @@ export const NodeLink = (props: NodeLinkProps) => {
   const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
   const ID = id ?? uri
   const linkText = isWiki ? `[[${children}]]` : children
+  console.log("== NODE-LINK == %s, %s\n   layout:%s\n   onAddFunction: %s\n   onAddDeskCard:",
+              uri === id,nodeById[id].title,layout,onAddFunction,onAddDeskCard)
   return (
     <Text
       as="a"
@@ -106,7 +113,8 @@ export const NodeLink = (props: NodeLinkProps) => {
         e.preventDefault()
         openContextMenu(nodeById[uri], e)
       }}
-      onClick={() => onLinkClick(uri)}
+      onClick={() => { return onAddDeskCard(uri,layout) }} 
+      //onClick={() => onLinkClick(uri)}
       //onClick={setPreviewNode ? () => setPreviewNode(nodeById[uri]) : () => onLinkClick(uri)}
       // TODO  don't hardcode the opacitycolor
       _hover={{ textDecoration: 'none', cursor: 'pointer', bgColor: coolHighlightColor + '22' }}
@@ -137,6 +145,7 @@ export const PreviewLink = (props: LinkProps) => {
     //previewNode,
     //setPreviewNode,
     onLinkClick,
+    onAddDeskCard,
     nodeByCite,
     openContextMenu,
     outline,
@@ -147,6 +156,7 @@ export const PreviewLink = (props: LinkProps) => {
     attachDir,
     useInheritance,
   } = props
+  const { layout } = useContext(LayoutContext)
   // TODO figure out how to properly type this
   // see https://github.com/rehypejs/rehype-react/issues/25
   const [orgText, setOrgText] = useState<any>(null)
@@ -154,7 +164,6 @@ export const PreviewLink = (props: LinkProps) => {
   const type = href.replaceAll(/(.*?)\:.*/g, '$1')
 
   const extraNoteStyle = outline ? outlineNoteStyle : viewerNoteStyle
-  //console.log(previewNode)
   const getText = () => {
     fetch(`http://localhost:35901/node/${id}`)
       .then((res) => {
@@ -214,107 +223,128 @@ export const PreviewLink = (props: LinkProps) => {
 
   const id = getId(type, uri)
   const file = encodeURIComponent(encodeURIComponent(nodeById[id]?.file as string))
+  //console.log("---PREVIEW-LINK: %s\n---%s",id,nodeById[id]?.title)
+  console.log("== PreviewLink ==",nodeById[id]?.title)
 
   if (id) {
     return (
-      <>
-        <Popover gutter={12} trigger="hover" placement="top-start">
-          <PopoverTrigger>
-            <Box
-              display="inline"
-              onMouseEnter={() => setHover(true)}
-              onMouseLeave={() => setHover(false)}
-            >
-              <NodeLink
-                key={nodeById[id]?.title ?? id}
-                {...{
-                  id,
-                  setSidebarHighlightedNode,
-                  //setPreviewNode,
-                  onLinkClick,
-                  nodeById,
-                  href,
-                  children,
-                  nodeByCite,
-                  openContextMenu,
-                  noUnderline,
-                  isWiki,
-                }}
-              />
-            </Box>
-          </PopoverTrigger>
-          <Portal>
-            <PopoverContent
-              transform="scale(1)"
-              key={nodeById[id]?.title ?? id}
-              boxShadow="xl"
-              position="relative"
-              zIndex="tooltip"
-              onMouseEnter={() => {
-                setSidebarHighlightedNode(nodeById[id] ?? {})
-              }}
-              onMouseLeave={() => {
-                setSidebarHighlightedNode({})
-              }}
-            >
-              <PopoverArrow />
-              <PopoverBody
-                pb={5}
-                fontSize="xs"
-                position="relative"
-                zIndex="tooltip"
-                transform="scale(1)"
-                width="100%"
-              >
-                <Scrollbars
-                  autoHeight
-                  autoHeightMax={300}
-                  autoHide
-                  renderThumbVertical={({ style, ...props }) => (
-                    <Box
-                      style={{
-                        ...style,
-                        borderRadius: 0,
-                        // backgroundColor: highlightColor,
-                      }}
-                      //color="alt.100"
-                      {...props}
-                    />
-                  )}
-                >
-                  <Box
-                    w="100%"
-                    color="black"
-                    px={3}
-                    sx={{ ...defaultNoteStyle, ...extraNoteStyle }}
-                    //overflowY="scroll"
-                  >
-                    <ProcessedOrg
-                      previewText={orgText}
-                      {...{
-                        nodeById,
-                        setSidebarHighlightedNode,
-                        //setPreviewNode,
-                        onLinkClick,
-                        nodeByCite,
-                        openContextMenu,
-                        outline,
-                        linksByNodeId,
-                        macros,
-                        attachDir,
-                        useInheritance,
-                      }}
-                      previewNode={nodeById[id]!}
-                      collapse={false}
-                    />
-                  </Box>
-                </Scrollbars>
-              </PopoverBody>
-            </PopoverContent>
-          </Portal>
-        </Popover>
-      </>
+      <NodeLink
+        key={nodeById[id]?.title ?? id}
+        {...{
+          id,
+          setSidebarHighlightedNode,
+          //setPreviewNode,
+          onLinkClick,
+          onAddDeskCard,
+          nodeById,
+          href,
+          children,
+          nodeByCite,
+          openContextMenu,
+          noUnderline,
+          isWiki,
+        }}
+      />
     )
+    //    return (
+    //      <>
+    //        <Popover gutter={12} trigger="hover" placement="top-start">
+    //          <PopoverTrigger>
+    //            <Box
+    //              display="inline"
+    //              onMouseEnter={() => setHover(true)}
+    //              onMouseLeave={() => setHover(false)}
+    //            >
+    //              <NodeLink
+    //                key={nodeById[id]?.title ?? id}
+    //                {...{
+    //                  id,
+    //                  setSidebarHighlightedNode,
+    //                  //setPreviewNode,
+    //                  onLinkClick,
+    //                  nodeById,
+    //                  href,
+    //                  children,
+    //                  nodeByCite,
+    //                  openContextMenu,
+    //                  noUnderline,
+    //                  isWiki,
+    //                }}
+    //              />
+    //            </Box>
+    //      </PopoverTrigger>
+    //      <Portal>
+    //      <PopoverContent
+    //      transform="scale(1)"
+    //      key={nodeById[id]?.title ?? id}
+    //              boxShadow="xl"
+    //              position="relative"
+    //              zIndex="tooltip"
+    //              onMouseEnter={() => {
+    //                setSidebarHighlightedNode(nodeById[id] ?? {})
+    //              }}
+    //              onMouseLeave={() => {
+    //                setSidebarHighlightedNode({})
+    //              }}
+    //            >
+    //              <PopoverArrow />
+    //              <PopoverBody
+    //                pb={5}
+    //                fontSize="xs"
+    //                position="relative"
+    //                zIndex="tooltip"
+    //                transform="scale(1)"
+    //                width="100%"
+    //              >
+    //                <Scrollbars
+    //                  autoHeight
+    //                  autoHeightMax={300}
+    //                  autoHide
+    //                  renderThumbVertical={({ style, ...props }) => (
+    //                    <Box
+    //                      style={{
+    //                        ...style,
+    //                        borderRadius: 0,
+    //                        // backgroundColor: highlightColor,
+    //                      }}
+    //                      //color="alt.100"
+    //                      {...props}
+    //                    />
+    //                  )}
+    //                >
+    //                  <Box
+    //                    w="100%"
+    //                    color="black"
+    //                    px={3}
+    //                    sx={{ ...defaultNoteStyle, ...extraNoteStyle }}
+    //                    //overflowY="scroll"
+    //                  >
+    //                    <ProcessedOrg
+    //                      previewText={orgText}
+    //                      {...{
+    //                        nodeById,
+    //                        setSidebarHighlightedNode,
+    //                        //setPreviewNode,
+    //                        onLinkClick,
+    //                        nodeByCite,
+    //                        openContextMenu,
+    //                        outline,
+    //                        linksByNodeId,
+    //                        macros,
+    //                        attachDir,
+    //                        useInheritance,
+    //                      }}
+    //                      previewNode={nodeById[id]!}
+    //                      collapse={false}
+    //                    />
+    //                  </Box>
+    //                </Scrollbars>
+    //              </PopoverBody>
+    //            </PopoverContent>
+    //          </Portal>
+    //        </Popover>
+    //      </>
+    //    )
   }
   return (
     <Text as="span" display="inline" className={href} color="base.700" cursor="not-allowed">
