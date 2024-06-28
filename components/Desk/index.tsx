@@ -110,23 +110,29 @@ function Desk(props: DeskProps) {
   }
 
   const onSelectedItemsChange = (changes: any,selectedItems: Item[]) => {
+    const closeCard = () => {
+      for (let id of selectedItems) {
+        if (!changes.selectedItems.includes(id)) onCloseDeskCard(id.value)
+    }}
+    const addCard = () => {
+      for (let id of changes.selectedItems) {
+        if (!selectedItems.includes(id)) onAddDeskCard(id.value,layout);
+    }}
     switch(changes.type) {
+      case 9:
+        closeCard();
+        break;
       case "__function_remove_selected_item__":
-        for (let id of selectedItems) {
-          if (!changes.selectedItems.includes(id))
-          {
-            onCloseDeskCard(id.value)
-          }
-        }
+        closeCard()
+        break;
+      case 8:
+        addCard();
         break;
       case "__function_add_selected_item__":
-        for (let id of changes.selectedItems) {
-          if (!selectedItems.includes(id))
-          {
-            onAddDeskCard(id.value,layout)
-          }
-        }
+        addCard();
         break;
+      default:
+        console.log("Unknown action on Selected node");
     }
     if (changes.selectedItems) {
       setSelectedItems(changes.selectedItems)
