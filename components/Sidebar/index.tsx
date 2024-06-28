@@ -200,7 +200,7 @@ const Sidebar = (props: SidebarProps) => {
                   borderRadius: 0,
                   // backgroundColor: highlightColor,
                 }}
-                //color="alt.100"
+                      //color="alt.100"
                 {...props}
               />
             )}
@@ -235,9 +235,7 @@ const Sidebar = (props: SidebarProps) => {
                     attachDir,
                     useInheritance,
                   }}
-                  //onLinkClick={(id: string) => setPreviewNode(nodeById[id])}
-                  isDesk={false}
-                  onAddDeskCard={null}
+                  onClickFunction={(id: string) => setPreviewNode(nodeById[id])}
                 />
               </VStack>
             )}

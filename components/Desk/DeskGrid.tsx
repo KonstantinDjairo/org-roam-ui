@@ -33,7 +33,7 @@ import { Title } from '../Sidebar/Title'
 export interface DeskGridProps {
   onLayoutChange: any
   onCloseDeskCard: any
-  onAddDeskCard: any
+  onClickFunction: any
   setPreviewNode: any
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -51,7 +51,7 @@ export default function DeskGrid (props: DeskGridProps) {
   const {
     onLayoutChange,
     onCloseDeskCard,
-    onAddDeskCard,
+    onClickFunction,
     setPreviewNode,
     nodeById,
     nodeByCite,
@@ -84,7 +84,7 @@ export default function DeskGrid (props: DeskGridProps) {
       >
         <DeskCard
           previewNodeId={id}
-          onAddDeskCard={onAddDeskCard}
+          onClickFunction={onClickFunction}
           setPreviewNode={setPreviewNode}
           nodeById={nodeById}
           nodeByCite={nodeByCite}

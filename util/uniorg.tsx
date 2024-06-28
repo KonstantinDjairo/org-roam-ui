@@ -6,8 +6,7 @@ export interface UniOrgProps {
   nodeById: NodeById
   previewNode: any
   setPreviewNode: any
-  isDesk: boolean
-  onAddDeskCard: any
+  onClickFunction: any
   nodeByCite: NodeByCite
   setSidebarHighlightedNode: any
   openContextMenu: any
@@ -27,8 +26,7 @@ export const UniOrg = (props: UniOrgProps) => {
     nodeByCite,
     previewNode,
     setPreviewNode,
-    isDesk,
-    onAddDeskCard,
+    onClickFunction,
     outline,
     collapse,
     linksByNodeId,
@@ -69,8 +67,7 @@ export const UniOrg = (props: UniOrgProps) => {
             nodeById,
             previewNode,
             setPreviewNode,
-            isDesk,
-            onAddDeskCard,
+            onClickFunction,
             previewText,
             nodeByCite,
             setSidebarHighlightedNode,

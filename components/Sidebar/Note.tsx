@@ -11,8 +11,7 @@ import { OrgRoamLink } from '../../api'
 
 export interface NoteProps {
   setPreviewNode: any
-  isDesk: boolean
-  onAddDeskCard: any
+  onClickFunction: any
   previewNode: NodeObject
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -31,8 +30,7 @@ export interface NoteProps {
 export const Note = (props: NoteProps) => {
   const {
     setPreviewNode,
-    isDesk,
-    onAddDeskCard,
+    onClickFunction,
     justificationList,
     justification,
     previewNode,
@@ -73,8 +71,7 @@ export const Note = (props: NoteProps) => {
           <UniOrg
             {...{
               setPreviewNode,
-              isDesk,
-              onAddDeskCard,
+              onClickFunction,
               previewNode,
               nodeByCite,
               setSidebarHighlightedNode,
@@ -91,8 +88,7 @@ export const Note = (props: NoteProps) => {
           <Backlinks
             {...{
               setPreviewNode,
-              isDesk,
-              onAddDeskCard,
+              onClickFunction,
               previewNode,
               nodeById,
               linksByNodeId,

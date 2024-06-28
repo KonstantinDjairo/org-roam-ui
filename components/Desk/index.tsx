@@ -93,7 +93,7 @@ function Desk(props: DeskProps) {
           y: Infinity, // puts it at the bottom
           w: 12,
           h: 4
-        }));
+      }));
       return true;
     } else {
       return false;
@@ -101,7 +101,6 @@ function Desk(props: DeskProps) {
   }
 
   const onLayoutChange = (layout: Layout) => {
-    //this.props.onLayoutChange(layout);
     setLayout(layout);
   }
 
@@ -164,7 +163,7 @@ function Desk(props: DeskProps) {
           <ModalBody>
             <DeskGrid
               {...props}
-              onAddDeskCard={onAddDeskCard}
+              onClickFunction={(id: string) => onAddDeskCard(id,layout)}
               onLayoutChange={onLayoutChange}
               onCloseDeskCard={onCloseDeskCard}
             />

@@ -34,8 +34,7 @@ export interface LinkProps {
   children: any
   //previewNode?: any
   setPreviewNode: any
-  isDesk: boolean
-  onAddDeskCard: any
+  onClickFunction: any
   setSidebarHighlightedNode: any
   nodeByCite: NodeByCite
   nodeById: NodeById
@@ -51,8 +50,7 @@ export interface LinkProps {
 
 export interface NodeLinkProps {
   setPreviewNode: any
-  isDesk: boolean
-  onAddDeskCard: any
+  onClickFunction: any
   nodeById: NodeById
   nodeByCite: NodeByCite
   href: any
@@ -79,15 +77,13 @@ export const NodeLink = (props: NodeLinkProps) => {
     id,
     setSidebarHighlightedNode,
     setPreviewNode,
-    isDesk,
-    onAddDeskCard,
+    onClickFunction,
     nodeById,
     openContextMenu,
     href,
     children,
     isWiki,
   } = props
-  const { layout } = useContext(LayoutContext)
   const { highlightColor } = useContext(ThemeContext)
 
   const theme = useTheme()
@@ -96,13 +92,6 @@ export const NodeLink = (props: NodeLinkProps) => {
   const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
   const ID = id ?? uri
   const linkText = isWiki ? `[[${children}]]` : children
-
-  function onClickFunction () {
-    if (isDesk) {
-      return onAddDeskCard(uri,layout);
-    } else {
-      return setPreviewNode(nodeById[uri]);
-    }}
 
   return (
     <Text
@@ -119,7 +108,7 @@ export const NodeLink = (props: NodeLinkProps) => {
         e.preventDefault()
         openContextMenu(nodeById[uri], e)
       }}
-      onClick={onClickFunction}
+      onClick={() => onClickFunction(uri)}
       // TODO  don't hardcode the opacitycolor
       _hover={{ textDecoration: 'none', cursor: 'pointer', bgColor: coolHighlightColor + '22' }}
       _focus={{ outlineColor: highlightColor }}
@@ -148,8 +137,7 @@ export const PreviewLink = (props: LinkProps) => {
     setSidebarHighlightedNode,
     //previewNode,
     setPreviewNode,
-    isDesk,
-    onAddDeskCard,
+    onClickFunction,
     nodeByCite,
     openContextMenu,
     outline,
@@ -243,8 +231,7 @@ export const PreviewLink = (props: LinkProps) => {
                   id,
                   setSidebarHighlightedNode,
                   setPreviewNode,
-                  isDesk,
-                  onAddDeskCard,
+                  onClickFunction,
                   nodeById,
                   href,
                   children,
@@ -305,11 +292,10 @@ export const PreviewLink = (props: LinkProps) => {
                     <ProcessedOrg
                       previewText={orgText}
                       {...{
-                        isDesk,
-                        onAddDeskCard,
                         nodeById,
                         setSidebarHighlightedNode,
                         setPreviewNode,
+                        onClickFunction,
                         nodeByCite,
                         openContextMenu,
                         outline,

@@ -8,8 +8,7 @@ import React from 'react'
 export interface BacklinksProps {
   previewNode: NodeObject | OrgRoamNode
   setPreviewNode: any
-  isDesk: boolean
-  onAddDeskCard: any
+  onClickFunction: any
   nodeById: NodeById
   linksByNodeId: LinksByNodeId
   nodeByCite: NodeByCite
@@ -30,8 +29,7 @@ export const Backlinks = (props: BacklinksProps) => {
   const {
     previewNode,
     setPreviewNode,
-    isDesk,
-    onAddDeskCard,
+    onClickFunction,
     setSidebarHighlightedNode,
     nodeById,
     linksByNodeId,
@@ -75,8 +73,7 @@ export const Backlinks = (props: BacklinksProps) => {
                  nodeById={nodeById}
                  //previewNode={previewNode}
                  setPreviewNode={setPreviewNode}
-                 isDesk={isDesk}
-                 onAddDeskCard={onAddDeskCard}
+                 onClickFunction={onClickFunction}
                  openContextMenu={openContextMenu}
                  outline={outline}
                  noUnderline
