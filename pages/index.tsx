@@ -22,6 +22,7 @@ import React, {
   useMemo,
   useRef,
   useState,
+  useDebugValue,
 } from 'react'
 //@ts-expect-error
 import jLouvain from 'jlouvain.js'
@@ -30,7 +31,7 @@ import type {
   ForceGraph3D as TForceGraph3D,
 } from 'react-force-graph'
 import { BiNetworkChart } from 'react-icons/bi'
-import { BsReverseLayoutSidebarInsetReverse } from 'react-icons/bs'
+import { BsReverseLayoutSidebarInsetReverse, BsBack } from 'react-icons/bs'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import SpriteText from 'three-spritetext'
 import useUndo from 'use-undo'
@@ -49,9 +50,11 @@ import {
 } from '../components/config'
 import { ContextMenu } from '../components/contextmenu'
 import Sidebar from '../components/Sidebar'
+import Desk from '../components/Desk'
 import { Tweaks } from '../components/Tweaks'
 import { usePersistantState } from '../util/persistant-state'
 import { ThemeContext, ThemeContextProps } from '../util/themecontext'
+import { LayoutContext, Layout, LayoutItem } from '../util/layoutcontext'
 import { openNodeInEmacs } from '../util/webSocketFunctions'
 import { drawLabels } from '../components/Graph/drawLabels'
 import { VariablesContext } from '../util/variablesContext'
@@ -93,6 +96,8 @@ export type Scope = {
   excludedNodeIds: string[]
 }
 
+import { Item } from 'chakra-ui-autocomplete'
+
 export default function Home() {
   // only render on the client
   const [showPage, setShowPage] = useState(false)
@@ -116,6 +121,7 @@ export default function Home() {
 export function GraphPage() {
   const [threeDim, setThreeDim] = usePersistantState('3d', false)
   const [tagColors, setTagColors] = usePersistantState<TagColors>('tagCols', {})
+  const [linktagColors, setLinkTagColors] = usePersistantState<TagColors>('linktagCols', {})
   const [scope, setScope] = useState<Scope>({ nodeIds: [], excludedNodeIds: [] })
 
   const [physics, setPhysics] = usePersistantState('physics', initialPhysics)
@@ -127,6 +133,8 @@ export function GraphPage() {
   const [mouse, setMouse] = usePersistantState('mouse', initialMouse)
   const [coloring, setColoring] = usePersistantState('coloring', initialColoring)
   const [local, setLocal] = usePersistantState('local', initialLocal)
+  const [layout, setLayout] = useState<Layout>([]);
+  const [selectedItems, setSelectedItems] = useState<Item[]>([])
 
   const [
     previewNodeState,
@@ -145,12 +153,14 @@ export function GraphPage() {
     future: futurePreviewNodes,
   } = previewNodeState
   const [sidebarHighlightedNode, setSidebarHighlightedNode] = useState<OrgRoamNode | null>(null)
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isOpenSidebar, onOpen: onOpenSidebar, onClose: onCloseSidebar } = useDisclosure()
+  const { isOpen: isOpenDesk, onOpen: onOpenDesk, onClose: onCloseDesk } = useDisclosure()
 
   const nodeByIdRef = useRef<NodeById>({})
   const linksByNodeIdRef = useRef<LinksByNodeId>({})
   const nodeByCiteRef = useRef<NodeByCite>({})
   const tagsRef = useRef<Tags>([])
+  const linktagsRef = useRef<Tags>([])
   const graphRef = useRef<any>(null)
   const [emacsVariables, setEmacsVariables] = useState<EmacsVariables>({} as EmacsVariables)
   const clusterRef = useRef<{ [id: string]: number }>({})
@@ -201,9 +211,10 @@ export function GraphPage() {
         }, fileNode)
 
         return {
-          source: headingNode.id,
-          target: target?.id || fileNode.id,
+          source: target?.id || fileNode.id,
+          target: headingNode.id,
           type: 'heading',
+          properties: { outline: null, tag: 'heading' }, 
         }
       })
     })
@@ -231,6 +242,10 @@ export function GraphPage() {
 
     nodeByIdRef.current = Object.fromEntries(importNodes.map((node) => [node.id, node]))
     const dirtyLinks = [...importLinks, ...headingLinks, ...fileLinks]
+    linktagsRef.current = dirtyLinks.reduce<Array<string>>((acc, link) => {
+      return link?.properties?.tag && !acc.some((tag) => tag === link?.properties?.tag)
+           ? acc.concat(link.properties.tag) : acc
+    }, [])
     const nonExistantNodes: OrgRoamNode[] = []
     const links = dirtyLinks.map((link) => {
       const sourceId = link.source as string
@@ -561,168 +576,210 @@ export function GraphPage() {
   )
 
   return (
+    <LayoutContext.Provider value={{layout,setLayout}}>
     <VariablesContext.Provider value={{ ...emacsVariables }}>
-      <Box
-        display="flex"
-        alignItems="flex-start"
-        flexDirection="row"
-        height="100vh"
-        overflow="clip"
-      >
-        <Tweaks
-          {...{
-            physics,
-            setPhysics,
-            threeDim,
-            setThreeDim,
-            filter,
-            setFilter,
-            visuals,
-            setVisuals,
-            mouse,
-            setMouse,
-            behavior,
-            setBehavior,
-            tagColors,
-            setTagColors,
-            coloring,
-            setColoring,
-            local,
-            setLocal,
-          }}
-          tags={tagsRef.current}
-        />
-        <Box position="absolute">
-          {graphData && (
-            <Graph
-              //ref={graphRef}
-              nodeById={nodeByIdRef.current!}
-              linksByNodeId={linksByNodeIdRef.current!}
-              webSocket={WebSocketRef.current}
-              variables={emacsVariables}
-              {...{
-                physics,
-                graphData,
-                threeDim,
-                emacsNodeId,
-                filter,
-                visuals,
-                behavior,
-                mouse,
-                scope,
-                setScope,
-                tagColors,
-                setPreviewNode,
-                sidebarHighlightedNode,
-                windowWidth,
-                windowHeight,
-                openContextMenu,
-                contextMenu,
-                handleLocal,
-                mainWindowWidth,
-                setMainWindowWidth,
-                setContextMenuTarget,
-                graphRef,
-                clusterRef,
-                coloring,
-                local,
-              }}
-            />
-          )}
-        </Box>
-        <Box position="relative" zIndex={4} width="100%">
-          <Flex className="headerBar" h={10} flexDir="column">
-            <Flex alignItems="center" h={10} justifyContent="flex-end">
-              {/* <Flex flexDir="row" alignItems="center">
-               *   <Box color="blue.500" bgColor="alt.100" h="100%" p={3} mr={4}>
-               *     {mainItem.icon}
-               *   </Box>
-               *   <Heading size="sm">{mainItem.title}</Heading>
-               * </Flex> */}
-              <Flex height="100%" flexDirection="row">
-                {scope.nodeIds.length > 0 && (
-                  <Tooltip label="Return to main graph">
-                    <IconButton
-                      m={1}
-                      icon={<BiNetworkChart />}
-                      aria-label="Exit local mode"
-                      onClick={() =>
-                        setScope((currentScope: Scope) => ({
-                          ...currentScope,
-                          nodeIds: [],
-                        }))
-                      }
-                      variant="subtle"
-                    />
-                  </Tooltip>
-                )}
-                <Tooltip label={isOpen ? 'Close sidebar' : 'Open sidebar'}>
-                  <IconButton
-                    m={1}
-                    // eslint-disable-next-line react/jsx-no-undef
-                    icon={<BsReverseLayoutSidebarInsetReverse />}
-                    aria-label="Close file-viewer"
-                    variant="subtle"
-                    onClick={isOpen ? onClose : onOpen}
-                  />
-                </Tooltip>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Box>
-
-        <Box position="relative" zIndex={4}>
-          <Sidebar
-            {...{
-              isOpen,
-              onOpen,
-              onClose,
-              previewNode,
-              setPreviewNode,
-              canUndo,
-              canRedo,
-              previousPreviewNode,
-              nextPreviewNode,
-              resetPreviewNode,
-              setSidebarHighlightedNode,
-              openContextMenu,
-              scope,
-              setScope,
-              windowWidth,
-              tagColors,
-              setTagColors,
-              filter,
-              setFilter,
-            }}
-            macros={emacsVariables.katexMacros}
-            attachDir={emacsVariables.attachDir || ''}
-            useInheritance={emacsVariables.useInheritance || false}
+    <Box
+      display="flex"
+      alignItems="flex-start"
+      flexDirection="row"
+      height="100vh"
+      overflow="clip"
+    >
+      <Tweaks
+        {...{
+          physics,
+          setPhysics,
+          threeDim,
+          setThreeDim,
+          filter,
+          setFilter,
+          visuals,
+          setVisuals,
+          mouse,
+          setMouse,
+          behavior,
+          setBehavior,
+          tagColors,
+          setTagColors,
+          linktagColors,
+          setLinkTagColors,
+          coloring,
+          setColoring,
+          local,
+          setLocal,
+        }}
+        tags={tagsRef.current}
+        linktags={linktagsRef.current}
+      />
+      <Box position="absolute">
+        {graphData && (
+          <Graph
+            //ref={graphRef}
             nodeById={nodeByIdRef.current!}
             linksByNodeId={linksByNodeIdRef.current!}
-            nodeByCite={nodeByCiteRef.current!}
+            webSocket={WebSocketRef.current}
+            variables={emacsVariables}
+            {...{
+              physics,
+              graphData,
+              threeDim,
+              emacsNodeId,
+              filter,
+              visuals,
+              behavior,
+              mouse,
+              scope,
+              setScope,
+              tagColors,
+              linktagColors,
+              setPreviewNode,
+              sidebarHighlightedNode,
+              windowWidth,
+              windowHeight,
+              openContextMenu,
+              contextMenu,
+              handleLocal,
+              mainWindowWidth,
+              setMainWindowWidth,
+              setContextMenuTarget,
+              graphRef,
+              clusterRef,
+              coloring,
+              local,
+            }}
           />
-        </Box>
-        {contextMenu.isOpen && (
-          <div ref={contextMenuRef}>
-            <ContextMenu
-              //contextMenuRef={contextMenuRef}
-              scope={scope}
-              target={contextMenuTarget}
-              background={false}
-              coordinates={contextPos}
-              handleLocal={handleLocal}
-              menuClose={contextMenu.onClose.bind(contextMenu)}
-              webSocket={WebSocketRef.current}
-              setPreviewNode={setPreviewNode}
-              setFilter={setFilter}
-              filter={filter}
-              setTagColors={setTagColors}
-              tagColors={tagColors}
-            />
-          </div>
         )}
       </Box>
+      <Box position="relative" zIndex={4} width="100%">
+        <Flex className="headerBar" h={10} flexDir="column">
+          <Flex alignItems="center" h={10} justifyContent="flex-end">
+            {/* <Flex flexDir="row" alignItems="center">
+              *   <Box color="blue.500" bgColor="alt.100" h="100%" p={3} mr={4}>
+              *     {mainItem.icon}
+              *   </Box>
+              *   <Heading size="sm">{mainItem.title}</Heading>
+              * </Flex> */}
+            <Flex height="100%" flexDirection="row">
+              {scope.nodeIds.length > 0 && (
+                <Tooltip label="Return to main graph">
+                  <IconButton
+                    m={1}
+                    icon={<BiNetworkChart />}
+                    aria-label="Exit local mode"
+                    onClick={() =>
+                      setScope((currentScope: Scope) => ({
+                        ...currentScope,
+                        nodeIds: [],
+                      }))
+                    }
+                    variant="subtle"
+                  />
+                </Tooltip>
+              )}
+              <Tooltip label={isOpenDesk ? 'Close Desk' : 'Open Desk'}>
+                <IconButton
+                  m={1}
+                  // eslint-disable-next-line react/jsx-no-undef
+                  icon={<BsBack />}
+                  aria-label="Close desk view"
+                  variant="subtle"
+                  onClick={isOpenDesk ? onCloseDesk : onOpenDesk}
+                />
+              </Tooltip>
+              <Tooltip label={isOpenSidebar ? 'Close sidebar' : 'Open sidebar'}>
+                <IconButton
+                  m={1}
+                  // eslint-disable-next-line react/jsx-no-undef
+                  icon={<BsReverseLayoutSidebarInsetReverse />}
+                  aria-label="Close file-viewer"
+                  variant="subtle"
+                  onClick={isOpenSidebar ? onCloseSidebar : onOpenSidebar}
+                />
+              </Tooltip>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Box>
+
+      <Box position="relative" zIndex={4}>
+        <Sidebar
+          {...{
+            isOpenSidebar,
+            onOpenSidebar,
+            onCloseSidebar,
+            previewNode,
+            setPreviewNode,
+            canUndo,
+            canRedo,
+            previousPreviewNode,
+            nextPreviewNode,
+            resetPreviewNode,
+            setSidebarHighlightedNode,
+            openContextMenu,
+            scope,
+            setScope,
+            windowWidth,
+            tagColors,
+            setTagColors,
+            filter,
+            setFilter,
+          }}
+          macros={emacsVariables.katexMacros}
+          attachDir={emacsVariables.attachDir || ''}
+          useInheritance={emacsVariables.useInheritance || false}
+          nodeById={nodeByIdRef.current!}
+          linksByNodeId={linksByNodeIdRef.current!}
+          nodeByCite={nodeByCiteRef.current!}
+        />
+      </Box>
+      <Box position="relative" zIndex={4}>
+        <Desk
+          {...{
+            isOpenDesk,
+            onOpenDesk,
+            onCloseDesk,
+            selectedItems,
+            setSelectedItems,
+            setPreviewNode,
+            setSidebarHighlightedNode,
+            openContextMenu,
+            scope,
+            setScope,
+            windowWidth,
+            tagColors,
+            setTagColors,
+          }}
+          macros={emacsVariables.katexMacros}
+          attachDir={emacsVariables.attachDir || ''}
+          useInheritance={emacsVariables.useInheritance || false}
+          nodeById={nodeByIdRef.current!}
+          linksByNodeId={linksByNodeIdRef.current!}
+          nodeByCite={nodeByCiteRef.current!}
+          webSocket={WebSocketRef.current}
+        />
+      </Box>
+      {contextMenu.isOpen && (
+        <div ref={contextMenuRef}>
+          <ContextMenu
+            //contextMenuRef={contextMenuRef}
+            scope={scope}
+            target={contextMenuTarget}
+            background={false}
+            coordinates={contextPos}
+            handleLocal={handleLocal}
+            menuClose={contextMenu.onClose.bind(contextMenu)}
+            webSocket={WebSocketRef.current}
+            setPreviewNode={setPreviewNode}
+            setFilter={setFilter}
+            filter={filter}
+            setTagColors={setTagColors}
+            tagColors={tagColors}
+          />
+        </div>
+      )}
+    </Box>
     </VariablesContext.Provider>
+    </LayoutContext.Provider>
   )
 }
 
@@ -742,6 +799,7 @@ export interface GraphProps {
   setScope: any
   webSocket: any
   tagColors: { [tag: string]: string }
+  linktagColors: { [tag: string]: string }
   setPreviewNode: any
   sidebarHighlightedNode: OrgRoamNode | null
   windowWidth: number
@@ -776,6 +834,7 @@ export const Graph = function (props: GraphProps) {
     setScope,
     webSocket,
     tagColors,
+    linktagColors,
     setPreviewNode,
     sidebarHighlightedNode,
     windowWidth,
@@ -917,6 +976,20 @@ export const Graph = function (props: GraphProps) {
         return false
       }
       const linkRoam = link as OrgRoamLink
+      if (
+        filter.linktagsBlacklist.length > 0 &&
+        linkRoam?.properties?.tag &&
+        filter.linktagsBlacklist.indexOf(linkRoam.properties.tag as never) > -1
+      ) {
+        return false
+      }
+      if (
+        filter.linktagsWhitelist.length > 0 &&
+        !(linkRoam?.properties?.tag &&
+          filter.linktagsWhitelist.indexOf(linkRoam.properties.tag as never) > -1)
+      ) {
+        return false
+      }
       if (!filter.parent) {
         return !['parent', 'heading'].includes(linkRoam.type)
       }
@@ -1000,6 +1073,7 @@ export const Graph = function (props: GraphProps) {
     const oldScopedLinks = oldRawScopedLinks.filter((l) => {
       !scope.excludedNodeIds.some((e) => normalizeLinkEnds(l).includes(e))
     })
+    console.log(filteredGraphData.links)
     const newScopedLinks = filteredGraphData.links
       .filter((link) => {
         // we need to cover both because force-graph modifies the original data
@@ -1018,11 +1092,12 @@ export const Graph = function (props: GraphProps) {
       })
       .map((link) => {
         const [sourceId, targetId] = normalizeLinkEnds(link)
-        return { source: sourceId, target: targetId }
+        return { source: sourceId, target: targetId, properties: (link as OrgRoamLink)?.properties }
       })
 
     const scopedLinks = [...oldScopedLinks, ...newScopedLinks]
 
+    console.log(newScopedLinks)
     setScopedGraphData({ nodes: scopedNodes, links: scopedLinks })
   }, [
     local.neighbors,
@@ -1256,6 +1331,14 @@ export const Graph = function (props: GraphProps) {
             )
       }
 
+      if (linktagColors && roamLink?.properties?.tag &&
+          roamLink?.properties?.tag in linktagColors) {
+        const linktagColor = linktagColors[roamLink?.properties?.tag]
+        return needsHighlighting
+             ? highlightColors[linktagColor][linktagColor](visuals.highlightFade * opacity)
+             : highlightColors[linktagColor][visuals.backgroundColor](visuals.highlightFade * opacity)
+      }
+
       return getLinkColor({
         sourceId: sourceId as string,
         targetId: targetId as string,
@@ -1341,9 +1424,11 @@ export const Graph = function (props: GraphProps) {
       setHoverNode(node)
       setDragging(true)
     },
-    onNodeDragEnd: () => {
-      setHoverNode(null)
-      setDragging(false)
+    onNodeDragEnd: (node) => {
+      setHoverNode(null);
+      setDragging(false);
+      node.fx = node.x;
+      node.fy = node.y;
     },
   }
 

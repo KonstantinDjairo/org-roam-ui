@@ -33,6 +33,7 @@
 ;;; Code:
 ;;;; Dependencies
 (require 'json)
+(require 'dash)
 (require 'simple-httpd)
 (require 'org-roam)
 (require 'websocket)
@@ -288,6 +289,7 @@ TODO: Be able to delete individual nodes."
         ;; Heading nodes have level 1 and greater.
         (goto-char (org-roam-node-point node))
         (org-narrow-to-element))
+      (replace-regexp "\\(\\[\\[id:.*\\)|[^]]*\\]\\[" "\\1][")
       (buffer-substring-no-properties (buffer-end -1) (buffer-end 1)))))
 
 (defun org-roam-ui--send-text (id ws)
@@ -302,6 +304,7 @@ TODO: Be able to delete individual nodes."
   "Servlet for accessing node content."
   (insert (org-roam-ui--get-text (org-link-decode id)))
   (httpd-send-header t "text/plain" 200 :Access-Control-Allow-Origin "*"))
+
 
 (defservlet* img/:file text/plain ()
   "Servlet for accessing images found in org-roam files."
@@ -400,6 +403,13 @@ unchanged."
      ("FILELESS" . t))
    'nil))
 
+(defun org-roam-ui--props-to-alist (props)
+  "Convert property list PROPS to alist.
+Leading colon is removed from keys, values are converted to string."
+  (unless (null props)
+    (cons (cons (intern (seq-drop (symbol-name (car props)) 1)) (cadr props))
+          (org-roam-ui--props-to-alist (cddr props)))))
+
 (defun org-roam-ui--send-graphdata ()
   "Get roam data, make JSON, send through websocket to org-roam-ui."
   (let* ((nodes-names
@@ -441,9 +451,16 @@ unchanged."
                                  (append nodes-names nil))
                                 complete-nodes-db-rows))
                      (links . ,(mapcar
-                                (apply-partially
-                                 #'org-roam-ui-sql-to-alist
-                                 '(source target type))
+                                (lambda (db-row)
+                                  (let* ((alist (org-roam-ui-sql-to-alist
+                                                 '(source target type props)
+                                                 db-row))
+                                         (props (org-roam-ui--props-to-alist
+                                                 (cdr (assq 'props alist))))
+                                         (alist (assq-delete-all 'props alist)))
+                                    (if (null props)
+                                        alist
+                                      (push `(properties . ,props) alist))))
                                 links-db-rows))
                      (tags . ,(seq-mapcat
                                #'seq-reverse
@@ -489,7 +506,8 @@ were in the same table as the links)."
     (org-roam-db-query
      `[:select  [links:source
                  links:dest
-                 links:type]
+                 links:type
+                 links:properties]
        :from links
        :where (= links:type "id")])
   ;; Left outer join on refs means any id link (or cite link without a
@@ -499,6 +517,7 @@ were in the same table as the links)."
    `[:select [links:source
               links:dest
               links:type
+              links:properties
               refs:node-id]
      :from links
      :left :outer :join refs :on (= links:dest refs:ref)

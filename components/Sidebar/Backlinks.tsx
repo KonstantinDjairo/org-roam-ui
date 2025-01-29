@@ -4,11 +4,11 @@ import { GraphData, NodeObject, LinkObject } from 'force-graph'
 
 import { VStack, Box, Button, Heading, StackDivider } from '@chakra-ui/react'
 import React from 'react'
-import { ProcessedOrg } from '../../util/processOrg'
 
 export interface BacklinksProps {
   previewNode: NodeObject | OrgRoamNode
   setPreviewNode: any
+  onClickFunction: any
   nodeById: NodeById
   linksByNodeId: LinksByNodeId
   nodeByCite: NodeByCite
@@ -29,6 +29,7 @@ export const Backlinks = (props: BacklinksProps) => {
   const {
     previewNode,
     setPreviewNode,
+    onClickFunction,
     setSidebarHighlightedNode,
     nodeById,
     linksByNodeId,
@@ -60,28 +61,29 @@ export const Backlinks = (props: BacklinksProps) => {
         color="gray.800"
       >
         {previewNode?.id &&
-          backLinks.map((link) => {
-            const title = nodeById[link as string]?.title ?? ''
-            return (
-              <Box overflow="hidden" py={1} borderRadius="sm" width="100%" key={link}>
-                <PreviewLink
-                  linksByNodeId={linksByNodeId}
-                  nodeByCite={nodeByCite}
-                  setSidebarHighlightedNode={setSidebarHighlightedNode}
-                  href={`id:${link as string}`}
-                  nodeById={nodeById}
-                  previewNode={previewNode}
-                  setPreviewNode={setPreviewNode}
-                  openContextMenu={openContextMenu}
-                  outline={outline}
-                  noUnderline
+         backLinks.map((link) => {
+           const title = nodeById[link as string]?.title ?? ''
+           return (
+             <Box overflow="hidden" py={1} borderRadius="sm" width="100%" key={link}>
+               <PreviewLink
+                 linksByNodeId={linksByNodeId}
+                 nodeByCite={nodeByCite}
+                 setSidebarHighlightedNode={setSidebarHighlightedNode}
+                 href={`id:${link as string}`}
+                 nodeById={nodeById}
+                 //previewNode={previewNode}
+                 setPreviewNode={setPreviewNode}
+                 onClickFunction={onClickFunction}
+                 openContextMenu={openContextMenu}
+                 outline={outline}
+                 noUnderline
                   {...{ attachDir, useInheritance, macros }}
-                >
-                  {nodeById[link as string]?.title}
-                </PreviewLink>
-              </Box>
-            )
-          })}
+               >
+                 {nodeById[link as string]?.title}
+               </PreviewLink>
+             </Box>
+           )
+        })}
       </VStack>
     </Box>
   )

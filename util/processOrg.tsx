@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import unified from 'unified'
 //import createStream from 'unified-stream'
 import uniorgParse from 'uniorg-parse'
@@ -25,9 +26,10 @@ import remarkExtractFrontMatter from 'remark-extract-frontmatter'
 import remarkSectionize from 'remark-sectionize'
 import remarkRehype from 'remark-rehype'
 
+import { LayoutContext } from './layoutcontext'
 import { PreviewLink } from '../components/Sidebar/Link'
 import { LinksByNodeId, NodeByCite, NodeById } from '../pages'
-import React, { createContext, ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import { OrgImage } from '../components/Sidebar/OrgImage'
 import { Section } from '../components/Sidebar/Section'
 import { NoteContext } from './NoteContext'
@@ -42,6 +44,7 @@ export interface ProcessedOrgProps {
   nodeById: NodeById
   previewNode: OrgRoamNode
   setPreviewNode: any
+  onClickFunction: any
   previewText: any
   nodeByCite: NodeByCite
   setSidebarHighlightedNode: any
@@ -59,6 +62,7 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
     nodeById,
     setSidebarHighlightedNode,
     setPreviewNode,
+    onClickFunction,
     previewText,
     nodeByCite,
     previewNode,
@@ -70,11 +74,12 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
     attachDir,
     useInheritance,
   } = props
+  const { layout } = useContext(LayoutContext)
 
   if (!previewNode || !linksByNodeId) {
     return null
   }
-
+  
   const orgProcessor = unified()
     .use(uniorgParse)
     .use(extractKeywords)
@@ -153,9 +158,10 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
                   nodeById={nodeById}
                   linksByNodeId={linksByNodeId}
                   setPreviewNode={setPreviewNode}
+                  onClickFunction={onClickFunction}
                   openContextMenu={openContextMenu}
                   outline={outline}
-                  previewNode={previewNode}
+                  //previewNode={previewNode}
                   isWiki={isMarkdown}
                   macros={macros}
                   attachDir={attachDir}
@@ -198,10 +204,10 @@ export const ProcessedOrg = (props: ProcessedOrgProps) => {
             },
           },
         }),
-    [previewNode?.id],
+    [previewNode?.id, layout],
   )
 
-  const text = useMemo(() => processor.processSync(previewText).result, [previewText])
+  const text = useMemo(() => processor.processSync(previewText).result, [previewText, layout])
   return (
     <NoteContext.Provider value={{ collapse, outline }}>{text as ReactNode}</NoteContext.Provider>
   )

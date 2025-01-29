@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NodeObject } from 'force-graph'
 
 import { NodeById, NodeByCite, LinksByNodeId } from '../../pages'
 import { Box, Flex } from '@chakra-ui/react'
 import { UniOrg } from '../../util/uniorg'
+import { LayoutContext } from '../../util/layoutcontext'
 import { Backlinks } from '../../components/Sidebar/Backlinks'
 import { defaultNoteStyle, viewerNoteStyle, outlineNoteStyle } from './noteStyle'
 import { OrgRoamLink } from '../../api'
 
 export interface NoteProps {
   setPreviewNode: any
+  onClickFunction: any
   previewNode: NodeObject
   nodeById: NodeById
   nodeByCite: NodeByCite
@@ -28,6 +30,7 @@ export interface NoteProps {
 export const Note = (props: NoteProps) => {
   const {
     setPreviewNode,
+    onClickFunction,
     justificationList,
     justification,
     previewNode,
@@ -42,8 +45,10 @@ export const Note = (props: NoteProps) => {
     attachDir,
     useInheritance,
   } = props
+  const { layout } = useContext(LayoutContext)
 
   const extraStyle = outline ? outlineNoteStyle : viewerNoteStyle
+
   return (
     <Box
       pr={8}
@@ -66,6 +71,7 @@ export const Note = (props: NoteProps) => {
           <UniOrg
             {...{
               setPreviewNode,
+              onClickFunction,
               previewNode,
               nodeByCite,
               setSidebarHighlightedNode,
@@ -82,6 +88,7 @@ export const Note = (props: NoteProps) => {
           <Backlinks
             {...{
               setPreviewNode,
+              onClickFunction,
               previewNode,
               nodeById,
               linksByNodeId,

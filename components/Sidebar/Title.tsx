@@ -16,7 +16,7 @@ export const Title = (props: TitleProps) => {
        * //   openContextMenu(previewNode, e)
        * // }}
        * /> */}
-      <Heading lineHeight={1.2} size="md" fontWeight={600} pt={4}>
+      <Heading lineHeight={1.2} size="md" fontWeight={600}>
         {previewNode?.title}
       </Heading>
     </Flex>

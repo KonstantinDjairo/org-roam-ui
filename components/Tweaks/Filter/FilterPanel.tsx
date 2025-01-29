@@ -22,6 +22,7 @@ import React, { useContext } from 'react'
 import { OptionPanel } from '../OptionPanel'
 import { initialFilter, initialLocal, TagColors } from '../../config'
 import { TagColorPanel } from './TagColorPanel'
+import { LinkTagColorPanel } from './LinkTagColorPanel'
 import { SliderWithInfo } from '../SliderWithInfo'
 import { VariablesContext } from '../../../util/variablesContext'
 
@@ -30,9 +31,12 @@ export interface FilterPanelProps {
   setFilter: any
   tagColors: TagColors
   setTagColors: any
+  linktagColors: TagColors
+  setLinkTagColors: any
   highlightColor: string
   colorList: string[]
   tags: string[]
+  linktags: string[]
   local: typeof initialLocal
   setLocal: any
 }
@@ -45,9 +49,12 @@ const FilterPanel = (props: FilterPanelProps) => {
     setLocal,
     tagColors,
     setTagColors,
+    linktagColors,
+    setLinkTagColors,
     highlightColor,
     colorList,
     tags,
+    linktags,
   } = props
   const { roamDir, subDirs } = useContext(VariablesContext)
   return (
@@ -74,9 +81,9 @@ const FilterPanel = (props: FilterPanelProps) => {
                 switch (filter.parent) {
                   case 'parent':
                     return <Text>File</Text>
-                  case 'heading':
+                    case 'heading':
                     return <Text>Heading</Text>
-                  default:
+                    default:
                     return <Text>Nothing</Text>
                 }
               })()}
@@ -233,6 +240,43 @@ const FilterPanel = (props: FilterPanelProps) => {
               colorList={colorList}
               tagColors={tagColors}
               setTagColors={setTagColors}
+              highlightColor={highlightColor}
+            />
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem>
+          <AccordionButton>
+            Link Tag filters
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pr={0} mr={0}>
+            <OptionPanel
+              filter={filter}
+              setFilter={setFilter}
+              options={linktags}
+              displayName="linktag blocklist"
+              listName="linktagsBlacklist"
+            />
+            <OptionPanel
+              filter={filter}
+              setFilter={setFilter}
+              options={linktags}
+              displayName="linktag allowlist"
+              listName="linktagsWhitelist"
+            />
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem>
+          <AccordionButton>
+            Link Tag colors
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pr={0} mr={0}>
+            <LinkTagColorPanel
+              tags={linktags}
+              colorList={colorList}
+              linktagColors={linktagColors}
+              setLinkTagColors={setLinkTagColors}
               highlightColor={highlightColor}
             />
           </AccordionPanel>

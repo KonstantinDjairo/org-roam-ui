@@ -26,13 +26,15 @@ import { ProcessedOrg } from '../../util/processOrg'
 import 'katex/dist/katex.css'
 // import rehype2react from 'rehype-react'
 import { ThemeContext } from '../../util/themecontext'
+import { LayoutContext } from '../../util/layoutcontext'
 import { LinksByNodeId, NodeByCite, NodeById } from '../../pages'
 
 export interface LinkProps {
   href: any
   children: any
-  previewNode?: any
+  //previewNode?: any
   setPreviewNode: any
+  onClickFunction: any
   setSidebarHighlightedNode: any
   nodeByCite: NodeByCite
   nodeById: NodeById
@@ -48,6 +50,7 @@ export interface LinkProps {
 
 export interface NodeLinkProps {
   setPreviewNode: any
+  onClickFunction: any
   nodeById: NodeById
   nodeByCite: NodeByCite
   href: any
@@ -74,6 +77,7 @@ export const NodeLink = (props: NodeLinkProps) => {
     id,
     setSidebarHighlightedNode,
     setPreviewNode,
+    onClickFunction,
     nodeById,
     openContextMenu,
     href,
@@ -88,6 +92,7 @@ export const NodeLink = (props: NodeLinkProps) => {
   const uri = href.replaceAll(/.*?\:(.*)/g, '$1')
   const ID = id ?? uri
   const linkText = isWiki ? `[[${children}]]` : children
+
   return (
     <Text
       as="a"
@@ -103,7 +108,7 @@ export const NodeLink = (props: NodeLinkProps) => {
         e.preventDefault()
         openContextMenu(nodeById[uri], e)
       }}
-      onClick={() => setPreviewNode(nodeById[uri])}
+      onClick={() => onClickFunction(uri)}
       // TODO  don't hardcode the opacitycolor
       _hover={{ textDecoration: 'none', cursor: 'pointer', bgColor: coolHighlightColor + '22' }}
       _focus={{ outlineColor: highlightColor }}
@@ -130,8 +135,9 @@ export const PreviewLink = (props: LinkProps) => {
     children,
     nodeById,
     setSidebarHighlightedNode,
-    previewNode,
+    //previewNode,
     setPreviewNode,
+    onClickFunction,
     nodeByCite,
     openContextMenu,
     outline,
@@ -149,7 +155,6 @@ export const PreviewLink = (props: LinkProps) => {
   const type = href.replaceAll(/(.*?)\:.*/g, '$1')
 
   const extraNoteStyle = outline ? outlineNoteStyle : viewerNoteStyle
-  console.log(previewNode)
   const getText = () => {
     fetch(`http://localhost:35901/node/${id}`)
       .then((res) => {
@@ -226,6 +231,7 @@ export const PreviewLink = (props: LinkProps) => {
                   id,
                   setSidebarHighlightedNode,
                   setPreviewNode,
+                  onClickFunction,
                   nodeById,
                   href,
                   children,
@@ -234,13 +240,13 @@ export const PreviewLink = (props: LinkProps) => {
                   noUnderline,
                   isWiki,
                 }}
-              />
-            </Box>
-          </PopoverTrigger>
-          <Portal>
-            <PopoverContent
-              transform="scale(1)"
-              key={nodeById[id]?.title ?? id}
+      />
+      </Box>
+      </PopoverTrigger>
+      <Portal>
+      <PopoverContent
+      transform="scale(1)"
+      key={nodeById[id]?.title ?? id}
               boxShadow="xl"
               position="relative"
               zIndex="tooltip"
@@ -289,6 +295,7 @@ export const PreviewLink = (props: LinkProps) => {
                         nodeById,
                         setSidebarHighlightedNode,
                         setPreviewNode,
+                        onClickFunction,
                         nodeByCite,
                         openContextMenu,
                         outline,

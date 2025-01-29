@@ -21,4 +21,7 @@ export type OrgRoamLink = {
   source: string
   target: string
   type: string
+  properties?: {
+    [key: string]: string | null
+  }
 }
